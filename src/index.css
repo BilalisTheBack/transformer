@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-app-bg: var(--bg-main);
+  --color-app-panel: var(--bg-panel);
+  --color-app-text: var(--text-main);
+  --color-app-text-sub: var(--text-secondary);
+  --color-app-text-mute: var(--text-passive);
+  --color-app-primary: var(--color-primary);
+  --color-app-primary-hover: var(--color-primary-hover);
+  --color-app-nav: var(--nav-bg);
+  --color-app-border: var(--divider);
+}
+
+:root {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  line-height: 1.5;
+  color-scheme: light dark;
+
+  --bg-main: #ffffff;
+  --bg-panel: #f4f4f5;
+  --text-main: #09090b;
+  --text-secondary: #52525b;
+  --text-passive: #a1a1aa;
+  --color-primary: #00d4ff;
+  --color-primary-hover: #00a3cc;
+  --nav-bg: #ffffff;
+  --divider: #e4e4e7;
+}
+
+.dark {
+  --bg-main: #050505;
+  --bg-panel: #121212;
+  --text-main: #ededed;
+  --text-secondary: #a1a1aa;
+  --text-passive: #52525b;
+  --color-primary: #00f0ff;
+  --color-primary-hover: #00bcd4;
+  --nav-bg: #09090b;
+  --divider: #27272a;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
