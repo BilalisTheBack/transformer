@@ -26,6 +26,7 @@ import JsonYamlConverter from "./features/developer/JsonYamlConverter";
 import SqlFormatter from "./features/developer/SqlFormatter";
 import SeoGenerator from "./features/developer/SeoGenerator";
 import MetadataViewer from "./features/developer/MetadataViewer";
+import RegexTester from "./features/developer/RegexTester";
 
 // Security Tools
 import HashGenerator from "./features/security/HashGenerator";
@@ -33,6 +34,8 @@ import UuidGenerator from "./features/security/UuidGenerator";
 import UrlEncoder from "./features/security/UrlEncoder";
 import BrowserFingerprint from "./features/security/BrowserFingerprint";
 import PasswordGenerator from "./features/security/PasswordGenerator";
+import IpInfo from "./features/network/IpInfo";
+import BgRemover from "./features/media/BgRemover";
 
 // Visual Tools
 import ColorPaletteGenerator from "./features/visual/ColorPaletteGenerator";
@@ -59,6 +62,7 @@ function App() {
               <Route path="svg" element={<SvgConverter />} />
               <Route path="color" element={<ColorConverter />} />
               <Route path="ocr" element={<OcrConverter />} />
+              <Route path="bg-remover" element={<BgRemover />} />
               <Route path="img-format" element={<ImageFormatConverter />} />
               <Route path="markdown" element={<MarkdownConverter />} />
               <Route path="diff" element={<TextDiffViewer />} />
@@ -73,6 +77,7 @@ function App() {
               <Route path="sql" element={<SqlFormatter />} />
               <Route path="seo" element={<SeoGenerator />} />
               <Route path="metadata" element={<MetadataViewer />} />
+              <Route path="regex" element={<RegexTester />} />
 
               {/* Security Tools */}
               <Route path="hash" element={<HashGenerator />} />
@@ -80,6 +85,7 @@ function App() {
               <Route path="url-encode" element={<UrlEncoder />} />
               <Route path="fingerprint" element={<BrowserFingerprint />} />
               <Route path="password" element={<PasswordGenerator />} />
+              <Route path="ip" element={<IpInfo />} />
 
               {/* Visual & CSS Tools */}
               <Route path="palette" element={<ColorPaletteGenerator />} />

@@ -2,7 +2,29 @@
 
 **The Transformer** is an extensive, offline-capable developer utility suite built with **React, Vite, and TypeScript**. It provides a unified interface for over 25+ essential tools ranging from data conversion to security generation, media processing, and text analysis.
 
-![Screenshot](screenshot-placeholder.png)
+## 📸 Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="mainpage.png" alt="Main Page" width="400"/>
+      <br />
+      <strong>Main Dashboard</strong>
+    </td>
+    <td align="center">
+      <img src="search.png" alt="Command Palette" width="400"/>
+      <br />
+      <strong>Command Palette (Ctrl+K)</strong>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <img src="settings.png" alt="Settings" width="400"/>
+      <br />
+      <strong>Settings & Preferences</strong>
+    </td>
+  </tr>
+</table>
 
 ## 🚀 Features
 
@@ -18,9 +40,10 @@ The application is categorized into intuitive modules:
 ### 🖼️ Media Tools
 
 - **Image Converter**: Bulk convert PNG/JPG to modern WebP/AVIF formats.
+- **AI Background Remover**: Remove backgrounds from images using local AI (browser-based, no API required).
 - **SVG -> JSX**: Transform SVG code into React components.
 - **Color Converter**: HEX, RGB, HSL conversions with a visual palette generator.
-- **OCR**: Extract text from images using local Tesseract.js integration.
+- **OCR**: Extract text from images with multi-language support (EN, TR, FR, DE, ES). Supports drag-and-drop and paste.
 - **Image Format**: Convert between PNG and JPG.
 
 ### 🛠️ Developer Tools
@@ -81,7 +104,7 @@ The application is built using a modern, robust, and completely offline-capable 
 ### 📚 Libraries & Tools
 
 - **Data**: `papaparse` (CSV), `xlsx` (Excel), `js-yaml`, `smol-toml`.
-- **Media**: `tesseract.js` (OCR), `exifreader` (Metadata), `pdf-lib` (PDF edition), `qrcode`.
+- **Media**: `@imgly/background-removal` (AI Background Removal), `tesseract.js` (OCR), `exifreader` (Metadata), `pdf-lib` (PDF edition), `qrcode`.
 - **Utilities**: `i18next` (Internationalization), `date-fns`, `uuid`, `sql-formatter`.
 
 ## 📦 Installation & Running

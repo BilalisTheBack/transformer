@@ -21,6 +21,9 @@ import {
   Link as LinkIcon,
   Code2,
   Share2,
+  Regex,
+  Globe,
+  Eraser,
 } from "lucide-react";
 
 export default function Home() {
@@ -99,6 +102,13 @@ export default function Home() {
           title: t("commands.ocr"),
           path: "/ocr",
           color: "from-neutral-600 to-neutral-800",
+        },
+        {
+          id: "bg-remover",
+          icon: Eraser,
+          title: t("bgRemover.title"),
+          path: "/bg-remover",
+          color: "from-purple-600 to-indigo-600",
         },
       ],
     },
@@ -189,6 +199,13 @@ export default function Home() {
           path: "/seo",
           color: "from-indigo-600 to-cyan-600",
         },
+        {
+          id: "regex",
+          icon: Regex,
+          title: t("regex.title"),
+          path: "/regex",
+          color: "from-pink-600 to-rose-600",
+        },
       ],
     },
     {
@@ -229,6 +246,13 @@ export default function Home() {
           title: t("password.title"),
           path: "/password",
           color: "from-indigo-600 to-purple-700",
+        },
+        {
+          id: "ip",
+          icon: Globe,
+          title: t("ip.title"),
+          path: "/ip",
+          color: "from-blue-600 to-sky-600",
         },
       ],
     },

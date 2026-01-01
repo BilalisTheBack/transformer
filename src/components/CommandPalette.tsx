@@ -24,6 +24,9 @@ import {
   Link as LinkIcon,
   Code2,
   Share2,
+  Regex,
+  Globe,
+  Eraser,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -95,6 +98,12 @@ export default function CommandPalette({
           icon: Palette,
         },
         { id: "ocr", label: t("commands.ocr"), path: "/ocr", icon: FileText },
+        {
+          id: "bg-remover",
+          label: t("bgRemover.title"),
+          path: "/bg-remover",
+          icon: Eraser,
+        },
       ],
     },
     {
@@ -158,6 +167,12 @@ export default function CommandPalette({
           path: "/seo",
           icon: Share2,
         },
+        {
+          id: "regex",
+          label: t("regex.title"),
+          path: "/regex",
+          icon: Regex,
+        },
       ],
     },
     {
@@ -193,6 +208,12 @@ export default function CommandPalette({
           label: t("password.title"),
           path: "/password",
           icon: Lock,
+        },
+        {
+          id: "ip",
+          label: t("ip.title"),
+          path: "/ip",
+          icon: Globe,
         },
       ],
     },

@@ -48,6 +48,7 @@ const resources = {
         svg: "SVG to JSX",
         color: "Color Converter",
         ocr: "OCR",
+        bgRemover: "Background Remover",
         settings: "Settings",
       },
       categories: {
@@ -57,6 +58,7 @@ const resources = {
         developer: "Developer Tools",
         security: "Security Tools",
         visual: "Visual & CSS Tools",
+        network: "Network Tools",
         settings: "Settings",
       },
       converter: {
@@ -255,6 +257,31 @@ const resources = {
         copy: "Copy Text",
         copied: "Copied!",
       },
+      regex: {
+        title: "Regex Tester",
+        description: "Test and debug regular expressions in real-time.",
+        pattern: "Regular Expression Pattern",
+        testString: "Test String",
+        match: "Match",
+        matches: "Matches",
+        matchDetails: "Match Details",
+        noMatches: "No matches found.",
+      },
+      ip: {
+        title: "IP Address Info",
+        description: "View your public IP address and location details.",
+        location: "Location Details",
+        network: "Network Details",
+      },
+      ocr: {
+        title: "OCR (Text Extraction)",
+        description:
+          "Extract text from images using AI. Paste image or upload.",
+      },
+      bgRemover: {
+        title: "AI Background Remover",
+        description: "Remove image backgrounds instantly in your browser.",
+      },
     },
   },
   tr: {
@@ -295,12 +322,13 @@ const resources = {
         "text-md": "Markdown Editör & Önizleme",
         "text-diff": "Metin Karşılaştırıcı (Diff)",
         "log-analyzer": "Log Dosyası Analizcisi",
-        "json-ts": "JSON -&gt; TS Dönüştürücü",
+        "json-ts": "JSON -> TS Dönüştürücü",
         config: "Yapılandırma Dönüştürücü",
         curl: "cURL Dönüştürücü",
-        svg: "SVG -&gt; JSX Dönüştürücü",
+        svg: "SVG -> JSX Dönüştürücü",
         color: "Renk Dönüştürücü",
         ocr: "OCR (Görselden Metne)",
+        bgRemover: "Arka Plan Silici",
         settings: "Ayarlar",
       },
       categories: {
@@ -310,6 +338,7 @@ const resources = {
         developer: "Geliştirici Araçları",
         security: "Güvenlik Araçları",
         visual: "Görsel & CSS Araçları",
+        network: "Ağ Araçları",
         settings: "Ayarlar",
       },
       converter: {
@@ -511,6 +540,32 @@ const resources = {
         copy: "Metni Kopyala",
         copied: "Kopyalandı!",
       },
+      regex: {
+        title: "Regex Test Edici",
+        description: "Düzenli ifadeleri (Regex) gerçek zamanlı test edin.",
+        pattern: "Regex Deseni",
+        testString: "Test Metni",
+        match: "Eşleşme",
+        matches: "Eşleşme",
+        matchDetails: "Eşleşme Detayları",
+        noMatches: "Eşleşme bulunamadı.",
+      },
+      ip: {
+        title: "IP Adres Bilgisi",
+        description:
+          "Halka açık IP adresinizi ve konum bilgilerinizi görüntüleyin.",
+        location: "Konum Detayları",
+        network: "Ağ Detayları",
+      },
+      ocr: {
+        title: "OCR (Metin Okuyucu)",
+        description:
+          "Yapay zeka ile resimlerden metin çıkarın. Resim yapıştırın veya yükleyin.",
+      },
+      bgRemover: {
+        title: "Yapay Zeka Arka Plan Silici",
+        description: "Tarayıcınızda resim arka planlarını anında silin.",
+      },
     },
   },
   fr: {
@@ -558,6 +613,7 @@ const resources = {
         svg: "Convertisseur SVG en JSX",
         color: "Convertisseur de Couleurs",
         ocr: "OCR",
+        bgRemover: "Suppresseur d'arrière-plan IA",
         settings: "Paramètres",
       },
       categories: {
@@ -811,6 +867,7 @@ const resources = {
         svg: "SVG a JSX",
         color: "Convertidor de Color",
         ocr: "OCR",
+        bgRemover: "Eliminador de Fondo con IA",
         settings: "Configuración",
       },
       categories: {
@@ -1066,6 +1123,7 @@ const resources = {
         svg: "SVG zu JSX",
         color: "Farbkonverter",
         ocr: "OCR",
+        bgRemover: "Background Remover",
         settings: "Einstellungen",
       },
       categories: {
