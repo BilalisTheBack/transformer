@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Tesseract from "tesseract.js";
 import { useTranslation } from "react-i18next";
 import {
   ScanText,
   Upload,
-  RefreshCw,
   Copy,
   Check,
   X,

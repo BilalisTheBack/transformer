@@ -3,13 +3,10 @@ import { useTranslation } from "react-i18next";
 import {
   Globe,
   MapPin,
-  Wifi,
-  Server,
   RefreshCw,
   Copy,
   Check,
   Shield,
-  Navigation,
   ExternalLink,
 } from "lucide-react";
 

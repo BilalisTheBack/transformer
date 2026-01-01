@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Regex, Copy, Check, Info, AlertTriangle } from "lucide-react";
+import { Regex, Info, AlertTriangle } from "lucide-react";
 
 export default function RegexTester() {
   const { t } = useTranslation();
@@ -13,7 +13,6 @@ export default function RegexTester() {
   const [text, setText] = useState(
     "Contact us at support@example.com or sales@example.org for more info."
   );
-  const [copied, setCopied] = useState(false);
 
   // Construct regex object safely
   const regex = useMemo(() => {
@@ -84,12 +83,6 @@ export default function RegexTester() {
 
     return segs;
   }, [regex, matches, text]);
-
-  const handleCopy = (content: string) => {
-    navigator.clipboard.writeText(content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <div className="p-4 md:p-6 max-w-5xl mx-auto space-y-6 animate-in fade-in duration-500 pb-24">
