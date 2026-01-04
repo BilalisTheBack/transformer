@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import CommandPalette from "./CommandPalette";
+import Footer from "./Footer";
 import {
   Terminal,
   Settings,
@@ -67,7 +68,6 @@ export default function Layout() {
           </button>
         </div>
       </aside>
-
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-app-nav/95 backdrop-blur-md border-t border-app-border z-50 flex items-center justify-around px-2 pb-safe">
         <button
@@ -97,12 +97,15 @@ export default function Layout() {
           <Settings className="w-6 h-6" />
         </button>
       </nav>
-
       {/* Main Content */}
-      <main className="flex-1 md:ml-16 pb-20 md:pb-8 p-4 md:p-8 relative">
-        <Outlet />
+      <main className="flex-1 md:ml-16 flex flex-col min-h-screen relative bg-app-bg">
+        <div className="flex-1 p-4 md:p-8">
+          <Outlet />
+        </div>
+        <div className="pb-20 md:pb-0">
+          <Footer />
+        </div>
       </main>
-
       <CommandPalette
         isOpen={isPaletteOpen}
         onClose={() => setPaletteOpen(false)}

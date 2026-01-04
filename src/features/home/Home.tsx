@@ -548,6 +548,86 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Featured Tools Section */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold flex items-center gap-2 px-2">
+          <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+          {t("featured_tools")}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              id: "json-csv",
+              icon: FileJson,
+              title: t("commands.json-csv"),
+              path: "/json-csv",
+              color: "from-orange-500 to-red-600",
+              badge: "Popular",
+            },
+            {
+              id: "bg-remover",
+              icon: Eraser,
+              title: t("bgRemover.title"),
+              path: "/bg-remover",
+              color: "from-purple-600 to-indigo-600",
+              badge: "AI Powered",
+            },
+            {
+              id: "img-conv",
+              icon: ImageIcon,
+              title: t("commands.img-conv"),
+              path: "/image-converter",
+              color: "from-purple-500 to-pink-600",
+            },
+            {
+              id: "compress",
+              icon: Share2,
+              title: t("commands.compress"),
+              path: "/compress",
+              color: "from-pink-600 to-rose-600",
+            },
+          ].map((tool) => (
+            <Link
+              key={tool.id}
+              to={tool.path}
+              className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            >
+              {tool.badge && (
+                <div className="absolute top-3 right-3 px-2 py-1 bg-app-primary/10 text-app-primary text-xs font-medium rounded-full border border-app-primary/20">
+                  {tool.badge}
+                </div>
+              )}
+              <div
+                className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+              >
+                <tool.icon className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
+                {tool.title}
+              </h3>
+              <div className="mt-auto pt-4 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-xs text-app-text-sub">Launch Tool →</span>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleFavorite(tool.id);
+                  }}
+                  className="p-1.5 hover:bg-app-bg rounded-lg transition-colors"
+                >
+                  <Star
+                    className={`w-4 h-4 ${
+                      isFavorite(tool.id)
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-app-text-sub"
+                    }`}
+                  />
+                </button>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Favorites Section */}
       {recentTools.length > 0 && (
         <div className="space-y-6">

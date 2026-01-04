@@ -12,6 +12,7 @@ const resources = {
           "A collection of powerful tools for developers, designers, and webmasters.",
       },
       recent_tools: "Recent Tools",
+      featured_tools: "Featured Tools",
       search_placeholder: "Type a command or search...",
       common: {
         press: "Press",
@@ -101,6 +102,11 @@ const resources = {
 
         seo: "SEO & Web Tools",
         settings: "Settings",
+      },
+      footer: {
+        built_with: "Built with ❤️ for developers by",
+        version: "Version {{version}}",
+        github: "View on GitHub",
       },
       converter: {
         json_csv_title: "JSON <-> CSV Converter",
@@ -838,6 +844,7 @@ const resources = {
           "Geliştiriciler, tasarımcılar ve web yöneticileri için güçlü araç koleksiyonu.",
       },
       recent_tools: "Son Kullanılanlar",
+      featured_tools: "Öne Çıkanlar",
       search_placeholder: "Bir komut yazın veya arayın...",
       common: {
         press: "Bas",
@@ -925,6 +932,11 @@ const resources = {
         network: "Ağ Araçları",
         seo: "SEO ve Web Araçları",
         settings: "Ayarlar",
+      },
+      footer: {
+        built_with: "Geliştiriciler için ❤️ ile yapıldı:",
+        version: "Sürüm {{version}}",
+        github: "GitHub'da İncele",
       },
       converter: {
         json_csv_title: "JSON <-> CSV Çevirici",
