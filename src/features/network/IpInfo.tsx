@@ -24,7 +24,7 @@ interface IpData {
 }
 
 export default function IpInfo() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState<IpData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,19 +34,41 @@ export default function IpInfo() {
     setLoading(true);
     setError(null);
     try {
-      // Using ipapi.co (Free tier: 1000 requests/day, supports HTTPS)
-      const response = await fetch("https://ipapi.co/json/");
+      // Get current language from i18n (e.g., 'en', 'tr')
+      const currentLang = i18n.language.split("-")[0];
+
+      // Using ipwho.is (CORS friendly, supports 'lang' parameter)
+      const response = await fetch(`https://ipwho.is/?lang=${currentLang}`);
       if (!response.ok) {
         throw new Error("Failed to fetch IP data");
       }
       const jsonData = await response.json();
-      if (jsonData.error) {
-        throw new Error(jsonData.reason || "API Error");
+
+      if (!jsonData.success) {
+        throw new Error(jsonData.message || "API Error");
       }
-      setData(jsonData);
+
+      // Map ipwho.is response to our IpData interface
+      const mappedData: IpData = {
+        ip: jsonData.ip,
+        city: jsonData.city,
+        region: jsonData.region,
+        country_name: jsonData.country,
+        postal: jsonData.postal,
+        latitude: jsonData.latitude,
+        longitude: jsonData.longitude,
+        org: jsonData.connection?.isp || jsonData.connection?.org || "N/A",
+        asn: jsonData.connection?.asn?.toString() || "N/A",
+        timezone: jsonData.timezone?.id || "N/A",
+      };
+
+      setData(mappedData);
     } catch (err) {
       setError(
-        "Could not retrieve IP information. Ad-blockers or network restrictions might be interfering."
+        t(
+          "ip.error",
+          "Could not retrieve IP information. Ad-blockers or network restrictions might be interfering."
+        )
       );
       console.error(err);
     } finally {
@@ -56,7 +78,7 @@ export default function IpInfo() {
 
   useEffect(() => {
     fetchIp();
-  }, []);
+  }, [i18n.language]);
 
   const copyToClipboard = () => {
     if (data?.ip) {
