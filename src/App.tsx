@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 
 import Settings from "./features/settings/Settings";
@@ -79,6 +79,7 @@ import SeoSnippetPreview from "./features/seo/SeoSnippetPreview";
 import Home from "./features/home/Home";
 
 import { useRecentTools } from "./hooks/useRecentTools";
+import ReloadPrompt from "./components/ReloadPrompt";
 
 function App() {
   useRecentTools(); // Enable tracking
@@ -164,9 +165,9 @@ function App() {
           <Route path="/seo-preview" element={<SeoSnippetPreview />} />
 
           {/* We will add more routes as we build features */}
-          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
+      <ReloadPrompt />
     </ThemeProvider>
   );
 }

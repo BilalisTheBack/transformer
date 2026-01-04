@@ -111,6 +111,15 @@ const resources = {
         version: "Version {{version}}",
         github: "View on GitHub",
       },
+      pwa: {
+        offline_ready: "App ready to work offline",
+        offline_ready_desc:
+          "You can now use The Transformer without internet connection.",
+        new_content_available: "New content available",
+        new_content_desc:
+          "New version is available, click on reload button to update.",
+        reload: "Reload",
+      },
       converter: {
         json_csv_title: "JSON <-> CSV Converter",
         description: "Convert between JSON and CSV/Excel formats easily.",
@@ -943,6 +952,15 @@ const resources = {
         built_with: "Geliştiriciler için ❤️ ile yapıldı:",
         version: "Sürüm {{version}}",
         github: "GitHub'da İncele",
+      },
+      pwa: {
+        offline_ready: "Uygulama çevrimdışı kullanıma hazır",
+        offline_ready_desc:
+          "Artık The Transformer'ı internet bağlantısı olmadan kullanabilirsiniz.",
+        new_content_available: "Yeni içerik mevcut",
+        new_content_desc:
+          "Yeni sürüm mevcut, güncellemek için yenile butonuna tıklayın.",
+        reload: "Yenile",
       },
       converter: {
         json_csv_title: "JSON <-> CSV Çevirici",
