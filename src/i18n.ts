@@ -628,6 +628,176 @@ const resources = {
             clientErr: "Client Error",
             serverErr: "Server Error",
           },
+          codes: {
+            100: {
+              name: "Continue",
+              description:
+                "The server has received the request headers and the client should proceed to send the request body.",
+            },
+            101: {
+              name: "Switching Protocols",
+              description:
+                "The requester has asked the server to switch protocols and the server has agreed to do so.",
+            },
+            102: {
+              name: "Processing",
+              description:
+                "The server has received and is processing the request, but no response is available yet.",
+            },
+            200: {
+              name: "OK",
+              description: "Standard response for successful HTTP requests.",
+            },
+            201: {
+              name: "Created",
+              description:
+                "The request has been fulfilled, resulting in the creation of a new resource.",
+            },
+            202: {
+              name: "Accepted",
+              description:
+                "The request has been accepted for processing, but the processing has not been completed.",
+            },
+            204: {
+              name: "No Content",
+              description:
+                "The server successfully processed the request and is not returning any content.",
+            },
+            206: {
+              name: "Partial Content",
+              description:
+                "The server is delivering only part of the resource due to a range header sent by the client.",
+            },
+            300: {
+              name: "Multiple Choices",
+              description:
+                "Indicates multiple options for the resource from which the client may choose.",
+            },
+            301: {
+              name: "Moved Permanently",
+              description:
+                "This and all future requests should be directed to the given URI.",
+            },
+            302: {
+              name: "Found",
+              description:
+                "Tells the client to look at another URL temporarily.",
+            },
+            304: {
+              name: "Not Modified",
+              description:
+                "Indicates that the resource has not been modified since the version specified by the request headers.",
+            },
+            307: {
+              name: "Temporary Redirect",
+              description:
+                "The request should be repeated with another URI but future requests should still use the original URI.",
+            },
+            308: {
+              name: "Permanent Redirect",
+              description:
+                "The request and all future requests should be repeated using another URI.",
+            },
+            400: {
+              name: "Bad Request",
+              description:
+                "The server cannot or will not process the request due to an apparent client error.",
+            },
+            401: {
+              name: "Unauthorized",
+              description:
+                "Authentication is required and has failed or has not yet been provided.",
+            },
+            403: {
+              name: "Forbidden",
+              description:
+                "The request was valid, but the server is refusing action. The user might not have the necessary permissions.",
+            },
+            404: {
+              name: "Not Found",
+              description:
+                "The requested resource could not be found but may be available in the future.",
+            },
+            405: {
+              name: "Method Not Allowed",
+              description:
+                "A request method is not supported for the requested resource.",
+            },
+            408: {
+              name: "Request Timeout",
+              description: "The server timed out waiting for the request.",
+            },
+            409: {
+              name: "Conflict",
+              description:
+                "Indicates that the request could not be processed because of conflict in the current state of the resource.",
+            },
+            410: {
+              name: "Gone",
+              description:
+                "Indicates that the resource requested is no longer available and will not be available again.",
+            },
+            413: {
+              name: "Payload Too Large",
+              description:
+                "The request is larger than the server is willing or able to process.",
+            },
+            414: {
+              name: "URI Too Long",
+              description:
+                "The URI provided was too long for the server to process.",
+            },
+            415: {
+              name: "Unsupported Media Type",
+              description:
+                "The request entity has a media type which the server or resource does not support.",
+            },
+            418: {
+              name: "I'm a teapot",
+              description:
+                "This code was defined in 1998 as one of the traditional IETF April Fools' jokes.",
+            },
+            422: {
+              name: "Unprocessable Entity",
+              description:
+                "The request was well-formed but was unable to be followed due to semantic errors.",
+            },
+            429: {
+              name: "Too Many Requests",
+              description:
+                "The user has sent too many requests in a given amount of time.",
+            },
+            500: {
+              name: "Internal Server Error",
+              description:
+                "A generic error message when an unexpected condition was encountered.",
+            },
+            501: {
+              name: "Not Implemented",
+              description:
+                "The server either does not recognize the request method, or it lacks the ability to fulfill the request.",
+            },
+            502: {
+              name: "Bad Gateway",
+              description:
+                "The server was acting as a gateway or proxy and received an invalid response from the upstream server.",
+            },
+            503: {
+              name: "Service Unavailable",
+              description:
+                "The server is currently unavailable (overloaded or down for maintenance).",
+            },
+            504: {
+              name: "Gateway Timeout",
+              description:
+                "The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.",
+            },
+            505: {
+              name: "HTTP Version Not Supported",
+              description:
+                "The server does not support the HTTP protocol version used in the request.",
+            },
+          },
         },
         mock: {
           title: "Mock Data Generator",
@@ -1288,6 +1458,175 @@ const resources = {
             redirect: "Yönlendirme",
             clientErr: "İstemci Hatası",
             serverErr: "Sunucu Hatası",
+          },
+          codes: {
+            100: {
+              name: "Devam",
+              description:
+                "Sunucu istek başlıklarını aldı ve istemci istek gövdesini göndermeye devam etmelidir.",
+            },
+            101: {
+              name: "Protokol Değiştirme",
+              description:
+                "İstemci sunucudan protokol değiştirmesini istedi ve sunucu bunu kabul etti.",
+            },
+            102: {
+              name: "İşleniyor",
+              description:
+                "Sunucu isteği aldı ve işliyor, ancak henüz bir yanıt mevcut değil.",
+            },
+            200: {
+              name: "Tamam",
+              description: "Başarılı HTTP istekleri için standart yanıt.",
+            },
+            201: {
+              name: "Oluşturuldu",
+              description:
+                "İstek yerine getirildi ve yeni bir kaynak oluşturulmasıyla sonuçlandı.",
+            },
+            202: {
+              name: "Kabul Edildi",
+              description:
+                "İstek işlenmek üzere kabul edildi, ancak işlem tamamlanmadı.",
+            },
+            204: {
+              name: "İçerik Yok",
+              description:
+                "Sunucu isteği başarıyla işledi ve herhangi bir içerik döndürmüyor.",
+            },
+            206: {
+              name: "Kısmi İçerik",
+              description:
+                "Sunucu, istemci tarafından gönderilen bir aralık başlığı nedeniyle kaynağın yalnızca bir kısmını sunuyor.",
+            },
+            300: {
+              name: "Çoklu Seçenek",
+              description:
+                "İstemcinin seçebileceği kaynak için birden fazla seçenek olduğunu belirtir.",
+            },
+            301: {
+              name: "Kalıcı Olarak Taşındı",
+              description:
+                "Bu ve gelecekteki tüm istekler verilen URI'ye yönlendirilmelidir.",
+            },
+            302: {
+              name: "Bulundu",
+              description:
+                "İstemciye geçici olarak başka bir URL'ye bakmasını söyler.",
+            },
+            304: {
+              name: "Değiştirilmedi",
+              description:
+                "Kaynağın, istek başlıkları tarafından belirtilen sürümden bu yana değiştirilmediğini belirtir.",
+            },
+            307: {
+              name: "Geçici Yönlendirme",
+              description:
+                "İstek başka bir URI ile tekrarlanmalıdır ancak gelecekteki istekler yine orijinal URI'yi kullanmalıdır.",
+            },
+            308: {
+              name: "Kalıcı Yönlendirme",
+              description:
+                "İstek ve gelecekteki tüm istekler başka bir URI kullanılarak tekrarlanmalıdır.",
+            },
+            400: {
+              name: "Kötü İstek",
+              description:
+                "Sunucu, bariz bir istemci hatası nedeniyle isteği işleyemiyor veya işlemeyecek.",
+            },
+            401: {
+              name: "Yetkisiz",
+              description:
+                "Kimlik doğrulaması gerekiyor ve başarısız oldu veya henüz sağlanmadı.",
+            },
+            403: {
+              name: "Yasak",
+              description:
+                "İstek geçerliydi, ancak sunucu eylemi reddediyor. Kullanıcı gerekli izinlere sahip olmayabilir.",
+            },
+            404: {
+              name: "Bulunamadı",
+              description:
+                "İstenen kaynak bulunamadı ancak gelecekte kullanılabilir olabilir.",
+            },
+            405: {
+              name: "Yönteme İzin Verilmiyor",
+              description:
+                "İstenen kaynak için bir istek yöntemi desteklenmiyor.",
+            },
+            408: {
+              name: "İstek Zamanaşımı",
+              description: "Sunucu isteği beklerken zaman aşımına uğradı.",
+            },
+            409: {
+              name: "Çakışma",
+              description:
+                "Kaynağın mevcut durumundaki çakışma nedeniyle isteğin işlenemediğini belirtir.",
+            },
+            410: {
+              name: "Gitti",
+              description:
+                "İstenen kaynağın artık mevcut olmadığını ve tekrar kullanılabilir olmayacağını belirtir.",
+            },
+            413: {
+              name: "Yük Çok Büyük",
+              description:
+                "İstek, sunucunun işlemek istediği veya işleyebileceği boyuttan daha büyük.",
+            },
+            414: {
+              name: "URI Çok Uzun",
+              description: "Sağlanan URI sunucunun işlemesi için çok uzundu.",
+            },
+            415: {
+              name: "Desteklenmeyen Medya Türü",
+              description:
+                "İstek varlığı, sunucunun veya kaynağın desteklemediği bir medya türüne sahip.",
+            },
+            418: {
+              name: "Ben bir çaydanlığım",
+              description:
+                "Bu kod 1998'de geleneksel IETF 1 Nisan şakalarından biri olarak tanımlandı.",
+            },
+            422: {
+              name: "İşlenemez Varlık",
+              description:
+                "İstek iyi biçimlendirilmişti ancak anlamsal hatalar nedeniyle takip edilemedi.",
+            },
+            429: {
+              name: "Çok Fazla İstek",
+              description:
+                "Kullanıcı belirli bir süre içinde çok fazla istek gönderdi.",
+            },
+            500: {
+              name: "Dahili Sunucu Hatası",
+              description:
+                "Beklenmedik bir durumla karşılaşıldığında verilen genel bir hata mesajı.",
+            },
+            501: {
+              name: "Uygulanmadı",
+              description:
+                "Sunucu ya istek yöntemini tanımıyor ya da isteği yerine getirme yeteneğinden yoksun.",
+            },
+            502: {
+              name: "Kötü Ağ Geçidi",
+              description:
+                "Sunucu bir ağ geçidi veya proxy olarak hareket ediyordu ve üst sunucudan geçersiz bir yanıt aldı.",
+            },
+            503: {
+              name: "Hizmet Kullanılamıyor",
+              description:
+                "Sunucu şu anda kapalı (aşırı yüklü veya bakım için aşağıda).",
+            },
+            504: {
+              name: "Ağ Geçidi Zamanaşımı",
+              description:
+                "Sunucu bir ağ geçidi veya proxy olarak hareket ediyordu ve üst sunucudan zamanında bir yanıt almadı.",
+            },
+            505: {
+              name: "HTTP Sürümü Desteklenmiyor",
+              description:
+                "Sunucu, istekte kullanılan HTTP protokolü sürümünü desteklemiyor.",
+            },
           },
         },
         mock: {

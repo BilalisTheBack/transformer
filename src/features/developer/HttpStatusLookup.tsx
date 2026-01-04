@@ -26,244 +26,214 @@ export default function HttpStatusLookup() {
     // 1xx Informational
     {
       code: 100,
-      name: "Continue",
-      description:
-        "The server has received the request headers and the client should proceed to send the request body.",
+      name: t("dev.http.codes.100.name"),
+      description: t("dev.http.codes.100.description"),
       category: t("dev.http.categories.info"),
     },
     {
       code: 101,
-      name: "Switching Protocols",
-      description:
-        "The requester has asked the server to switch protocols and the server has agreed to do so.",
+      name: t("dev.http.codes.101.name"),
+      description: t("dev.http.codes.101.description"),
       category: t("dev.http.categories.info"),
     },
     {
       code: 102,
-      name: "Processing",
-      description:
-        "The server has received and is processing the request, but no response is available yet.",
+      name: t("dev.http.codes.102.name"),
+      description: t("dev.http.codes.102.description"),
       category: t("dev.http.categories.info"),
     },
 
     // 2xx Success
     {
       code: 200,
-      name: "OK",
-      description: "Standard response for successful HTTP requests.",
+      name: t("dev.http.codes.200.name"),
+      description: t("dev.http.codes.200.description"),
       category: t("dev.http.categories.success"),
     },
     {
       code: 201,
-      name: "Created",
-      description:
-        "The request has been fulfilled, resulting in the creation of a new resource.",
+      name: t("dev.http.codes.201.name"),
+      description: t("dev.http.codes.201.description"),
       category: t("dev.http.categories.success"),
     },
     {
       code: 202,
-      name: "Accepted",
-      description:
-        "The request has been accepted for processing, but the processing has not been completed.",
+      name: t("dev.http.codes.202.name"),
+      description: t("dev.http.codes.202.description"),
       category: t("dev.http.categories.success"),
     },
     {
       code: 204,
-      name: "No Content",
-      description:
-        "The server successfully processed the request and is not returning any content.",
+      name: t("dev.http.codes.204.name"),
+      description: t("dev.http.codes.204.description"),
       category: t("dev.http.categories.success"),
     },
     {
       code: 206,
-      name: "Partial Content",
-      description:
-        "The server is delivering only part of the resource due to a range header sent by the client.",
+      name: t("dev.http.codes.206.name"),
+      description: t("dev.http.codes.206.description"),
       category: t("dev.http.categories.success"),
     },
 
     // 3xx Redirection
     {
       code: 300,
-      name: "Multiple Choices",
-      description:
-        "Indicates multiple options for the resource from which the client may choose.",
+      name: t("dev.http.codes.300.name"),
+      description: t("dev.http.codes.300.description"),
       category: t("dev.http.categories.redirect"),
     },
     {
       code: 301,
-      name: "Moved Permanently",
-      description:
-        "This and all future requests should be directed to the given URI.",
+      name: t("dev.http.codes.301.name"),
+      description: t("dev.http.codes.301.description"),
       category: t("dev.http.categories.redirect"),
     },
     {
       code: 302,
-      name: "Found",
-      description: "Tells the client to look at another URL temporarily.",
+      name: t("dev.http.codes.302.name"),
+      description: t("dev.http.codes.302.description"),
       category: t("dev.http.categories.redirect"),
     },
     {
       code: 304,
-      name: "Not Modified",
-      description:
-        "Indicates that the resource has not been modified since the version specified by the request headers.",
+      name: t("dev.http.codes.304.name"),
+      description: t("dev.http.codes.304.description"),
       category: t("dev.http.categories.redirect"),
     },
     {
       code: 307,
-      name: "Temporary Redirect",
-      description:
-        "The request should be repeated with another URI but future requests should still use the original URI.",
+      name: t("dev.http.codes.307.name"),
+      description: t("dev.http.codes.307.description"),
       category: t("dev.http.categories.redirect"),
     },
     {
       code: 308,
-      name: "Permanent Redirect",
-      description:
-        "The request and all future requests should be repeated using another URI.",
+      name: t("dev.http.codes.308.name"),
+      description: t("dev.http.codes.308.description"),
       category: t("dev.http.categories.redirect"),
     },
 
     // 4xx Client Errors
     {
       code: 400,
-      name: "Bad Request",
-      description:
-        "The server cannot or will not process the request due to an apparent client error.",
+      name: t("dev.http.codes.400.name"),
+      description: t("dev.http.codes.400.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 401,
-      name: "Unauthorized",
-      description:
-        "Authentication is required and has failed or has not yet been provided.",
+      name: t("dev.http.codes.401.name"),
+      description: t("dev.http.codes.401.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 403,
-      name: "Forbidden",
-      description:
-        "The request was valid, but the server is refusing action. The user might not have the necessary permissions.",
+      name: t("dev.http.codes.403.name"),
+      description: t("dev.http.codes.403.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 404,
-      name: "Not Found",
-      description:
-        "The requested resource could not be found but may be available in the future.",
+      name: t("dev.http.codes.404.name"),
+      description: t("dev.http.codes.404.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 405,
-      name: "Method Not Allowed",
-      description:
-        "A request method is not supported for the requested resource.",
+      name: t("dev.http.codes.405.name"),
+      description: t("dev.http.codes.405.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 408,
-      name: "Request Timeout",
-      description: "The server timed out waiting for the request.",
+      name: t("dev.http.codes.408.name"),
+      description: t("dev.http.codes.408.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 409,
-      name: "Conflict",
-      description:
-        "Indicates that the request could not be processed because of conflict in the current state of the resource.",
+      name: t("dev.http.codes.409.name"),
+      description: t("dev.http.codes.409.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 410,
-      name: "Gone",
-      description:
-        "Indicates that the resource requested is no longer available and will not be available again.",
+      name: t("dev.http.codes.410.name"),
+      description: t("dev.http.codes.410.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 413,
-      name: "Payload Too Large",
-      description:
-        "The request is larger than the server is willing or able to process.",
+      name: t("dev.http.codes.413.name"),
+      description: t("dev.http.codes.413.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 414,
-      name: "URI Too Long",
-      description: "The URI provided was too long for the server to process.",
+      name: t("dev.http.codes.414.name"),
+      description: t("dev.http.codes.414.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 415,
-      name: "Unsupported Media Type",
-      description:
-        "The request entity has a media type which the server or resource does not support.",
+      name: t("dev.http.codes.415.name"),
+      description: t("dev.http.codes.415.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 418,
-      name: "I'm a teapot",
-      description:
-        "This code was defined in 1998 as one of the traditional IETF April Fools' jokes.",
+      name: t("dev.http.codes.418.name"),
+      description: t("dev.http.codes.418.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 422,
-      name: "Unprocessable Entity",
-      description:
-        "The request was well-formed but was unable to be followed due to semantic errors.",
+      name: t("dev.http.codes.422.name"),
+      description: t("dev.http.codes.422.description"),
       category: t("dev.http.categories.clientErr"),
     },
     {
       code: 429,
-      name: "Too Many Requests",
-      description:
-        "The user has sent too many requests in a given amount of time.",
+      name: t("dev.http.codes.429.name"),
+      description: t("dev.http.codes.429.description"),
       category: t("dev.http.categories.clientErr"),
     },
 
     // 5xx Server Errors
     {
       code: 500,
-      name: "Internal Server Error",
-      description:
-        "A generic error message when an unexpected condition was encountered.",
+      name: t("dev.http.codes.500.name"),
+      description: t("dev.http.codes.500.description"),
       category: t("dev.http.categories.serverErr"),
     },
     {
       code: 501,
-      name: "Not Implemented",
-      description:
-        "The server either does not recognize the request method, or it lacks the ability to fulfill the request.",
+      name: t("dev.http.codes.501.name"),
+      description: t("dev.http.codes.501.description"),
       category: t("dev.http.categories.serverErr"),
     },
     {
       code: 502,
-      name: "Bad Gateway",
-      description:
-        "The server was acting as a gateway or proxy and received an invalid response from the upstream server.",
+      name: t("dev.http.codes.502.name"),
+      description: t("dev.http.codes.502.description"),
       category: t("dev.http.categories.serverErr"),
     },
     {
       code: 503,
-      name: "Service Unavailable",
-      description:
-        "The server is currently unavailable (overloaded or down for maintenance).",
+      name: t("dev.http.codes.503.name"),
+      description: t("dev.http.codes.503.description"),
       category: t("dev.http.categories.serverErr"),
     },
     {
       code: 504,
-      name: "Gateway Timeout",
-      description:
-        "The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.",
+      name: t("dev.http.codes.504.name"),
+      description: t("dev.http.codes.504.description"),
       category: t("dev.http.categories.serverErr"),
     },
     {
       code: 505,
-      name: "HTTP Version Not Supported",
-      description:
-        "The server does not support the HTTP protocol version used in the request.",
+      name: t("dev.http.codes.505.name"),
+      description: t("dev.http.codes.505.description"),
       category: t("dev.http.categories.serverErr"),
     },
   ];
