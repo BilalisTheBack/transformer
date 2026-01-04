@@ -22,7 +22,6 @@ export default function OcrConverter() {
   const [copied, setCopied] = useState(false);
   const [language, setLanguage] = useState("eng");
 
-  // Paste handler
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
       const items = e.clipboardData?.items;
@@ -66,22 +65,26 @@ export default function OcrConverter() {
   const handleProcess = async () => {
     if (!image) return;
     setIsProcessing(true);
-    setStatus("Initializing...");
+    setStatus(t("media.ocr.initializing"));
     try {
       const result = await Tesseract.recognize(image, language, {
         logger: (m) => {
           if (m.status === "recognizing text") {
             setProgress(Math.round(m.progress * 100));
-            setStatus(`Recognizing... ${Math.round(m.progress * 100)}%`);
+            setStatus(
+              t("media.ocr.recognizing", {
+                progress: Math.round(m.progress * 100),
+              })
+            );
           } else {
             setStatus(m.status);
           }
         },
       });
       setText(result.data.text);
-      setStatus("Completed");
+      setStatus(t("media.ocr.completed"));
     } catch (err) {
-      setStatus("Error processing image");
+      setStatus(t("media.ocr.error"));
       console.error(err);
     } finally {
       setIsProcessing(false);
@@ -109,13 +112,13 @@ export default function OcrConverter() {
           <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-500/20">
             <ScanText className="w-6 h-6 text-white" />
           </div>
-          {t("ocr.title", "OCR (Text Extraction)")}
+          {t("media.ocr.title", { defaultValue: "OCR (Text Extraction)" })}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          {t(
-            "ocr.description",
-            "Extract text from images using AI. Paste image or upload."
-          )}
+          {t("media.ocr.description", {
+            defaultValue:
+              "Extract text from images using AI. Paste image or upload.",
+          })}
         </p>
       </header>
 
@@ -125,7 +128,7 @@ export default function OcrConverter() {
           <div className="flex justify-between items-center">
             <h3 className="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
               <Upload className="w-5 h-5 text-blue-500" />
-              Source Image
+              {t("media.ocr.sourceTitle")}
             </h3>
             {/* Language Selector */}
             <div className="flex items-center gap-2">
@@ -163,7 +166,7 @@ export default function OcrConverter() {
                 <img
                   src={image}
                   alt="Source"
-                  className="max-w-full max-h-full object-contain"
+                  className="max-w-full max-h-[300px] object-contain"
                 />
                 <button
                   onClick={(e) => {
@@ -183,11 +186,13 @@ export default function OcrConverter() {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-gray-100">
-                    Click or drag image here
+                    {t("media.bgRemover.clickDrop", {
+                      defaultValue: "Click or drag image here",
+                    })}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center justify-center gap-1">
-                    <ClipboardList className="w-3 h-3" /> You can also paste
-                    (Ctrl+V)
+                    <ClipboardList className="w-3 h-3" />{" "}
+                    {t("media.ocr.pasteNote")}
                   </p>
                 </div>
               </div>
@@ -207,7 +212,7 @@ export default function OcrConverter() {
               className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
             >
               <ScanText className="w-5 h-5" />
-              Extract Text
+              {t("media.ocr.extractBtn")}
             </button>
           )}
 
@@ -231,7 +236,7 @@ export default function OcrConverter() {
           <div className="flex justify-between items-center">
             <h3 className="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
               <FileText className="w-5 h-5 text-green-500" />
-              Extracted Text
+              {t("media.ocr.resultTitle")}
             </h3>
             {text && (
               <button
@@ -258,7 +263,7 @@ export default function OcrConverter() {
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 border-2 border-dashed border-gray-100 dark:border-gray-700 rounded-xl">
                 <FileText className="w-12 h-12 mb-2 opacity-50" />
-                <p>Extracted text will appear here</p>
+                <p>{t("media.ocr.noText")}</p>
               </div>
             )}
           </div>

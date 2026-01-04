@@ -6,8 +6,10 @@ import {
   X,
   Image as ImageIcon,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ImageConverter() {
+  const { t } = useTranslation();
   const [files, setFiles] = useState<File[]>([]);
   const [converting, setConverting] = useState(false);
   const [convertedImages, setConvertedImages] = useState<
@@ -36,7 +38,7 @@ export default function ImageConverter() {
     setConverting(true);
     setConvertedImages([]);
 
-    // Simulate conversion for now (Real implementation needs Canvas/Polymorphism)
+    // Simulate conversion for now
     const newImages = await Promise.all(
       files.map(async (file) => {
         return new Promise<{ name: string; url: string }>((resolve) => {
@@ -68,23 +70,25 @@ export default function ImageConverter() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-8rem)] flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-4xl mx-auto h-[calc(100vh-8rem)] flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
           <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
             <ImageIcon className="w-6 h-6 text-white" />
           </div>
-          Image Converter
+          {t("media.imageConverter.title")}
         </h1>
         <p className="text-neutral-400">
-          Convert JPG/PNG images to modern WebP format offline.
+          {t("media.imageConverter.description")}
         </p>
       </header>
 
       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 min-h-0">
         {/* Upload Section */}
         <div className="flex flex-col gap-4 bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-          <h2 className="font-semibold text-neutral-300">Input Files</h2>
+          <h2 className="font-semibold text-neutral-300">
+            {t("media.imageConverter.inputFiles")}
+          </h2>
 
           <div
             onDrop={handleDrop}
@@ -94,9 +98,11 @@ export default function ImageConverter() {
           >
             <Upload className="w-10 h-10 text-neutral-500 mb-4" />
             <p className="text-neutral-300 font-medium">
-              Click or Drag images here
+              {t("media.imageConverter.dropText")}
             </p>
-            <p className="text-sm text-neutral-500 mt-2">Supports JPG, PNG</p>
+            <p className="text-sm text-neutral-500 mt-2">
+              {t("media.imageConverter.supports")}
+            </p>
             <input
               type="file"
               id="file-input"
@@ -113,7 +119,10 @@ export default function ImageConverter() {
                 key={i}
                 className="flex items-center justify-between p-3 bg-neutral-800 rounded-lg group"
               >
-                <span className="text-sm truncate max-w-[200px]">
+                <span
+                  className="text-sm truncate min-w-0 flex-1"
+                  title={file.name}
+                >
                   {file.name}
                 </span>
                 <div className="flex items-center gap-3">
@@ -138,14 +147,15 @@ export default function ImageConverter() {
             <button
               onClick={convertImages}
               disabled={converting}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+              className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl font-medium transition-colors flex items-center justify-center gap-2 shadow-lg"
             >
               {converting ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin" /> Converting...
+                  <RefreshCw className="w-4 h-4 animate-spin" />{" "}
+                  {t("media.imageConverter.converting")}
                 </>
               ) : (
-                <>Convert to WebP</>
+                <>{t("media.imageConverter.convertToWebp")}</>
               )}
             </button>
           )}
@@ -153,11 +163,13 @@ export default function ImageConverter() {
 
         {/* Output Section */}
         <div className="flex flex-col gap-4 bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-          <h2 className="font-semibold text-neutral-300">Converted Files</h2>
+          <h2 className="font-semibold text-neutral-300">
+            {t("media.imageConverter.outputFiles")}
+          </h2>
 
           {convertedImages.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-neutral-600">
-              <p>No converted images yet</p>
+              <p>{t("media.imageConverter.noConverted")}</p>
             </div>
           ) : (
             <div className="flex-1 overflow-y-auto space-y-3 pr-2">

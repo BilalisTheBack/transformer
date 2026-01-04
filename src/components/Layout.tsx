@@ -26,8 +26,8 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-app-bg text-app-text flex font-sans transition-colors duration-200">
-      {/* Sidebar */}
-      <aside className="w-16 flex flex-col items-center py-6 border-r border-app-border bg-app-nav/80 backdrop-blur-md fixed h-full z-40 transition-colors duration-200">
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex w-16 flex-col items-center py-6 border-r border-app-border bg-app-nav/80 backdrop-blur-md fixed h-full z-40 transition-colors duration-200">
         <button
           onClick={() => navigate("/")}
           className="w-10 h-10 bg-app-primary rounded-lg flex items-center justify-center mb-8 shadow-lg shadow-app-primary/20 hover:bg-app-primary-hover transition-colors cursor-pointer"
@@ -52,7 +52,7 @@ export default function Layout() {
 
         <div className="flex flex-col items-center gap-4 mt-auto">
           <a
-            href="https://github.com"
+            href="https://github.com/BilalisTheBack/transformer"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 rounded-lg hover:bg-app-border flex items-center justify-center text-app-text-sub hover:text-app-text transition-colors"
@@ -68,8 +68,38 @@ export default function Layout() {
         </div>
       </aside>
 
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-app-nav/95 backdrop-blur-md border-t border-app-border z-50 flex items-center justify-around px-2 pb-safe">
+        <button
+          onClick={() => navigate("/")}
+          className="p-3 rounded-lg text-app-text-sub hover:text-app-primary hover:bg-app-border/50 transition-colors flex flex-col items-center gap-1"
+        >
+          <Terminal className="w-6 h-6" />
+        </button>
+        <button
+          onClick={() => setPaletteOpen(true)}
+          className="p-3 rounded-lg text-app-text-sub hover:text-app-primary hover:bg-app-border/50 transition-colors flex flex-col items-center gap-1"
+        >
+          <CommandIcon className="w-6 h-6" />
+        </button>
+        <a
+          href="https://github.com/BilalisTheBack/transformer"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-3 rounded-lg text-app-text-sub hover:text-app-primary hover:bg-app-border/50 transition-colors flex flex-col items-center gap-1"
+        >
+          <Github className="w-6 h-6" />
+        </a>
+        <button
+          onClick={() => navigate("/settings")}
+          className="p-3 rounded-lg text-app-text-sub hover:text-app-primary hover:bg-app-border/50 transition-colors flex flex-col items-center gap-1"
+        >
+          <Settings className="w-6 h-6" />
+        </button>
+      </nav>
+
       {/* Main Content */}
-      <main className="flex-1 ml-16 p-8 relative">
+      <main className="flex-1 md:ml-16 pb-20 md:pb-8 p-4 md:p-8 relative">
         <Outlet />
       </main>
 

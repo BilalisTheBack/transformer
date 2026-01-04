@@ -1,22 +1,25 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
   Upload,
   FileText,
-  Image as ImageIcon,
   Binary,
   Hash,
   Info,
   Film,
-  Camera,
   Edit3,
   Download,
+  MapPin,
+  ExternalLink,
+  ShieldAlert,
+  Smartphone,
+  Aperture,
+  Trash2,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 // @ts-ignore
 import ExifReader from "exifreader";
 import { PDFDocument } from "pdf-lib";
-import { useDragDrop } from "../../providers/DragDropProvider";
 
 interface FileSignature {
   hex: string;
@@ -76,16 +79,38 @@ export default function MetadataViewer() {
   const [file, setFile] = useState<File | null>(null);
   const [headerHex, setHeaderHex] = useState<string>("");
   const [detectedType, setDetectedType] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  // Image Meta
   const [imageDims, setImageDims] = useState<{
     width: number;
     height: number;
   } | null>(null);
+
+  // Device & GPS Info
+  const [deviceInfo, setDeviceInfo] = useState<{
+    make?: string;
+    model?: string;
+    software?: string;
+    lens?: string;
+  } | null>(null);
+
+  const [gpsInfo, setGpsInfo] = useState<{
+    latStr: string;
+    lngStr: string;
+    mapLink?: string;
+  } | null>(null);
+
+  // Video Meta
   const [videoMeta, setVideoMeta] = useState<{
     duration: number;
     width: number;
     height: number;
   } | null>(null);
+
   const [exifData, setExifData] = useState<any | null>(null);
+
+  // PDF Meta
   const [pdfDoc, setPdfDoc] = useState<PDFDocument | null>(null);
   const [pdfMeta, setPdfMeta] = useState<PdfMeta>({
     title: "",
@@ -97,20 +122,23 @@ export default function MetadataViewer() {
   });
   const [isPdf, setIsPdf] = useState(false);
   const [pdfEditing, setPdfEditing] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // DragDrop Context
-  const { droppedFile, clearDroppedFile, resetDragState } = useDragDrop();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const processFile = async (file: File) => {
     setFile(file);
+    // Reset states
     setImageDims(null);
     setVideoMeta(null);
     setDetectedType(null);
     setExifData(null);
+    setDeviceInfo(null);
+    setGpsInfo(null);
     setPdfDoc(null);
     setIsPdf(false);
     setPdfEditing(false);
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
     setPdfMeta({
       title: "",
       author: "",
@@ -119,6 +147,11 @@ export default function MetadataViewer() {
       creator: "",
       producer: "",
     });
+
+    // Create Preview URL
+    if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
+      setPreviewUrl(URL.createObjectURL(file));
+    }
 
     // Read first 64 bytes for hex dump & signature check
     const reader = new FileReader();
@@ -136,7 +169,7 @@ export default function MetadataViewer() {
         if (foundSig) {
           setDetectedType(foundSig.description);
         } else {
-          setDetectedType(null); // Unknown or not in our list
+          setDetectedType(null);
         }
       }
     };
@@ -152,8 +185,63 @@ export default function MetadataViewer() {
 
       // EXIF
       try {
-        const tags = await ExifReader.load(file);
-        setExifData(tags);
+        // Use expanded: true to ensure we get meaningful data structures
+        const tags = await ExifReader.load(file, { expanded: true });
+        // Also get raw tags for display list
+        const rawTags = await ExifReader.load(file);
+        setExifData(rawTags);
+
+        // Extract Device Info (Try multiple sources)
+        const make =
+          tags.exif?.Make?.description || rawTags["Make"]?.description || "";
+
+        const model =
+          tags.exif?.Model?.description || rawTags["Model"]?.description || "";
+
+        const software =
+          tags.exif?.Software?.description ||
+          rawTags["Software"]?.description ||
+          "";
+
+        const lens =
+          tags.exif?.LensModel?.description ||
+          rawTags["LensModel"]?.description ||
+          "";
+
+        if (make || model || software || lens) {
+          setDeviceInfo({ make, model, software, lens });
+        }
+
+        // Extract GPS
+        if (tags.gps) {
+          const lat = tags.gps.Latitude;
+          const lng = tags.gps.Longitude;
+
+          if (lat && lng) {
+            const latStr = `${lat.toFixed(6)}°`;
+            const lngStr = `${lng.toFixed(6)}°`;
+
+            setGpsInfo({
+              latStr,
+              lngStr,
+              mapLink: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+            });
+          }
+        } else if (rawTags["GPSLatitude"] && rawTags["GPSLongitude"]) {
+          // Fallback to raw tags if expanded didn't work but raw did
+          const latStr = rawTags["GPSLatitude"]?.description || "";
+          const lngStr = rawTags["GPSLongitude"]?.description || "";
+
+          if (latStr && lngStr) {
+            setGpsInfo({
+              latStr,
+              lngStr,
+              mapLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                `${latStr} ${lngStr}`
+              )}`,
+            });
+          }
+        }
       } catch (err) {
         console.warn("No EXIF data found or error reading", err);
       }
@@ -200,13 +288,37 @@ export default function MetadataViewer() {
     }
   };
 
-  // Consume dropped file from context
-  useEffect(() => {
-    if (droppedFile) {
-      processFile(droppedFile);
-      clearDroppedFile();
-    }
-  }, [droppedFile, clearDroppedFile]);
+  const cleanMetadata = async () => {
+    if (!file || !imageDims) return;
+
+    // Privacy scrub for images: Draw to canvas and re-export
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    await new Promise((resolve) => (img.onload = resolve));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.drawImage(img, 0, 0);
+
+    // Convert to Blob (strips EXIF)
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `clean_${file.name}`;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      file.type,
+      0.95
+    );
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -217,7 +329,6 @@ export default function MetadataViewer() {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    resetDragState(); // Ensure overlay is closed
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       processFile(e.dataTransfer.files[0]);
     }
@@ -229,7 +340,6 @@ export default function MetadataViewer() {
 
   const handleSavePdf = async () => {
     if (!pdfDoc) return;
-
     pdfDoc.setTitle(pdfMeta.title);
     pdfDoc.setAuthor(pdfMeta.author);
     pdfDoc.setSubject(pdfMeta.subject);
@@ -256,17 +366,14 @@ export default function MetadataViewer() {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="p-6 max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500 pb-24">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
           <Binary className="w-8 h-8 text-blue-500" />
-          {t("metadata.title", "Metadata Viewer")}
+          {t("metadata.title")}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          {t(
-            "metadata.description",
-            "View detailed metadata and hexdump for any file."
-          )}
+          {t("metadata.description")}
         </p>
       </div>
 
@@ -284,57 +391,71 @@ export default function MetadataViewer() {
         />
         <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
         <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
-          {t("common.dropFile", "Drop file here")}
+          {t("common.dropFile")}
         </p>
-        <p className="text-sm text-gray-500 mt-2">
-          {t("metadata.dragText", "or click to select file")}
-        </p>
+        <p className="text-sm text-gray-500 mt-2">{t("metadata.dragText")}</p>
       </div>
 
       {file && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Basic Info */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-purple-500" />
-              {t("metadata.basicInfo", "Basic Info")}
-            </h3>
-            <dl className="space-y-3">
-              <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 p-2 rounded">
-                <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                  {t("metadata.name", "Name")}
-                </dt>
-                <dd
-                  className="font-mono text-sm max-w-[200px] truncate"
-                  title={file.name}
-                >
-                  {file.name}
-                </dd>
+          {/* LEFT COLUMN: Preview & Basic Info */}
+          <div className="space-y-6">
+            {/* Thumbnail Preview */}
+            {previewUrl && file.type.startsWith("image/") && (
+              <div className="bg-gray-100 dark:bg-gray-900/50 rounded-xl p-4 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  className="max-h-64 rounded-lg object-contain shadow-sm"
+                />
               </div>
-              <div className="flex justify-between items-center p-2 rounded">
-                <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                  {t("metadata.size", "Size")}
-                </dt>
-                <dd className="font-mono text-sm">
-                  {(file.size / 1024).toFixed(2)} KB
-                </dd>
-              </div>
-              <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 p-2 rounded">
-                <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                  {t("metadata.type", "Type")}
-                </dt>
-                <dd className="font-mono text-sm">{file.type || "Unknown"}</dd>
-              </div>
-              <div className="flex justify-between items-center p-2 rounded">
-                <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                  {t("metadata.lastModified", "Last Modified")}
-                </dt>
-                <dd className="font-mono text-sm">
-                  {format(new Date(file.lastModified), "yyyy-MM-dd HH:mm:ss")}
-                </dd>
-              </div>
+            )}
 
-              {/* Magic Number Detection */}
+            {/* Basic Info */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-purple-500" />
+                {t("metadata.basicInfo")}
+              </h3>
+              <dl className="space-y-3">
+                <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 p-2 rounded">
+                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
+                    {t("metadata.name")}
+                  </dt>
+                  <dd
+                    className="font-mono text-sm max-w-[200px] truncate"
+                    title={file.name}
+                  >
+                    {file.name}
+                  </dd>
+                </div>
+                <div className="flex justify-between items-center p-2 rounded">
+                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
+                    {t("metadata.size")}
+                  </dt>
+                  <dd className="font-mono text-sm">
+                    {(file.size / 1024).toFixed(2)} KB
+                  </dd>
+                </div>
+                <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 p-2 rounded">
+                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
+                    {t("metadata.type")}
+                  </dt>
+                  <dd className="font-mono text-sm">
+                    {file.type || "Unknown"}
+                  </dd>
+                </div>
+                <div className="flex justify-between items-center p-2 rounded">
+                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
+                    Modified
+                  </dt>
+                  <dd className="font-mono text-sm">
+                    {format(new Date(file.lastModified), "yyyy-MM-dd HH:mm")}
+                  </dd>
+                </div>
+              </dl>
+
+              {/* Magic Number */}
               <div
                 className={`mt-4 p-3 rounded-lg border flex items-start gap-3 ${
                   detectedType
@@ -351,45 +472,194 @@ export default function MetadataViewer() {
                 />
                 <div>
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                    Magic Number Analysis
+                    {t("metadata.signature")}
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                    {detectedType ? (
-                      <span>
-                        Detected:{" "}
-                        <strong className="text-green-700 dark:text-green-300">
-                          {detectedType}
-                        </strong>
-                      </span>
-                    ) : (
-                      "No common signature detected in first bytes."
-                    )}
+                    {detectedType ? detectedType : t("metadata.noSig")}
                   </div>
                 </div>
               </div>
-            </dl>
+            </div>
+
+            {/* Privacy Tools (Clean Metadata) */}
+            {imageDims && (
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-900 dark:text-gray-100">
+                  <ShieldAlert className="w-5 h-5 text-red-500" />
+                  {t("metadata.privacy")}
+                </h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  {t("metadata.cleanDesc")}
+                </p>
+                <button
+                  onClick={cleanMetadata}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition shadow-sm hover:shadow-md"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  {t("metadata.clean")}
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Hex Dump */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Hash className="w-5 h-5 text-orange-500" />
-              {t("metadata.hexDump", "Header Hex Dump")}
-            </h3>
-            <div className="bg-gray-900 p-4 rounded-lg overflow-x-auto h-[250px]">
-              <div className="font-mono text-xs text-green-400 leading-relaxed whitespace-pre-wrap break-all">
-                {headerHex}
+          {/* RIGHT COLUMN: Detailed EXIF, Device, Hex */}
+          <div className="space-y-6">
+            {/* GPS Location Info */}
+            {gpsInfo && (
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-red-500" />
+                  {t("metadata.location")}
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-start text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
+                    <span className="text-gray-500 dark:text-gray-400">
+                      {t("metadata.lat")}
+                    </span>
+                    <span className="font-mono text-right max-w-[200px]">
+                      {gpsInfo.latStr}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-start text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
+                    <span className="text-gray-500 dark:text-gray-400">
+                      {t("metadata.lng")}
+                    </span>
+                    <span className="font-mono text-right max-w-[200px]">
+                      {gpsInfo.lngStr}
+                    </span>
+                  </div>
+
+                  {gpsInfo.mapLink && (
+                    <a
+                      href={gpsInfo.mapLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full text-center mt-4 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition font-medium flex items-center justify-center gap-2"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      {t("metadata.map")}
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Device Info */}
+            {deviceInfo && (
+              <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl p-6 shadow-lg">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Smartphone className="w-5 h-5 text-blue-400" />
+                  {t("metadata.device")}
+                </h3>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  {deviceInfo.make && (
+                    <div>
+                      <span className="text-gray-400 text-xs block uppercase">
+                        {t("metadata.make")}
+                      </span>
+                      <span className="font-medium">{deviceInfo.make}</span>
+                    </div>
+                  )}
+                  {deviceInfo.model && (
+                    <div>
+                      <span className="text-gray-400 text-xs block uppercase">
+                        {t("metadata.model")}
+                      </span>
+                      <span className="font-medium">{deviceInfo.model}</span>
+                    </div>
+                  )}
+                  {deviceInfo.lens && (
+                    <div className="col-span-2">
+                      <span className="text-gray-400 text-xs block uppercase">
+                        {t("metadata.lens")}
+                      </span>
+                      <span className="font-medium truncate block">
+                        {deviceInfo.lens}
+                      </span>
+                    </div>
+                  )}
+                  {deviceInfo.software && (
+                    <div className="col-span-2 border-t border-gray-700 pt-2 mt-2">
+                      <span className="text-gray-400 text-xs block uppercase">
+                        {t("metadata.software")}
+                      </span>
+                      <span className="font-mono text-xs">
+                        {deviceInfo.software}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* EXIF Data (Scrollable) */}
+            {exifData && (
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <Aperture className="w-5 h-5 text-teal-500" />
+                    {t("metadata.exif")}
+                  </h3>
+                  <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">
+                    {Object.keys(exifData).length} tags
+                  </span>
+                </div>
+
+                <div className="h-64 overflow-y-auto pr-2 space-y-1 custom-scrollbar">
+                  {Object.entries(exifData).map(
+                    ([key, value]: [string, any]) => {
+                      if (
+                        key === "MakerNote" ||
+                        key === "UserComment" ||
+                        typeof value?.description !== "string"
+                      )
+                        return null;
+                      return (
+                        <div
+                          key={key}
+                          className="flex justify-between items-start text-sm border-b border-gray-100 dark:border-gray-800 pb-1 last:border-0"
+                        >
+                          <span
+                            className="text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap mr-4 w-1/3 truncate"
+                            title={key}
+                          >
+                            {key}
+                          </span>
+                          <span
+                            className="text-gray-800 dark:text-gray-200 font-mono text-right w-2/3 truncate"
+                            title={value.description}
+                          >
+                            {value.description}
+                          </span>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Hex Dump (Scrollable) */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <Hash className="w-5 h-5 text-orange-500" />
+                {t("metadata.hexDump")}
+              </h3>
+              <div className="bg-gray-900 p-4 rounded-lg overflow-x-auto">
+                <div className="font-mono text-xs text-green-400 leading-relaxed whitespace-pre-wrap break-all">
+                  {headerHex}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* PDF Identity Editor */}
+          {/* Bottom Area: PDF Editor (Full Width) */}
           {isPdf && pdfDoc && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 md:col-span-2">
+            <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <Edit3 className="w-5 h-5 text-indigo-500" />
-                  {t("metadata.pdfEdit", "Edit PDF Identity")}
+                  {t("metadata.pdfEdit")}
                 </h3>
                 <button
                   onClick={() => setPdfEditing(!pdfEditing)}
@@ -402,12 +672,12 @@ export default function MetadataViewer() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(
                   [
-                    ["title", t("metadata.pdfTitle", "Title")],
-                    ["author", t("metadata.pdfAuthor", "Author")],
-                    ["subject", t("metadata.pdfSubject", "Subject")],
-                    ["keywords", t("metadata.pdfKeywords", "Keywords")],
-                    ["creator", t("metadata.pdfCreator", "Creator")],
-                    ["producer", t("metadata.pdfProducer", "Producer")],
+                    ["title", t("metadata.pdfTitle")],
+                    ["author", t("metadata.pdfAuthor")],
+                    ["subject", t("metadata.pdfSubject")],
+                    ["keywords", t("metadata.pdfKeywords")],
+                    ["creator", t("metadata.pdfCreator")],
+                    ["producer", t("metadata.pdfProducer")],
                   ] as [keyof PdfMeta, string][]
                 ).map(([field, label]) => (
                   <div key={field} className="space-y-1">
@@ -440,83 +710,15 @@ export default function MetadataViewer() {
                   className="mt-6 flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
                 >
                   <Download className="w-4 h-4" />
-                  {t("metadata.savePdf", "Save & Download PDF")}
+                  {t("metadata.savePdf")}
                 </button>
               )}
             </div>
           )}
 
-          {/* Image Info */}
-          {imageDims && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 md:col-span-2">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <ImageIcon className="w-5 h-5 text-blue-500" />
-                {t("metadata.imageInfo", "Image Info")}
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("metadata.dimensions", "Dimensions")}
-                  </span>
-                  <span className="font-mono text-sm">
-                    {imageDims.width} x {imageDims.height} px
-                  </span>
-                </div>
-                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("metadata.aspectRatio", "Aspect Ratio")}
-                  </span>
-                  <span className="font-mono text-sm">
-                    {(imageDims.width / imageDims.height).toFixed(2)}
-                  </span>
-                </div>
-              </div>
-
-              {/* EXIF Data */}
-              {exifData && (
-                <div className="mt-6">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
-                    <Camera className="w-4 h-4" /> EXIF Data
-                  </h4>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {Object.entries(exifData).map(
-                      ([key, value]: [string, any]) => {
-                        if (
-                          key === "MakerNote" ||
-                          key === "UserComment" ||
-                          typeof value?.description !== "string"
-                        )
-                          return null;
-                        return (
-                          <div
-                            key={key}
-                            className="p-2 bg-gray-50 dark:bg-gray-900/30 rounded border border-gray-100 dark:border-gray-800"
-                          >
-                            <div
-                              className="text-[10px] text-gray-400 uppercase tracking-widest truncate"
-                              title={key}
-                            >
-                              {key}
-                            </div>
-                            <div
-                              className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate"
-                              title={value.description}
-                            >
-                              {value.description}
-                            </div>
-                          </div>
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Video Info */}
+          {/* Video Metadata (Full Width) */}
           {videoMeta && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 md:col-span-2">
+            <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <Film className="w-5 h-5 text-red-500" />
                 Video Metadata

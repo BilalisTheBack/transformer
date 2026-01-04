@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Palette, Copy, Check } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const hexToRgb = (hex: string) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -58,6 +59,7 @@ const hslToHex = (h: number, s: number, l: number) => {
 };
 
 export default function ColorConverter() {
+  const { t } = useTranslation();
   const [hex, setHex] = useState("#3b82f6");
   const [rgb, setRgb] = useState({ r: 59, g: 130, b: 246 });
   const [hsl, setHsl] = useState({ h: 217, s: 91, l: 60 });
@@ -74,8 +76,6 @@ export default function ColorConverter() {
         setHsl(rgbToHsl(rgbVal.r, rgbVal.g, rgbVal.b));
         generatePalette(val);
       }
-    } else {
-      // don't error immediately, let usage type
     }
   };
 
@@ -84,10 +84,8 @@ export default function ColorConverter() {
     if (!rgbBase) return;
     const { h, s } = rgbToHsl(rgbBase.r, rgbBase.g, rgbBase.b);
 
-    // Generate Shades and Tints
     const newPalette = [];
     for (let i = 1; i <= 9; i++) {
-      // Vary Lightness
       const newL = Math.max(0, Math.min(100, i * 10));
       newPalette.push(hslToHex(h, s, newL));
     }
@@ -105,17 +103,15 @@ export default function ColorConverter() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-8rem)] flex flex-col gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-4xl mx-auto h-[calc(100vh-8rem)] flex flex-col gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
       <header>
         <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
           <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg">
             <Palette className="w-6 h-6 text-white" />
           </div>
-          Color Converter & Palette
+          {t("media.color.title")}
         </h1>
-        <p className="text-neutral-400">
-          Convert colors and generate thematic palettes.
-        </p>
+        <p className="text-neutral-400">{t("media.color.description")}</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -140,7 +136,7 @@ export default function ColorConverter() {
                   type="text"
                   value={hex}
                   onChange={(e) => handleHexChange(e.target.value)}
-                  className="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 outline-none focus:border-indigo-500 font-mono"
+                  className="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 outline-none focus:border-indigo-500 font-mono text-neutral-100"
                 />
                 <button
                   onClick={() => copyColor(hex)}
@@ -200,7 +196,9 @@ export default function ColorConverter() {
 
         {/* Palette */}
         <div className="space-y-4">
-          <h3 className="font-semibold text-neutral-300">Generated Palette</h3>
+          <h3 className="font-semibold text-neutral-300">
+            {t("media.color.generatedPalette")}
+          </h3>
           <div className="grid grid-cols-1 gap-2">
             {palette.map((color, i) => (
               <button
@@ -214,7 +212,9 @@ export default function ColorConverter() {
                 />
                 <div className="flex-1">
                   <p className="font-mono text-sm text-neutral-300">{color}</p>
-                  <p className="text-xs text-neutral-500">Shade {i + 1}00</p>
+                  <p className="text-xs text-neutral-500">
+                    {t("media.color.shade", { index: i + 1 })}
+                  </p>
                 </div>
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity text-neutral-400">
                   {copiedColor === color ? (

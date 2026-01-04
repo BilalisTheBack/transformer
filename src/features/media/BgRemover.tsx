@@ -48,15 +48,13 @@ export default function BgRemover() {
     setIsProcessing(true);
     setError(null);
     try {
-      // Dynamic import to prevent load issues (named export)
       const { removeBackground } = await import("@imgly/background-removal");
-
       const blob = await removeBackground(image);
       const url = URL.createObjectURL(blob);
       setResult(url);
     } catch (err) {
       console.error(err);
-      setError("Failed to remove background. Ensure the image is valid.");
+      setError(t("media.bgRemover.error"));
     } finally {
       setIsProcessing(false);
     }
@@ -80,13 +78,15 @@ export default function BgRemover() {
           <div className="p-2 bg-purple-600 rounded-lg shadow-lg shadow-purple-500/20">
             <Eraser className="w-6 h-6 text-white" />
           </div>
-          {t("bgRemover.title", "AI Background Remover")}
+          {t("media.bgRemover.title", {
+            defaultValue: "AI Background Remover",
+          })}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          {t(
-            "bgRemover.description",
-            "Remove image backgrounds instantly in your browser. No data leaves your device."
-          )}
+          {t("media.bgRemover.description", {
+            defaultValue:
+              "Remove image backgrounds instantly in your browser. No data leaves your device.",
+          })}
         </p>
       </header>
 
@@ -95,7 +95,7 @@ export default function BgRemover() {
         <div className="flex flex-col gap-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-sm overflow-hidden relative">
           <h3 className="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
             <ImageIcon className="w-5 h-5 text-blue-500" />
-            Original Image
+            {t("media.bgRemover.uploadTitle")}
           </h3>
 
           <div
@@ -117,7 +117,7 @@ export default function BgRemover() {
                 <img
                   src={image}
                   alt="Original"
-                  className="max-w-full max-h-full object-contain"
+                  className="max-w-full max-h-[300px] object-contain"
                 />
                 <button
                   onClick={(e) => {
@@ -137,10 +137,10 @@ export default function BgRemover() {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-gray-100">
-                    Click or drag image here
+                    {t("media.bgRemover.clickDrop")}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Supports JPG, PNG, WEBP
+                    {t("media.bgRemover.supports")}
                   </p>
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function BgRemover() {
               className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-medium shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
             >
               <Layers className="w-5 h-5" />
-              Remove Background
+              {t("media.bgRemover.removeBtn")}
             </button>
           )}
 
@@ -168,10 +168,10 @@ export default function BgRemover() {
             <div className="absolute inset-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
               <RefreshCw className="w-10 h-10 text-purple-600 animate-spin mb-4" />
               <p className="font-medium text-gray-900 dark:text-gray-100 animate-pulse">
-                Processing image...
+                {t("media.bgRemover.processing")}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                This runs locally, might take a moment.
+                {t("media.bgRemover.localNote")}
               </p>
             </div>
           )}
@@ -188,7 +188,7 @@ export default function BgRemover() {
         <div className="flex flex-col gap-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-sm overflow-hidden relative">
           <h3 className="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
             <Layers className="w-5 h-5 text-green-500" />
-            Result
+            {t("media.bgRemover.resultTitle")}
           </h3>
 
           <div
@@ -198,12 +198,12 @@ export default function BgRemover() {
               <img
                 src={result}
                 alt="Result"
-                className="max-w-full max-h-full object-contain animate-in zoom-in-50 duration-300"
+                className="max-w-full max-h-[300px] object-contain animate-in zoom-in-50 duration-300"
               />
             ) : (
               <div className="text-center text-gray-400 dark:text-gray-600">
                 <Layers className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                <p>Result will appear here</p>
+                <p>{t("media.bgRemover.resultTitle")}</p>
               </div>
             )}
           </div>
@@ -215,7 +215,7 @@ export default function BgRemover() {
             title="Download PNG"
           >
             <Download className="w-5 h-5" />
-            Download Result
+            {t("media.bgRemover.downloadBtn")}
           </button>
         </div>
       </div>

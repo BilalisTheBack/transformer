@@ -1,7 +1,9 @@
 import { useState, type ChangeEvent } from "react";
 import { Upload, Image as ImageIcon, Download, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ImageFormatConverter() {
+  const { t } = useTranslation();
   const [images, setImages] = useState<
     { id: string; file: File; preview: string }[]
   >([]);
@@ -67,17 +69,15 @@ export default function ImageFormatConverter() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto h-[calc(100vh-8rem)] flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-6xl mx-auto h-[calc(100vh-8rem)] flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
       <header>
         <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
           <div className="p-2 bg-gradient-to-br from-green-400 to-emerald-600 rounded-lg">
             <ImageIcon className="w-6 h-6 text-white" />
           </div>
-          PNG <span className="text-neutral-500 mx-1">↔</span> JPG Converter
+          {t("media.imageFormat.title")}
         </h1>
-        <p className="text-neutral-400">
-          Convert images between PNG and JPG formats.
-        </p>
+        <p className="text-neutral-400">{t("media.imageFormat.description")}</p>
       </header>
 
       <div className="flex-1 flex flex-col gap-6 min-h-0">
@@ -85,7 +85,7 @@ export default function ImageFormatConverter() {
         <div className="flex flex-wrap items-center gap-4 bg-neutral-900/50 border border-neutral-800 p-4 rounded-xl">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-neutral-400">
-              Output Format:
+              {t("media.imageFormat.outputFormat")}
             </span>
             <div className="flex bg-neutral-800 rounded-lg p-1">
               <button
@@ -114,7 +114,9 @@ export default function ImageFormatConverter() {
           {targetFormat === "jpeg" && (
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-neutral-400">
-                Quality: {Math.round(quality * 100)}%
+                {t("media.imageFormat.quality", {
+                  quality: Math.round(quality * 100),
+                })}
               </span>
               <input
                 type="range"
@@ -132,10 +134,10 @@ export default function ImageFormatConverter() {
 
           <button
             onClick={() => document.getElementById("format-upload")?.click()}
-            className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-sm"
           >
             <Upload className="w-4 h-4" />
-            Add Images
+            {t("media.imageFormat.addImages")}
           </button>
           <input
             id="format-upload"
@@ -149,10 +151,10 @@ export default function ImageFormatConverter() {
           {images.length > 0 && (
             <button
               onClick={handleConvertAll}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg hover:shadow-emerald-500/20"
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-emerald-500/20"
             >
               <Download className="w-4 h-4" />
-              Convert All ({images.length})
+              {t("media.imageFormat.convertAll", { count: images.length })}
             </button>
           )}
         </div>
@@ -165,7 +167,7 @@ export default function ImageFormatConverter() {
               onClick={() => document.getElementById("format-upload")?.click()}
             >
               <ImageIcon className="w-12 h-12 opacity-50" />
-              <p>Drop images here or click to upload</p>
+              <p>{t("media.imageFormat.dropText")}</p>
             </div>
           ) : (
             images.map((img) => (
@@ -186,14 +188,14 @@ export default function ImageFormatConverter() {
                     <button
                       onClick={() => convertAndDownload(img)}
                       className="p-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 transition-colors"
-                      title="Convert this one"
+                      title={t("media.imageFormat.convertThis") as string}
                     >
                       <Download className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => removeImage(img.id)}
                       className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors"
-                      title="Remove"
+                      title={t("media.imageFormat.remove") as string}
                     >
                       <X className="w-4 h-4" />
                     </button>

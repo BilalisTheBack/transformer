@@ -45,6 +45,10 @@ The application is categorized into intuitive modules:
 - **Color Converter**: HEX, RGB, HSL conversions with a visual palette generator.
 - **OCR**: Extract text from images with multi-language support (EN, TR, FR, DE, ES). Supports drag-and-drop and paste.
 - **Image Format**: Convert between PNG and JPG.
+- **Image Compressor**: Reduce file size with quality control.
+- **Image Cropper**: Crop and resize images with aspect ratio presets.
+- **Exif Cleaner**: Remove sensitive metadata (GPS, device info) for privacy.
+- **PDF Utils**: Convert Images to PDF and PDF pages back to Images.
 
 ### 🛠️ Developer Tools
 
@@ -53,16 +57,18 @@ The application is categorized into intuitive modules:
 - **Epoch Converter**: Human-readable date <-> Unix timestamp conversion.
 - **JSON <-> YAML**: Seamless bidirectional conversion.
 - **SQL Formatter**: Prettify and minify SQL queries.
-- **Metadata Viewer**: Deep dive into file headers, EXIF/ID3 tags, and PDF identity editing.
-- **SEO/Open Graph**: Generate and preview social media meta tags.
+- **Metadata Viewer**: Deep dive into file headers and EXIF/ID3 tags.
+- **HTTP/User-Agent**: Look up HTTP status codes and parse complex User-Agent strings.
+- **Generators**: Build Cron expressions, Environment variables, and Mock JSON data.
 
 ### 🔐 Security & Encryption
 
 - **Hash Generator**: MD5, SHA-256, SHA-512 hashing.
-- **UUID Generator**: Generate random GUIDs/UUIDs.
+- **UUID/Key Gen**: Generate random GUIDs, CSRF tokens, and secure encryption keys.
 - **URL Encoder**: Standard Encode/Decode utilities.
-- **Browser Fingerprint**: Analyze browser privacy, view permissions, and clear site data.
-- **Password Generator**: Create secure, custom passwords with exclude-character support.
+- **Privacy Tools**: Browser fingerprinting analysis and Email header analysis.
+- **Password Suite**: Generate secure passwords and check their strength against complex patterns.
+- **JWT Generator**: Create custom JWTs with various algorithms.
 
 ### 📝 Text & Code
 
@@ -74,7 +80,16 @@ The application is categorized into intuitive modules:
 ### 🎨 Visual & CSS
 
 - **QR Code Generator**: Create QR codes for text/URLs.
-- **Box Shadow Generator**: Visually design CSS box-shadows.
+- **Box Shadow**: Visually design CSS box-shadows.
+- **CSS Generators**: Build Gradients, Glassmorphism, Neumorphism, and CSS Clamp rules.
+- **Typography**: Font pairing tool for modern web design.
+
+### 🔍 SEO & Web
+
+- **Meta Tag Gen**: Generate and preview social media meta tags (Open Graph, Twitter).
+- **Search Engine Utils**: Generate `robots.txt` and `sitemap.xml` files.
+- **Performance**: Page Speed Checklist for optimization.
+- **SEO Preview**: Live preview of search results (SERP) snippet.
 
 ## 🌟 Key Highlights
 
@@ -139,4 +154,4 @@ Feel free to open issues or PRs for new tool suggestions!
 
 ---
 
-_Built with ❤️ for developers by [BilalisTheBack](https://github.com/BilalisTheBack)._
+_Built with for developers by [BilalisTheBack](https://github.com/BilalisTheBack)._
