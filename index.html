@@ -17,13 +17,16 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("/service-worker.js")
-            .catch((err) => console.log("SW registration failed:", err));
-        });
-      }
+      // Automatically reload page if a new version is deployed and chunk loading fails
+      window.addEventListener("error", (e) => {
+        if (
+          /Loading chunk [\d]+ failed/.test(e.message) ||
+          /Failed to load module script/.test(e.message)
+        ) {
+          console.log("New version detected, reloading...");
+          window.location.reload();
+        }
+      });
     </script>
   </body>
 </html>
