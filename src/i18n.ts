@@ -115,6 +115,13 @@ const resources = {
           "New version is available, click on reload button to update.",
         reload: "Reload",
       },
+      feedback: {
+        title: "Feedback & Bug Report",
+        subject: "Subject",
+        description: "Description",
+        send_email: "Send Email",
+        open_github: "Open GitHub",
+      },
       converter: {
         json_csv_title: "JSON <-> CSV Converter",
         description: "Convert between JSON and CSV/Excel formats easily.",
@@ -951,11 +958,18 @@ const resources = {
       pwa: {
         offline_ready: "Uygulama çevrimdışı kullanıma hazır",
         offline_ready_desc:
-          "Artık The Transformer'ı internet bağlantısı olmadan kullanabilirsiniz.",
+          "The Transformer artık internet bağlantısı olmadan kullanılabilir.",
         new_content_available: "Yeni içerik mevcut",
         new_content_desc:
-          "Yeni sürüm mevcut, güncellemek için yenile butonuna tıklayın.",
-        reload: "Yenile",
+          "Yeni sürüm mevcut, güncellemek için yeniden yükle butonuna tıklayın.",
+        reload: "Yeniden Yükle",
+      },
+      feedback: {
+        title: "Geri Bildirim & Hata Bildir",
+        subject: "Konu",
+        description: "Açıklama",
+        send_email: "E-posta Gönder",
+        open_github: "GitHub'da Aç",
       },
       converter: {
         json_csv_title: "JSON <-> CSV Çevirici",

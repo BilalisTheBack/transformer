@@ -6,10 +6,13 @@ import {
   Settings,
   Github,
   Command as CommandIcon,
+  MessageSquare,
 } from "lucide-react";
+import FeedbackModal from "./FeedbackModal";
 
 export default function Layout() {
   const [isPaletteOpen, setPaletteOpen] = useState(false);
+  const [isFeedbackOpen, setFeedbackOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +50,17 @@ export default function Layout() {
             </div>
           </button>
 
+          <button
+            onClick={() => setFeedbackOpen(true)}
+            className="w-10 h-10 rounded-lg hover:bg-app-border flex items-center justify-center text-app-text-sub hover:text-app-text transition-colors group relative"
+            title="Feedback & Bug Report"
+          >
+            <MessageSquare className="w-5 h-5" />
+            <div className="absolute left-14 bg-app-panel border border-app-border text-app-text text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
+              Feedback
+            </div>
+          </button>
+
           <div className="h-px w-8 bg-app-border" />
         </nav>
 
@@ -74,6 +88,12 @@ export default function Layout() {
           className="p-3 rounded-lg text-app-text-sub hover:text-app-primary hover:bg-app-border/50 transition-colors flex flex-col items-center gap-1"
         >
           <Terminal className="w-6 h-6" />
+        </button>
+        <button
+          onClick={() => setFeedbackOpen(true)}
+          className="p-3 rounded-lg text-app-text-sub hover:text-app-primary hover:bg-app-border/50 transition-colors flex flex-col items-center gap-1"
+        >
+          <MessageSquare className="w-6 h-6" />
         </button>
         <button
           onClick={() => setPaletteOpen(true)}
@@ -105,6 +125,10 @@ export default function Layout() {
       <CommandPalette
         isOpen={isPaletteOpen}
         onClose={() => setPaletteOpen(false)}
+      />
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setFeedbackOpen(false)}
       />
     </div>
   );
