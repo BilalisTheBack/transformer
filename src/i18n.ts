@@ -106,11 +106,6 @@ const resources = {
         seo: "SEO & Web Tools",
         settings: "Settings",
       },
-      footer: {
-        built_with: "Built with ❤️ for developers by",
-        version: "Version {{version}}",
-        github: "View on GitHub",
-      },
       pwa: {
         offline_ready: "App ready to work offline",
         offline_ready_desc:

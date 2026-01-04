@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import CommandPalette from "./CommandPalette";
-import Footer from "./Footer";
 import {
   Terminal,
   Settings,
@@ -101,9 +100,6 @@ export default function Layout() {
       <main className="flex-1 md:ml-16 flex flex-col min-h-screen relative bg-app-bg">
         <div className="flex-1 p-4 md:p-8">
           <Outlet />
-        </div>
-        <div className="pb-20 md:pb-0">
-          <Footer />
         </div>
       </main>
       <CommandPalette
