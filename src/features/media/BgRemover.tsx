@@ -73,7 +73,7 @@ export default function BgRemover() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto h-[calc(100vh-8rem)] flex flex-col gap-6 animate-in fade-in duration-500 pb-24">
+    <div className="max-w-6xl mx-auto min-h-[calc(100vh-8rem)] lg:h-[calc(100vh-8rem)] flex flex-col gap-6 animate-in fade-in duration-500 pb-24 lg:pb-0">
       <header className="space-y-2">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-3">
           <div className="p-2 bg-purple-600 rounded-lg shadow-lg shadow-purple-500/20">
