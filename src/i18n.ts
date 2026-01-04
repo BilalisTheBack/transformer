@@ -27,6 +27,9 @@ const resources = {
         error: "Error",
         dropFile: "Drop file here",
         dropFileDesc: "To automatically open the relevant tool",
+        local_processing: "Processed Locally",
+        local_processing_desc:
+          "Your data never leaves this device. 100% Privacy.",
       },
       settings: {
         title: "Settings",
@@ -859,6 +862,9 @@ const resources = {
         error: "Hata",
         dropFile: "Dosyayı buraya bırakın",
         dropFileDesc: "İlgili aracı otomatik açmak için",
+        local_processing: "Yerel İşleme",
+        local_processing_desc:
+          "Verileriniz bu cihazdan asla çıkmaz. %100 Gizlilik.",
       },
       settings: {
         title: "Ayarlar",

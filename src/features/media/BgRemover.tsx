@@ -10,6 +10,7 @@ import {
   X,
   AlertTriangle,
 } from "lucide-react";
+import PrivacyBadge from "../../components/PrivacyBadge";
 
 export default function BgRemover() {
   const { t } = useTranslation();
@@ -82,12 +83,15 @@ export default function BgRemover() {
             defaultValue: "AI Background Remover",
           })}
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          {t("media.bgRemover.description", {
-            defaultValue:
-              "Remove image backgrounds instantly in your browser. No data leaves your device.",
-          })}
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <p className="text-gray-600 dark:text-gray-400">
+            {t("media.bgRemover.description", {
+              defaultValue:
+                "Remove image backgrounds instantly in your browser. No data leaves your device.",
+            })}
+          </p>
+          <PrivacyBadge />
+        </div>
       </header>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">

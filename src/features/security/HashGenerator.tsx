@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import PrivacyBadge from "../../components/PrivacyBadge";
 import { ShieldCheck, Copy, CheckCircle2 } from "lucide-react";
 
 export default function HashGenerator() {
@@ -58,7 +59,10 @@ export default function HashGenerator() {
           <ShieldCheck className="w-8 h-8 text-app-primary" />
           {t("hash.title")}
         </h1>
-        <p className="text-app-text-sub mt-2">{t("hash.description")}</p>
+        <div className="flex items-center gap-4 mt-2">
+          <p className="text-app-text-sub">{t("hash.description")}</p>
+          <PrivacyBadge />
+        </div>
       </header>
 
       {/* Input */}
