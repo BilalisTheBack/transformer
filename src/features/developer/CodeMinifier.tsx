@@ -5,7 +5,7 @@ export default function CodeMinifier() {
   // const { t } = useTranslation(); // Unused
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-  const [mode, setMode] = useState<"html" | "css" | "json">("json");
+  const [mode, setMode] = useState<"html" | "css" | "js" | "json">("json");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +17,7 @@ export default function CodeMinifier() {
       if (mode === "json") {
         setOutput(JSON.stringify(JSON.parse(input)));
       } else if (mode === "css") {
-        // Simple CSS Minifier Regex
+        // CSS Minifier
         setOutput(
           input
             .replace(/\/\*[\s\S]*?\*\//g, "") // Remove comments
@@ -27,12 +27,23 @@ export default function CodeMinifier() {
             .trim()
         );
       } else if (mode === "html") {
-        // Simple HTML Minifier Regex
+        // HTML Minifier
         setOutput(
           input
-            .replace(/<!--[\s\S]*?-->/g, "")
-            .replace(/>\s+</g, "><")
-            .replace(/\s+/g, " ")
+            .replace(/<!--[\s\S]*?-->/g, "") // Remove comments
+            .replace(/>\s+</g, "><") // Remove whitespace between tags
+            .replace(/\s{2,}/g, " ") // Collapse multiple spaces
+            .trim()
+        );
+      } else if (mode === "js") {
+        // JavaScript Minifier (basic)
+        setOutput(
+          input
+            .replace(/\/\/.*$/gm, "") // Remove single-line comments
+            .replace(/\/\*[\s\S]*?\*\//g, "") // Remove multi-line comments
+            .replace(/\s+/g, " ") // Collapse whitespace
+            .replace(/ ?([{}(),:;=+\-*/<>!&|?]) ?/g, "$1") // Remove space around operators
+            .replace(/\n/g, "") // Remove newlines
             .trim()
         );
       }
@@ -62,7 +73,7 @@ export default function CodeMinifier() {
       </header>
 
       <div className="flex gap-2 pb-2 overflow-x-auto">
-        {(["json", "css", "html"] as const).map((m) => (
+        {(["json", "js", "css", "html"] as const).map((m) => (
           <button
             key={m}
             onClick={() => setMode(m)}
