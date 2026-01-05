@@ -6,6 +6,17 @@
 ![Vite](https://img.shields.io/badge/Vite-6-646cff.svg?style=flat&logo=vite)
 ![Offline Ready](https://img.shields.io/badge/Offline-Ready-green.svg)
 
+## 🌐 The Problem
+
+Developers and web enthusiasts often need quick tools (JWT decoding, image conversion, metadata removal) but face two major risks:
+
+1.  **Privacy:** Most online tools upload your sensitive data (API keys, personal photos) to their servers.
+2.  **Fragmentation:** You have to jump between 10 different bookmarked sites, each with different UI, ads, and cookies.
+
+**The Transformer** solves this by providing a unified, professional, and **offline-first** suite where your data never leaves your device.
+
+---
+
 **The Transformer** is the ultimate, privacy-focused Swiss Army Knife for developers, designers, and webmasters.
 
 It runs **100% locally** in your browser. No data is ever sent to a server. Whether you need to decode a JWT, remove an image background with AI, or generate secure keys—it happens instantly on your device.
