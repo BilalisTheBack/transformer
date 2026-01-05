@@ -548,6 +548,119 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Favorites Section */}
+      {favorites.length > 0 && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-xl font-semibold flex items-center gap-2">
+              <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+              {t("recent_tools_favorites", "Favorites")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {sections
+              .flatMap((s) => s.tools)
+              .filter((tool) => favorites.includes(tool.id))
+              .map((tool) => (
+                <Link
+                  key={tool.id}
+                  to={tool.path}
+                  className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                >
+                  <div
+                    className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <tool.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
+                    {tool.title}
+                  </h3>
+                  <div className="mt-auto pt-4 flex items-center justify-between">
+                    <span className="text-xs text-app-text-sub">
+                      Launch Tool →
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleFavorite(tool.id);
+                      }}
+                      className="p-1.5 hover:bg-app-bg rounded-lg transition-colors"
+                    >
+                      <Star
+                        className={`w-4 h-4 fill-yellow-400 text-yellow-400`}
+                      />
+                    </button>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recent Tools Section */}
+      {recentTools.length > 0 && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-xl font-semibold flex items-center gap-2">
+              <Clock className="w-5 h-5 text-app-primary" />
+              {t("recent_tools")}
+            </h2>
+            <button
+              onClick={clearRecent}
+              className="text-xs text-app-text-sub hover:text-red-400 transition-colors"
+            >
+              {t("clear")}
+            </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {sections
+              .flatMap((s) => s.tools)
+              .filter((tool) => recentTools.some((rt) => rt.path === tool.path))
+              .slice(0, 10) // Limit to 10
+              .map((tool) => (
+                <Link
+                  key={tool.id}
+                  to={tool.path}
+                  className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                >
+                  <div
+                    className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <tool.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
+                    {tool.title}
+                  </h3>
+                  <div className="mt-auto pt-4 flex items-center justify-between">
+                    <span className="text-xs text-app-text-sub">
+                      Launch Tool →
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleFavorite(tool.id);
+                      }}
+                      className={`p-1.5 hover:bg-app-bg rounded-lg transition-all ${
+                        isFavorite(tool.id)
+                          ? "opacity-100"
+                          : "opacity-0 group-hover:opacity-100"
+                      }`}
+                    >
+                      <Star
+                        className={`w-4 h-4 ${
+                          isFavorite(tool.id)
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-app-text-sub"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </div>
+      )}
+
       {/* Featured Tools Section */}
       <div className="space-y-6">
         <h2 className="text-xl font-semibold flex items-center gap-2 px-2">
@@ -605,14 +718,18 @@ export default function Home() {
               <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
                 {tool.title}
               </h3>
-              <div className="mt-auto pt-4 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="mt-auto pt-4 flex items-center justify-between">
                 <span className="text-xs text-app-text-sub">Launch Tool →</span>
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     toggleFavorite(tool.id);
                   }}
-                  className="p-1.5 hover:bg-app-bg rounded-lg transition-colors"
+                  className={`p-1.5 hover:bg-app-bg rounded-lg transition-all ${
+                    isFavorite(tool.id)
+                      ? "opacity-100"
+                      : "opacity-0 group-hover:opacity-100"
+                  }`}
                 >
                   <Star
                     className={`w-4 h-4 ${
@@ -627,66 +744,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      {/* Favorites Section */}
-      {recentTools.length > 0 && (
-        <div className="space-y-6">
-          <div className="flex items-center justify-between px-2">
-            <h2 className="text-xl font-semibold flex items-center gap-2">
-              <Clock className="w-5 h-5 text-app-primary" />
-              {t("recent_tools")}
-            </h2>
-            <button
-              onClick={clearRecent}
-              className="text-xs text-app-text-sub hover:text-red-400 transition-colors"
-            >
-              {t("clear")}
-            </button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {sections
-              .flatMap((s) => s.tools)
-              .filter((tool) => recentTools.some((rt) => rt.path === tool.path))
-              .slice(0, 10) // Limit to 10
-              .map((tool) => (
-                <Link
-                  key={tool.id}
-                  to={tool.path}
-                  className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-                >
-                  <div
-                    className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <tool.icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
-                    {tool.title}
-                  </h3>
-                  <div className="mt-auto pt-4 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-xs text-app-text-sub">
-                      Launch Tool →
-                    </span>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleFavorite(tool.id);
-                      }}
-                      className="p-1.5 hover:bg-app-bg rounded-lg transition-colors"
-                    >
-                      <Star
-                        className={`w-4 h-4 ${
-                          isFavorite(tool.id)
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-app-text-sub"
-                        }`}
-                      />
-                    </button>
-                  </div>
-                </Link>
-              ))}
-          </div>
-        </div>
-      )}
 
       {/* Tools Grid */}
       <div className="space-y-16">
@@ -716,7 +773,11 @@ export default function Home() {
                         e.preventDefault();
                         toggleFavorite(tool.id);
                       }}
-                      className="p-2 hover:bg-app-bg rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                      className={`p-2 hover:bg-app-bg rounded-lg transition-all ${
+                        isFavorite(tool.id)
+                          ? "opacity-100"
+                          : "opacity-0 group-hover:opacity-100"
+                      }`}
                     >
                       <Star
                         className={`w-5 h-5 ${
