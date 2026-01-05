@@ -36,7 +36,7 @@ import { useRecentTools } from "../../hooks/useRecentTools";
 
 export default function Home() {
   const { t } = useTranslation();
-  const { toggleFavorite, isFavorite } = useFavorites();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { recentTools, clearRecent } = useRecentTools();
 
   const sections = [
