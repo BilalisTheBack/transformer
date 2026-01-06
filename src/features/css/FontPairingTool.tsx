@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Type, Copy, Check } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Type, Copy, Check, Shuffle } from "lucide-react";
 
 interface FontPair {
   name: string;
@@ -69,6 +70,7 @@ const FONT_PAIRS: FontPair[] = [
 ];
 
 export default function FontPairingTool() {
+  const { t } = useTranslation();
   const [selectedPair, setSelectedPair] = useState(FONT_PAIRS[0]);
   const [copied, setCopied] = useState(false);
 
@@ -104,6 +106,11 @@ body, p, a, span {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const shufflePair = () => {
+    const randomIndex = Math.floor(Math.random() * FONT_PAIRS.length);
+    setSelectedPair(FONT_PAIRS[randomIndex]);
+  };
+
   return (
     <div className="max-w-6xl mx-auto h-[calc(100vh-8rem)] flex flex-col gap-6 animate-in fade-in duration-500 pb-24">
       <header className="space-y-2">
@@ -111,14 +118,27 @@ body, p, a, span {
           <div className="p-2 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg shadow-lg">
             <Type className="w-6 h-6 text-white" />
           </div>
-          Font Pairing Tool
+          {t("css.fontPairing.title")}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Discover perfect font combinations for your projects
+          {t("css.fontPairing.description")}
         </p>
       </header>
 
       {/* Font Pairs Grid */}
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          {t("css.fontPairing.heading")} / {t("css.fontPairing.body")}
+        </h3>
+        <button
+          onClick={shufflePair}
+          className="flex items-center gap-1 px-3 py-1.5 text-sm bg-pink-100 dark:bg-pink-900/30 hover:bg-pink-200 dark:hover:bg-pink-900/50 text-pink-700 dark:text-pink-300 rounded-lg transition-colors"
+        >
+          <Shuffle className="w-4 h-4" />
+          {t("css.fontPairing.shuffle")}
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {FONT_PAIRS.map((pair) => (
           <button
@@ -145,6 +165,9 @@ body, p, a, span {
 
       {/* Preview */}
       <div className="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700 shadow-sm">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+          {t("css.fontPairing.preview")}
+        </h3>
         <link
           href={`https://fonts.googleapis.com/css2?family=${selectedPair.heading.replace(
             / /g,
@@ -164,17 +187,8 @@ body, p, a, span {
             fontWeight: selectedPair.headingWeight,
           }}
         >
-          The Quick Brown Fox
+          {t("css.fontPairing.sampleHeading")}
         </h1>
-        <h2
-          className="text-3xl mb-4 text-gray-800 dark:text-gray-200"
-          style={{
-            fontFamily: `'${selectedPair.heading}', serif`,
-            fontWeight: selectedPair.headingWeight,
-          }}
-        >
-          Jumps Over The Lazy Dog
-        </h2>
         <p
           className="text-lg leading-relaxed text-gray-700 dark:text-gray-300"
           style={{
@@ -182,31 +196,20 @@ body, p, a, span {
             fontWeight: selectedPair.bodyWeight,
           }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris.
+          {t("css.fontPairing.sampleText")}
         </p>
       </div>
 
       {/* Code Output */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            HTML (Google Fonts)
-          </h3>
-          <pre className="px-3 py-2 bg-gray-900 dark:bg-black rounded text-green-400 font-mono text-xs overflow-x-auto whitespace-pre-wrap">
-            {generateHTML()}
-          </pre>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            CSS
-          </h3>
-          <pre className="px-3 py-2 bg-gray-900 dark:bg-black rounded text-green-400 font-mono text-xs overflow-x-auto whitespace-pre-wrap">
-            {generateCSS()}
-          </pre>
-        </div>
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          {t("css.fontPairing.cssCode")}
+        </h3>
+        <pre className="px-3 py-2 bg-gray-900 dark:bg-black rounded text-green-400 font-mono text-xs overflow-x-auto whitespace-pre-wrap">
+          {generateHTML()}
+          {"\n\n"}
+          {generateCSS()}
+        </pre>
       </div>
 
       <button
@@ -214,7 +217,7 @@ body, p, a, span {
         className="w-full py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-xl font-medium shadow-lg shadow-pink-500/25 flex items-center justify-center gap-2 transition-colors"
       >
         {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-        Copy HTML + CSS
+        {copied ? t("css.fontPairing.copied") : t("css.fontPairing.copy")}
       </button>
     </div>
   );

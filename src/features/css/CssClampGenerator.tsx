@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Type, Copy, Check } from "lucide-react";
 
 export default function CssClampGenerator() {
+  const { t } = useTranslation();
   const [minValue, setMinValue] = useState(16);
   const [minUnit, setMinUnit] = useState("px");
   const [preferredValue, setPreferredValue] = useState(2);
@@ -21,21 +23,30 @@ export default function CssClampGenerator() {
   };
 
   const applyPreset = (preset: string) => {
-    switch(preset) {
+    switch (preset) {
       case "h1":
-        setMinValue(32); setMinUnit("px");
-        setPreferredValue(5); setPreferredUnit("vw");
-        setMaxValue(64); setMaxUnit("px");
+        setMinValue(32);
+        setMinUnit("px");
+        setPreferredValue(5);
+        setPreferredUnit("vw");
+        setMaxValue(64);
+        setMaxUnit("px");
         break;
       case "h2":
-        setMinValue(24); setMinUnit("px");
-        setPreferredValue(4); setPreferredUnit("vw");
-        setMaxValue(48); setMaxUnit("px");
+        setMinValue(24);
+        setMinUnit("px");
+        setPreferredValue(4);
+        setPreferredUnit("vw");
+        setMaxValue(48);
+        setMaxUnit("px");
         break;
       case "body":
-        setMinValue(14); setMinUnit("px");
-        setPreferredValue(1.5); setPreferredUnit("vw");
-        setMaxValue(18); setMaxUnit("px");
+        setMinValue(14);
+        setMinUnit("px");
+        setPreferredValue(1.5);
+        setPreferredUnit("vw");
+        setMaxValue(18);
+        setMaxUnit("px");
         break;
     }
   };
@@ -47,24 +58,35 @@ export default function CssClampGenerator() {
           <div className="p-2 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg shadow-lg">
             <Type className="w-6 h-6 text-white" />
           </div>
-          CSS Clamp Generator
+          {t("css.clamp.title")}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Create responsive typography with CSS clamp()
+          {t("css.clamp.description")}
         </p>
       </header>
 
       {/* Presets */}
       <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Presets</h3>
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+          Presets
+        </h3>
         <div className="flex gap-2">
-          <button onClick={() => applyPreset("h1")} className="px-3 py-1.5 text-sm bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-lg transition-colors">
+          <button
+            onClick={() => applyPreset("h1")}
+            className="px-3 py-1.5 text-sm bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-lg transition-colors"
+          >
             Heading 1
           </button>
-          <button onClick={() => applyPreset("h2")} className="px-3 py-1.5 text-sm bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-lg transition-colors">
+          <button
+            onClick={() => applyPreset("h2")}
+            className="px-3 py-1.5 text-sm bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-lg transition-colors"
+          >
             Heading 2
           </button>
-          <button onClick={() => applyPreset("body")} className="px-3 py-1.5 text-sm bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-lg transition-colors">
+          <button
+            onClick={() => applyPreset("body")}
+            className="px-3 py-1.5 text-sm bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-lg transition-colors"
+          >
             Body Text
           </button>
         </div>
@@ -75,7 +97,7 @@ export default function CssClampGenerator() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Minimum
+              {t("css.clamp.minValue")}
             </label>
             <div className="flex gap-2">
               <input
@@ -96,7 +118,7 @@ export default function CssClampGenerator() {
             </div>
           </div>
 
-        <div>
+          <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Preferred
             </label>
@@ -123,7 +145,7 @@ export default function CssClampGenerator() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Maximum
+              {t("css.clamp.maxValue")}
             </label>
             <div className="flex gap-2">
               <input
@@ -148,13 +170,19 @@ export default function CssClampGenerator() {
         {/* CSS Output */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">CSS Code</h3>
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {t("css.clamp.result")}
+            </h3>
             <button
               onClick={copyCSS}
               className="flex items-center gap-1 px-2 py-1 text-xs bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/30 rounded transition-colors"
             >
-              {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-              Copy
+              {copied ? (
+                <Check className="w-3 h-3" />
+              ) : (
+                <Copy className="w-3 h-3" />
+              )}
+              {copied ? t("css.clamp.copied") : t("css.clamp.copy")}
             </button>
           </div>
           <pre className="px-3 py-2 bg-gray-900 dark:bg-black rounded text-green-400 font-mono text-sm">
@@ -165,7 +193,9 @@ export default function CssClampGenerator() {
 
       {/* Preview */}
       <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Preview</h3>
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+          Preview
+        </h3>
         <p
           className="text-gray-900 dark:text-gray-100"
           style={{
@@ -180,8 +210,9 @@ export default function CssClampGenerator() {
       <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800 text-sm text-blue-900 dark:text-blue-200">
         <p className="font-semibold mb-2">💡 How it works:</p>
         <p className="text-xs">
-          CSS clamp() sets a middle value within a range of values between a defined minimum and maximum. 
-          It takes three parameters: minimum value, preferred value, and maximum value.
+          CSS clamp() sets a middle value within a range of values between a
+          defined minimum and maximum. It takes three parameters: minimum value,
+          preferred value, and maximum value.
         </p>
       </div>
     </div>

@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Sparkles, Copy, Check } from "lucide-react";
 
 export default function GlassmorphismGenerator() {
+  const { t } = useTranslation();
   const [blur, setBlur] = useState(10);
   const [opacity, setOpacity] = useState(0.1);
   const [saturation, setSaturation] = useState(1.5);
@@ -31,10 +33,10 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
           <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg shadow-lg">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
-          Glassmorphism Generator
+          {t("css.glassmorphism.title")}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Create frosted glass effect with backdrop blur
+          {t("css.glassmorphism.description")}
         </p>
       </header>
 
@@ -44,7 +46,7 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Blur: {blur}px
+                {t("css.glassmorphism.blur")}: {blur}px
               </label>
               <input
                 type="range"
@@ -58,7 +60,7 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Background Opacity: {opacity.toFixed(2)}
+                {t("css.glassmorphism.transparency")}: {opacity.toFixed(2)}
               </label>
               <input
                 type="range"
@@ -73,7 +75,7 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Saturation: {saturation.toFixed(1)}
+                {t("css.glassmorphism.saturation")}: {saturation.toFixed(1)}
               </label>
               <input
                 type="range"
@@ -88,7 +90,7 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Border Opacity: {borderOpacity.toFixed(2)}
+                {t("css.glassmorphism.border")}: {borderOpacity.toFixed(2)}
               </label>
               <input
                 type="range"
@@ -118,7 +120,7 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                CSS Code
+                {t("css.glassmorphism.cssCode")}
               </h3>
               <button
                 onClick={copyCSS}
@@ -129,7 +131,9 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
                 ) : (
                   <Copy className="w-3 h-3" />
                 )}
-                Copy
+                {copied
+                  ? t("css.glassmorphism.copied")
+                  : t("css.glassmorphism.copy")}
               </button>
             </div>
             <pre className="px-3 py-2 bg-gray-900 dark:bg-black rounded text-green-400 font-mono text-xs overflow-x-auto whitespace-pre-wrap">
@@ -161,8 +165,7 @@ box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);`;
                 Glass Card
               </h2>
               <p className="text-gray-700">
-                This is a glassmorphism effect card with frosted glass
-                appearance.
+                {t("css.glassmorphism.description")}
               </p>
             </div>
           </div>
