@@ -12,11 +12,15 @@
 
 # HTML File: Never cache, always revalidate
 # This ensures users always get the latest version on "Normal F5"
+/
+  Cache-Control: public, max-age=0, must-revalidate
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
 
 # Service Worker & Manifest: Never cache
 /sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+/workbox-*.js
   Cache-Control: public, max-age=0, must-revalidate
 /manifest.webmanifest
   Cache-Control: public, max-age=0, must-revalidate
