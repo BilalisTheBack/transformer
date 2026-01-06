@@ -81,7 +81,8 @@
     "robots-txt": "Robots.txt Generator",
     "sitemap": "Sitemap.xml Generator",
     "page-speed": "Page Speed Checklist",
-    "seo-preview": "SEO Snippet Preview"
+    "seo-preview": "SEO Snippet Preview",
+    "speed-test": "Hız Testi"
   },
   "categories": {
     "converters": "Convertisseurs",
@@ -812,5 +813,21 @@
       "copy": "Copy",
       "copied": "Copied!"
     }
+  },
+  "speedTest": {
+    "title": "İnternet Hız Testi",
+    "description": "İnternet bağlantı hızınızı ve gecikmeyi test edin.",
+    "start": "Testi Başlat",
+    "ping": "Ping",
+    "jitter": "Jitter",
+    "download": "İndirme",
+    "upload": "Yükleme",
+    "latency": "Gecikme",
+    "progress": "Testing...",
+    "mbps": "Mbps",
+    "ms": "ms",
+    "server": "Sunucu",
+    "result": "Sonuç",
+    "restart": "Yeniden Başlat"
   }
 }

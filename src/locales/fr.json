@@ -81,7 +81,8 @@
     "robots-txt": "Générateur Robots.txt",
     "sitemap": "Générateur Sitemap",
     "page-speed": "Checklist Vitesse de Page",
-    "seo-preview": "Aperçu SEO"
+    "seo-preview": "Aperçu SEO",
+    "speed-test": "Test de Vitesse"
   },
   "categories": {
     "converters": "Convertisseurs",
@@ -812,5 +813,21 @@
       "copy": "Copy",
       "copied": "Copied!"
     }
+  },
+  "speedTest": {
+    "title": "Test de Vitesse Internet",
+    "description": "Vérifiez votre vitesse de connexion et votre latence.",
+    "start": "Lancer le Test",
+    "ping": "Ping",
+    "jitter": "Jitter",
+    "download": "Téléchargement",
+    "upload": "Envoi",
+    "latency": "Latence",
+    "progress": "Testing...",
+    "mbps": "Mbps",
+    "ms": "ms",
+    "server": "Server",
+    "result": "Result",
+    "restart": "Restart Test"
   }
 }

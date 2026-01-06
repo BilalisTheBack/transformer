@@ -34,6 +34,7 @@ import UrlEncoder from "./features/security/UrlEncoder";
 import BrowserFingerprint from "./features/security/BrowserFingerprint";
 import PasswordGenerator from "./features/security/PasswordGenerator";
 import IpInfo from "./features/network/IpInfo";
+import SpeedTest from "./features/network/SpeedTest";
 import BgRemover from "./features/media/BgRemover";
 
 // Visual Tools
@@ -139,13 +140,16 @@ function App() {
           <Route path="metadata" element={<MetadataViewer />} />
           <Route path="regex" element={<RegexTester />} />
 
+          {/* Network Tools */}
+          <Route path="ip" element={<IpInfo />} />
+          <Route path="speed-test" element={<SpeedTest />} />
+
           {/* Security Tools */}
           <Route path="hash" element={<HashGenerator />} />
           <Route path="uuid" element={<UuidGenerator />} />
           <Route path="url-encode" element={<UrlEncoder />} />
           <Route path="fingerprint" element={<BrowserFingerprint />} />
           <Route path="password" element={<PasswordGenerator />} />
-          <Route path="ip" element={<IpInfo />} />
 
           {/* Visual & CSS Tools */}
           <Route path="palette" element={<ColorPaletteGenerator />} />

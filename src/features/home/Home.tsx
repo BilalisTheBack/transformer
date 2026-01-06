@@ -29,6 +29,8 @@ import {
   ShieldAlert,
   Star,
   Clock,
+  Gauge,
+  Wifi,
 } from "lucide-react";
 
 import { useFavorites } from "../../hooks/useFavorites";
@@ -331,6 +333,26 @@ export default function Home() {
       ],
     },
     {
+      id: "network",
+      title: t("categories.network"),
+      tools: [
+        {
+          id: "ip",
+          icon: Globe,
+          title: t("ip.title"),
+          path: "/ip",
+          color: "from-teal-500 to-cyan-600",
+        },
+        {
+          id: "speed-test",
+          icon: Gauge,
+          title: t("speedTest.title"),
+          path: "/speed-test",
+          color: "from-cyan-400 to-blue-500",
+        },
+      ],
+    },
+    {
       id: "security",
       title: t("categories.security"),
       tools: [
@@ -403,13 +425,6 @@ export default function Home() {
           title: t("commands.email-header"),
           path: "/email-header",
           color: "from-cyan-600 to-sky-700",
-        },
-        {
-          id: "ip",
-          icon: Globe,
-          title: t("ip.title"),
-          path: "/ip",
-          color: "from-teal-500 to-cyan-600",
         },
       ],
     },

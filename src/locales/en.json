@@ -733,6 +733,22 @@
       }
     }
   },
+  "speedTest": {
+    "title": "Network Speed Test",
+    "description": "Check your internet connection speed and latency.",
+    "start": "Start Test",
+    "ping": "Ping",
+    "jitter": "Jitter",
+    "download": "Download",
+    "upload": "Upload",
+    "latency": "Latency",
+    "progress": "Testing...",
+    "mbps": "Mbps",
+    "ms": "ms",
+    "server": "Server",
+    "result": "Result",
+    "restart": "Restart Test"
+  },
   "css": {
     "gradient": {
       "title": "Gradient Generator",
