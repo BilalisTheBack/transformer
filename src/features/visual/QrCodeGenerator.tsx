@@ -64,15 +64,17 @@ export default function QrCodeGenerator() {
       <header>
         <h1 className="text-3xl font-bold text-app-text flex items-center gap-3">
           <QrCode className="w-8 h-8 text-app-primary" />
-          {t("qrCode.title")}
+          {t("visual.qrCode.title")}
         </h1>
-        <p className="text-app-text-sub mt-2">{t("qrCode.description")}</p>
+        <p className="text-app-text-sub mt-2">
+          {t("visual.qrCode.description")}
+        </p>
       </header>
 
       {/* Input */}
       <div className="space-y-2">
         <label className="text-sm font-medium text-app-text-sub">
-          {t("qrCode.inputLabel")}
+          {t("visual.qrCode.inputLabel")}
         </label>
         <textarea
           value={input}
@@ -86,7 +88,7 @@ export default function QrCodeGenerator() {
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <label className="text-sm text-app-text-sub">
-            {t("qrCode.size")}:
+            {t("visual.qrCode.size")}:
           </label>
           <select
             value={size}
@@ -102,7 +104,7 @@ export default function QrCodeGenerator() {
 
         <div className="flex items-center gap-2">
           <label className="text-sm text-app-text-sub">
-            {t("qrCode.foreground")}:
+            {t("visual.qrCode.foreground")}:
           </label>
           <input
             type="color"
@@ -114,7 +116,7 @@ export default function QrCodeGenerator() {
 
         <div className="flex items-center gap-2">
           <label className="text-sm text-app-text-sub">
-            {t("qrCode.background")}:
+            {t("visual.qrCode.background")}:
           </label>
           <input
             type="color"
@@ -130,7 +132,7 @@ export default function QrCodeGenerator() {
         onClick={generateQr}
         className="px-6 py-3 bg-app-primary hover:bg-app-primary-hover text-white font-medium rounded-xl transition-colors"
       >
-        {t("qrCode.generate")}
+        {t("visual.qrCode.generate")}
       </button>
 
       {/* Result */}

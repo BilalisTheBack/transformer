@@ -106,10 +106,10 @@ export default function ColorPaletteGenerator() {
       <header>
         <h1 className="text-3xl font-bold text-app-text flex items-center gap-3">
           <Palette className="w-8 h-8 text-app-primary" />
-          {t("colorPalette.title")}
+          {t("visual.colorPalette.title")}
         </h1>
         <p className="text-app-text-sub mt-2">
-          {t("colorPalette.description")}
+          {t("visual.colorPalette.description")}
         </p>
       </header>
 
@@ -164,7 +164,7 @@ export default function ColorPaletteGenerator() {
       {/* Color Palette */}
       <div className="space-y-3">
         <span className="text-sm font-medium text-app-text-sub">
-          {t("colorPalette.shades")}
+          {t("visual.colorPalette.shades")}
         </span>
         <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
           {palette.map((shade) => (
@@ -189,7 +189,7 @@ export default function ColorPaletteGenerator() {
       {hsl && (
         <div className="space-y-3">
           <span className="text-sm font-medium text-app-text-sub">
-            {t("colorPalette.complementary")}
+            {t("visual.colorPalette.complementary")}
           </span>
           <div className="flex gap-3">
             <div

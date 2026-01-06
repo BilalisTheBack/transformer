@@ -100,9 +100,11 @@ export default function BoxShadowGenerator() {
       <header>
         <h1 className="text-3xl font-bold text-app-text flex items-center gap-3">
           <Square className="w-8 h-8 text-app-primary" />
-          {t("boxShadow.title")}
+          {t("visual.boxShadow.title")}
         </h1>
-        <p className="text-app-text-sub mt-2">{t("boxShadow.description")}</p>
+        <p className="text-app-text-sub mt-2">
+          {t("visual.boxShadow.description")}
+        </p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -115,21 +117,23 @@ export default function BoxShadowGenerator() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-app-text">
-                  Shadow {index + 1}
+                  {t("visual.boxShadow.shadowIndex", { index: index + 1 })}
                 </span>
                 {shadows.length > 1 && (
                   <button
                     onClick={() => removeShadow(index)}
                     className="text-red-400 hover:text-red-300 text-sm"
                   >
-                    Remove
+                    {t("visual.boxShadow.remove")}
                   </button>
                 )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-app-text-sub">Offset X</label>
+                  <label className="text-xs text-app-text-sub">
+                    {t("visual.boxShadow.offsetX")}
+                  </label>
                   <input
                     type="range"
                     min="-50"
@@ -145,7 +149,9 @@ export default function BoxShadowGenerator() {
                   </span>
                 </div>
                 <div>
-                  <label className="text-xs text-app-text-sub">Offset Y</label>
+                  <label className="text-xs text-app-text-sub">
+                    {t("visual.boxShadow.offsetY")}
+                  </label>
                   <input
                     type="range"
                     min="-50"
@@ -161,7 +167,9 @@ export default function BoxShadowGenerator() {
                   </span>
                 </div>
                 <div>
-                  <label className="text-xs text-app-text-sub">Blur</label>
+                  <label className="text-xs text-app-text-sub">
+                    {t("visual.boxShadow.blur")}
+                  </label>
                   <input
                     type="range"
                     min="0"
@@ -177,7 +185,9 @@ export default function BoxShadowGenerator() {
                   </span>
                 </div>
                 <div>
-                  <label className="text-xs text-app-text-sub">Spread</label>
+                  <label className="text-xs text-app-text-sub">
+                    {t("visual.boxShadow.spread")}
+                  </label>
                   <input
                     type="range"
                     min="-50"
@@ -193,7 +203,9 @@ export default function BoxShadowGenerator() {
                   </span>
                 </div>
                 <div>
-                  <label className="text-xs text-app-text-sub">Opacity</label>
+                  <label className="text-xs text-app-text-sub">
+                    {t("visual.boxShadow.opacity")}
+                  </label>
                   <input
                     type="range"
                     min="0"
@@ -226,7 +238,7 @@ export default function BoxShadowGenerator() {
                       }
                       className="rounded border-app-border"
                     />
-                    Inset
+                    {t("visual.boxShadow.inset")}
                   </label>
                 </div>
               </div>
@@ -238,14 +250,14 @@ export default function BoxShadowGenerator() {
               onClick={addShadow}
               className="px-4 py-2 bg-app-primary hover:bg-app-primary-hover text-white font-medium rounded-xl transition-colors"
             >
-              + Add Shadow
+              + {t("visual.boxShadow.add")}
             </button>
             <button
               onClick={resetShadows}
               className="flex items-center gap-2 px-4 py-2 bg-app-panel border border-app-border hover:border-app-text-mute text-app-text-sub rounded-xl transition-colors"
             >
               <RotateCcw className="w-4 h-4" />
-              Reset
+              {t("visual.boxShadow.reset")}
             </button>
           </div>
         </div>
