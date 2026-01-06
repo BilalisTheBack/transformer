@@ -13,7 +13,14 @@
     "clipboard_copy": "Copié dans le presse-papier !",
     "error": "Erreur",
     "dropFile": "Déposez le fichier ici",
-    "dropFileDesc": "Pour ouvrir automatiquement l'outil pertinent"
+    "dropFileDesc": "Pour ouvrir automatiquement l'outil pertinent",
+    "copied": "Copied!",
+    "generate": "Generate",
+    "reset": "Reset",
+    "remove": "Remove",
+    "close": "Close",
+    "local_processing": "Processed Locally",
+    "local_processing_desc": "Your data never leaves this device. 100% Privacy."
   },
   "settings": {
     "title": "Paramètres",
@@ -41,7 +48,40 @@
     "color": "Convertisseur de Couleurs",
     "ocr": "OCR",
     "bgRemover": "Suppresseur d'arrière-plan IA",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "xml-json": "XML <-> JSON Converter",
+    "yaml-json": "YAML <-> JSON Converter",
+    "excel-csv": "Excel <-> CSV Converter",
+    "img-pdf": "Image to PDF",
+    "pdf-img": "PDF to Image",
+    "exif-cleaner": "EXIF Remover",
+    "http-status": "HTTP Status Codes",
+    "user-agent": "User-Agent Parser",
+    "cron-generator": "Cron Generator",
+    "env-generator": "Env Variable Generator",
+    "mock-data": "Mock Data Generator",
+    "password-strength": "Password Strength Checker",
+    "jwt-generator": "JWT Generator",
+    "csrf-token": "CSRF Token Generator",
+    "secure-key": "Secure Key Generator",
+    "email-header": "Email Header Analyzer",
+    "gradient": "Gradient Generator",
+    "glassmorphism": "Glassmorphism Generator",
+    "neumorphism": "Neumorphism Generator",
+    "clamp": "CSS Clamp Generator",
+    "font-pairing": "Font Pairing Tool",
+    "compress": "Image Compressor",
+    "crop": "Image Resizer & Cropper",
+    "minifier": "Code Minifier",
+    "beautifier": "Code Beautifier",
+    "validator": "JSON Validator",
+    "json-validator": "JSON Validator",
+    "text-case": "Text Case Converter",
+    "meta-tags": "Meta Tag Generator",
+    "robots-txt": "Robots.txt Generator",
+    "sitemap": "Sitemap.xml Generator",
+    "page-speed": "Page Speed Checklist",
+    "seo-preview": "SEO Snippet Preview"
   },
   "categories": {
     "converters": "Convertisseurs",
@@ -50,7 +90,9 @@
     "developer": "Outils de Développement",
     "security": "Outils de Sécurité",
     "visual": "Outils Visuels & CSS",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "network": "Network Tools",
+    "seo": "SEO & Web Tools"
   },
   "converter": {
     "json_csv_title": "Convertisseur JSON <-> CSV",
@@ -75,7 +117,22 @@
     "invalidFormat": "Format JWT invalide. 3 parties attendues.",
     "decodeError": "Échec du décodage. Assurez-vous que c'est un JWT valide.",
     "expired": "Expiré",
-    "expiresIn": "Expire dans {{time}}"
+    "expiresIn": "Expire dans {{time}}",
+    "headerLabel": "Header (JSON)",
+    "payloadLabel": "Payload (JSON)",
+    "algorithm": "Algorithm",
+    "secretKey": "Secret Key",
+    "secretPlaceholder": "Enter your secret key",
+    "generate": "Generate JWT",
+    "generated": "Generated JWT",
+    "components": "Token Components",
+    "securityTitle": "Security Notice:",
+    "securityTips": {
+      "0": "This is a client-side JWT generator for testing only",
+      "1": "Never expose your secret keys in production",
+      "2": "JWTs generated here are signed but not encrypted",
+      "3": "Use strong, random secrets for production environments"
+    }
   },
   "base64": {
     "title": "Encodeur/Décodeur Base64",
@@ -212,7 +269,41 @@
     "imageUrl": "URL de l'image (OG:Image)",
     "generatedCode": "HTML généré",
     "previews": "Prévisualisations en direct",
-    "recommended": "Recommandé"
+    "recommended": "Recommandé",
+    "metaTagGenerator": {
+      "title": "Meta Tag Generator",
+      "description": "Generate SEO-friendly meta tags for your website",
+      "pageTitle": "Page Title",
+      "pageDesc": "Page Description",
+      "keywords": "Keywords",
+      "author": "Author",
+      "charset": "Charset",
+      "og": "Open Graph (Facebook/LinkedIn)",
+      "ogImage": "Image URL",
+      "canonical": "Canonical URL",
+      "twitter": "Twitter Card",
+      "site": "Twitter Site",
+      "creator": "Creator"
+    },
+    "robots": {
+      "title": "Robots.txt Generator",
+      "description": "Create and validate robots.txt files",
+      "ruleGroup": "Rule Group",
+      "userAgent": "User-agent",
+      "disallow": "Disallow Paths",
+      "allow": "Allow Paths",
+      "addPath": "Add Path",
+      "sitemap": "Sitemap URL"
+    },
+    "sitemap": {
+      "title": "Sitemap Generator",
+      "description": "Generate XML sitemaps for your website",
+      "url": "Page URL",
+      "lastMod": "Last Modified",
+      "changeFreq": "Change Frequency",
+      "priority": "Priority",
+      "addUrl": "Add URL"
+    }
   },
   "password": {
     "title": "Générateur de Mots de Passe",
@@ -241,5 +332,485 @@
     "generate": "Générer",
     "copy": "Copier le texte",
     "copied": "Copié !"
+  },
+  "home": {
+    "subtitle": "A collection of powerful tools for developers, designers, and webmasters."
+  },
+  "recent_tools": "Recent Tools",
+  "featured_tools": "Featured Tools",
+  "pwa": {
+    "offline_ready": "App ready to work offline",
+    "offline_ready_desc": "You can now use The Transformer without internet connection.",
+    "new_content_available": "New content available",
+    "new_content_desc": "New version is available, click on reload button to update.",
+    "reload": "Reload"
+  },
+  "feedback": {
+    "title": "Feedback & Bug Report",
+    "subject": "Subject",
+    "description": "Description",
+    "send_email": "Send Email",
+    "open_github": "Open GitHub"
+  },
+  "secureKey": {
+    "title": "Secure Key Generator",
+    "description": "Generate cryptographically secure random keys for APIs, encryption, and secrets",
+    "presets": "Quick Presets",
+    "length": "Key Length: {{length}} bytes ({{bits}} bits)",
+    "format": "Encoding Format",
+    "generate": "Generate Key",
+    "generateFive": "Generate 5",
+    "generated": "Generated Keys",
+    "clear": "Clear All",
+    "tipsTitle": "Key Security Tips:",
+    "tips": {
+      "0": "Use 256-bit (32 bytes) or higher for encryption keys",
+      "1": "Store keys securely using environment variables or key management systems",
+      "2": "Never commit keys to version control",
+      "3": "Rotate keys regularly",
+      "4": "Use different keys for different environments (dev/staging/prod)"
+    }
+  },
+  "csrf": {
+    "title": "CSRF Token Generator",
+    "description": "Generate cryptographically secure CSRF tokens for your applications",
+    "length": "Token Length: {{length}} bytes",
+    "format": "Format",
+    "generate": "Generate Token",
+    "generated": "Generated Tokens",
+    "copyAll": "Copy All",
+    "securityTitle": "CSRF Token Security Best Practices:",
+    "tips": {
+      "0": "Generate a unique token for each user session",
+      "1": "Store tokens securely (server-side session or HttpOnly cookies)",
+      "2": "Validate tokens on every state-changing request",
+      "3": "Regenerate tokens after authentication",
+      "4": "Use appropriate token length (32+ bytes recommended)"
+    }
+  },
+  "emailHeader": {
+    "title": "Email Header Analyzer",
+    "description": "Analyze email headers to detect spoofing, phishing, and trace message routes",
+    "rawHeaders": "Raw Email Headers",
+    "loadExample": "Load Example",
+    "placeholder": "Paste raw email headers here...",
+    "analyze": "Analyze Headers",
+    "warnings": "Security Warnings",
+    "basicInfo": "Basic Information",
+    "authResults": "Authentication Results",
+    "ipTrace": "IP Trace",
+    "from": "From",
+    "to": "To",
+    "subject": "Subject",
+    "date": "Date",
+    "messageId": "Message ID",
+    "returnPath": "Return-Path",
+    "spf": "SPF",
+    "dkim": "DKIM",
+    "dmarc": "DMARC",
+    "spfPass": "SPF check did not pass - possible spoofing",
+    "dkimFail": "DKIM validation failed - email may be modified",
+    "mismatch": "From and Return-Path mismatch - potential phishing",
+    "noIp": "No IP addresses found in headers"
+  },
+  "regex": {
+    "title": "Regex Tester",
+    "description": "Test and debug regular expressions in real-time.",
+    "pattern": "Regular Expression Pattern",
+    "testString": "Test String",
+    "match": "Match",
+    "matches": "Matches",
+    "matchDetails": "Match Details",
+    "noMatches": "No matches found."
+  },
+  "ip": {
+    "title": "IP Address Info",
+    "description": "View your public IP address and location details.",
+    "location": "Location Details",
+    "network": "Network Details"
+  },
+  "ocr": {
+    "title": "OCR (Text Extraction)",
+    "description": "Extract text from images using AI. Paste image or upload.",
+    "sourceTitle": "Source Image",
+    "extractBtn": "Extract Text",
+    "initializing": "Initializing...",
+    "recognizing": "Recognizing... {{progress}}%",
+    "completed": "Completed",
+    "error": "Error processing image",
+    "resultTitle": "Extracted Text",
+    "noText": "Extracted text will appear here",
+    "pasteNote": "You can also paste (Ctrl+V)"
+  },
+  "bgRemover": {
+    "title": "AI Background Remover",
+    "description": "Remove image backgrounds instantly in your browser."
+  },
+  "media": {
+    "imageFormat": {
+      "title": "PNG ↔ JPG Converter",
+      "description": "Convert images between PNG and JPG formats.",
+      "outputFormat": "Output Format:",
+      "quality": "Quality: {{quality}}%",
+      "addImages": "Add Images",
+      "convertAll": "Convert All ({{count}})",
+      "dropText": "Drop images here or click to upload",
+      "convertThis": "Convert this one",
+      "remove": "Remove"
+    },
+    "imageConverter": {
+      "title": "Image Converter",
+      "description": "Convert JPG/PNG images to modern WebP format offline.",
+      "inputFiles": "Input Files",
+      "dropText": "Click or Drag images here",
+      "supports": "Supports JPG, PNG",
+      "converting": "Converting...",
+      "convertToWebp": "Convert to WebP",
+      "outputFiles": "Converted Files",
+      "noConverted": "No converted images yet"
+    },
+    "compressor": {
+      "title": "Image Compressor",
+      "description": "Compress JPG/PNG images locally to reduce file size.",
+      "uploadStep": "1. Upload Image",
+      "clickSelect": "Click to select image",
+      "settingsStep": "2. Compression Settings",
+      "maxSize": "Max Size (MB)",
+      "maxDimension": "Max Dimension (px)",
+      "compressNow": "Compress Now",
+      "resultStep": "3. Result",
+      "preview": "Compressed image preview",
+      "newSize": "New Size",
+      "download": "Download"
+    },
+    "cropper": {
+      "title": "Image Resizer & Cropper",
+      "description": "Crop and resize images precisely.",
+      "uploadLabel": "Upload Image",
+      "selectImage": "Select Image",
+      "aspectRatio": "Aspect Ratio",
+      "free": "Free",
+      "square": "Square (1:1)",
+      "zoom": "Zoom (Scale)",
+      "downloadCrop": "Download Crop",
+      "dropText": "Upload an image to start editing"
+    },
+    "color": {
+      "title": "Color Converter & Palette",
+      "description": "Convert colors and generate thematic palettes.",
+      "generatedPalette": "Generated Palette",
+      "shade": "Shade {{index}}00"
+    },
+    "svg": {
+      "title": "SVG to JSX",
+      "description": "Convert raw SVG code into React Functional Components.",
+      "rawSvg": "Raw SVG",
+      "reactComponent": "React Component",
+      "componentName": "Component Name"
+    },
+    "bgRemover": {
+      "uploadTitle": "Original Image",
+      "clickDrop": "Click or drag image here",
+      "supports": "Supports JPG, PNG, WEBP",
+      "removeBtn": "Remove Background",
+      "processing": "Processing image...",
+      "localNote": "This runs locally, might take a moment.",
+      "resultTitle": "Result",
+      "downloadBtn": "Download Result",
+      "error": "Failed to remove background. Ensure the image is valid."
+    },
+    "exifCleaner": {
+      "title": "EXIF Remover / Metadata Cleaner",
+      "description": "Remove sensitive metadata (GPS, Device Info) from your images for privacy.",
+      "uploadLabel": "Click to upload image",
+      "metadataTitle": "Detected Metadata",
+      "gpsFound": "GPS Location Data Found",
+      "deviceInfo": "Device Info: {{model}}",
+      "readyTitle": "Ready to Clean",
+      "sensFound": "We found sensitive metadata in this image. Clicking below will create a clean copy.",
+      "noSensFound": "No major sensitive tags detected, but we can still strip all metadata to be safe.",
+      "cleanBtn": "Clean & Download",
+      "success": "Image cleaned successfully!",
+      "autoDownload": "Your download should have started automatically.",
+      "noImage": "Upload an image to see details"
+    },
+    "imageToPdf": {
+      "title": "Image to PDF",
+      "description": "Combine multiple images into a single PDF document.",
+      "uploadLabel": "Click to upload images (JPG, PNG)",
+      "noImages": "No images added yet.",
+      "generating": "Generating...",
+      "downloadBtn": "Download PDF"
+    },
+    "ocr": {
+      "sourceTitle": "Source Image",
+      "extractBtn": "Extract Text",
+      "initializing": "Initializing...",
+      "recognizing": "Recognizing... {{progress}}%",
+      "completed": "Completed",
+      "error": "Error processing image",
+      "resultTitle": "Extracted Text",
+      "noText": "Extracted text will appear here",
+      "pasteNote": "You can also paste (Ctrl+V)"
+    },
+    "pdfToImage": {
+      "title": "PDF to Image",
+      "description": "Extract pages from PDF documents as high-quality images.",
+      "uploadLabel": "Upload PDF",
+      "processing": "Processing pages...",
+      "downloadAll": "Download All (ZIP)",
+      "downloadSingle": "Download Image",
+      "noPages": "Pages will appear here",
+      "pageLabel": "Page {{index}}"
+    }
+  },
+  "dev": {
+    "env": {
+      "title": "Environment Variable Generator",
+      "description": "Create and manage .env files for your projects",
+      "templates": "Templates",
+      "node": "Node.js",
+      "react": "React",
+      "nextjs": "Next.js",
+      "preview": ".env Preview",
+      "download": "Download .env File",
+      "add": "Add Variable",
+      "key": "KEY",
+      "value": "value",
+      "comment": "Optional comment",
+      "vars": {
+        "nodeEnv": "Node environment",
+        "port": "Server port",
+        "dbUrl": "Database connection string",
+        "jwtSecret": "JWT secret key",
+        "apiUrl": "API endpoint",
+        "env": "Environment",
+        "publicApiUrl": "Public API URL",
+        "nextAuthSecret": "NextAuth secret",
+        "nextAuthUrl": "NextAuth URL"
+      }
+    },
+    "cron": {
+      "title": "Cron Expression Generator",
+      "description": "Build cron schedules visually with human-readable output",
+      "presets": "Quick Presets",
+      "expression": "Cron Expression",
+      "readable": "Human Readable",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "reset": "Reset",
+      "fields": {
+        "minute": "Minute (0-59)",
+        "hour": "Hour (0-23)",
+        "day": "Day (1-31)",
+        "month": "Month (1-12)",
+        "weekday": "Weekday (0-6)"
+      },
+      "presetLabels": {
+        "everyMinute": "Every Minute",
+        "hourly": "Hourly",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      },
+      "help": {
+        "title": "Cron Syntax Quick Reference:",
+        "every": "every value",
+        "specific": "specific value",
+        "range": "range of values",
+        "interval": "every X units",
+        "list": "specific list"
+      }
+    },
+    "ua": {
+      "title": "User-Agent Parser",
+      "description": "Extract browser, OS, and device information from User-Agent strings",
+      "examples": "Examples",
+      "inputLabel": "User-Agent String",
+      "placeholder": "Paste a User-Agent string here...",
+      "parse": "Parse",
+      "browser": "Browser",
+      "os": "Operating System",
+      "device": "Device",
+      "engine": "Engine & CPU",
+      "uaNames": {
+        "chrome": "Chrome Desktop",
+        "safari": "Safari iOS",
+        "firefox": "Firefox Android",
+        "edge": "Edge Windows"
+      },
+      "fields": {
+        "name": "Name",
+        "version": "Version",
+        "type": "Type",
+        "vendor": "Vendor",
+        "model": "Model",
+        "engineName": "Engine Name",
+        "engineVersion": "Engine Version",
+        "architecture": "CPU Architecture"
+      },
+      "unknown": "Unknown"
+    },
+    "http": {
+      "title": "HTTP Status Code Lookup",
+      "description": "Quick reference for HTTP status codes and their meanings",
+      "searchPlaceholder": "Search by code, name, or description...",
+      "noResults": "No status codes found",
+      "categories": {
+        "all": "All",
+        "info": "Informational",
+        "success": "Success",
+        "redirect": "Redirection",
+        "clientErr": "Client Error",
+        "serverErr": "Server Error"
+      },
+      "codes": {
+        "100": {
+          "name": "Continue",
+          "description": "The server has received the request headers and the client should proceed to send the request body."
+        },
+        "101": {
+          "name": "Switching Protocols",
+          "description": "The requester has asked the server to switch protocols and the server has agreed to do so."
+        },
+        "200": {
+          "name": "OK",
+          "description": "Standard response for successful HTTP requests."
+        },
+        "201": {
+          "name": "Created",
+          "description": "The request has been fulfilled, resulting in the creation of a new resource."
+        },
+        "400": {
+          "name": "Bad Request",
+          "description": "The server cannot or will not process the request due to an apparent client error."
+        },
+        "401": {
+          "name": "Unauthorized",
+          "description": "Authentication is required and has failed or has not yet been provided."
+        },
+        "403": {
+          "name": "Forbidden",
+          "description": "The request was valid, but the server is refusing action. The user might not have the necessary permissions."
+        },
+        "404": {
+          "name": "Not Found",
+          "description": "The requested resource could not be found but may be available in the future."
+        },
+        "500": {
+          "name": "Internal Server Error",
+          "description": "A generic error message when an unexpected condition was encountered."
+        }
+      }
+    },
+    "mock": {
+      "title": "Mock Data Generator",
+      "description": "Generate realistic mock JSON data for testing",
+      "count": "Number of Items: {{count}}",
+      "fields": "Fields",
+      "addField": "Add Field",
+      "generate": "Generate Data",
+      "download": "Download JSON",
+      "generated": "Generated Data",
+      "fieldNamePlaceholder": "Field name",
+      "types": {
+        "id": "ID (UUID)",
+        "fullName": "Full Name",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "age": "Age (18-80)",
+        "address": "Street Address",
+        "city": "City",
+        "country": "Country",
+        "company": "Company",
+        "jobTitle": "Job Title",
+        "url": "URL",
+        "boolean": "Boolean",
+        "number": "Number (1-1000)"
+      }
+    }
+  },
+  "css": {
+    "gradient": {
+      "title": "Gradient Generator",
+      "description": "Create beautiful CSS gradients with live preview",
+      "type": "Gradient Type",
+      "angle": "Angle",
+      "startAngle": "Start Angle",
+      "colorStops": "Color Stops",
+      "add": "Add",
+      "cssCode": "CSS Code",
+      "preview": "Preview",
+      "copy": "Copy",
+      "copied": "Copied!"
+    },
+    "glassmorphism": {
+      "title": "Glassmorphism Generator",
+      "description": "Create frosted glass effects for modern UI",
+      "blur": "Blur",
+      "transparency": "Transparency",
+      "saturation": "Saturation",
+      "borderRadius": "Border Radius",
+      "border": "Border",
+      "cssCode": "CSS Code",
+      "preview": "Preview",
+      "copy": "Copy",
+      "copied": "Copied!"
+    },
+    "neumorphism": {
+      "title": "Neumorphism Generator",
+      "description": "Create soft UI shadow effects",
+      "size": "Size",
+      "radius": "Radius",
+      "distance": "Distance",
+      "intensity": "Intensity",
+      "blur": "Blur",
+      "shape": "Shape",
+      "flat": "Flat",
+      "concave": "Concave",
+      "convex": "Convex",
+      "pressed": "Pressed",
+      "lightSource": "Light Source",
+      "color": "Color",
+      "cssCode": "CSS Code",
+      "preview": "Preview",
+      "copy": "Copy",
+      "copied": "Copied!"
+    },
+    "clamp": {
+      "title": "CSS Clamp Generator",
+      "description": "Generate responsive clamp() values for fluid typography",
+      "minValue": "Min Value",
+      "maxValue": "Max Value",
+      "minViewport": "Min Viewport",
+      "maxViewport": "Max Viewport",
+      "unit": "Unit",
+      "property": "Property",
+      "fontSize": "Font Size",
+      "lineHeight": "Line Height",
+      "padding": "Padding",
+      "margin": "Margin",
+      "gap": "Gap",
+      "result": "Result",
+      "copy": "Copy",
+      "copied": "Copied!"
+    },
+    "fontPairing": {
+      "title": "Font Pairing Tool",
+      "description": "Find perfect font combinations for your designs",
+      "heading": "Heading Font",
+      "body": "Body Font",
+      "preview": "Preview",
+      "sampleHeading": "The quick brown fox",
+      "sampleText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "apply": "Apply Fonts",
+      "shuffle": "Shuffle",
+      "cssCode": "CSS Import Code",
+      "copy": "Copy",
+      "copied": "Copied!"
+    }
   }
 }
