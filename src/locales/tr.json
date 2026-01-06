@@ -85,15 +85,15 @@
     "speed-test": "Hız Testi"
   },
   "categories": {
-    "converters": "Convertisseurs",
-    "media": "Médias & Images",
-    "text": "Texte & Code",
-    "developer": "Outils de Développement",
-    "security": "Outils de Sécurité",
-    "visual": "Outils Visuels & CSS",
+    "converters": "Dönüştürücüler",
+    "media": "Medya ve Resim",
+    "text": "Metin ve Kod",
+    "developer": "Geliştirici Araçları",
+    "security": "Güvenlik Araçları",
+    "visual": "Görsel ve CSS",
     "settings": "Paramètres",
-    "network": "Network Tools",
-    "seo": "SEO & Web Tools"
+    "network": "Ağ Araçları",
+    "seo": "SEO ve Web"
   },
   "converter": {
     "json_csv_title": "Convertisseur JSON <-> CSV",
@@ -221,11 +221,11 @@
     "generate": "Générer QR Code"
   },
   "boxShadow": {
-    "title": "Générateur d'Ombre Portée",
+    "title": "Box Shadow Oluşturucu",
     "description": "Créer des ombres portées CSS complexes visuellement"
   },
   "metadata": {
-    "title": "Visionneuse de Métadonnées",
+    "title": "Dosya Metadata İzleyici",
     "description": "Afficher les métadonnées détaillées et le hexdump ou modifier l'identité PDF.",
     "dragText": "ou cliquez pour sélectionner un fichier",
     "basicInfo": "Infos de Base",
@@ -247,7 +247,7 @@
     "savePdf": "Enregistrer et Télécharger PDF"
   },
   "fingerprint": {
-    "title": "Empreinte Digitale Navigateur",
+    "title": "Tarayıcı Parmak İzi",
     "description": "Affichez les informations sensibles que votre navigateur révèle aux sites Web.",
     "browser": "Navigateur & Système",
     "screen": "Écran & Affichage",
@@ -307,7 +307,7 @@
     }
   },
   "password": {
-    "title": "Générateur de Mots de Passe",
+    "title": "Şifre Oluşturucu",
     "description": "Générez des mots de passe sécurisés et aléatoires.",
     "length": "Longueur",
     "uppercase": "Majuscules (A-Z)",
@@ -322,7 +322,7 @@
     "copied": "Copié !"
   },
   "lorem": {
-    "title": "Générateur Lorem Ipsum",
+    "title": "Lorem Ipsum Oluşturucu",
     "description": "Générez du faux texte pour vos designs.",
     "count": "Nombre",
     "type": "Type",
@@ -335,10 +335,10 @@
     "copied": "Copié !"
   },
   "home": {
-    "subtitle": "A collection of powerful tools for developers, designers, and webmasters."
+    "subtitle": "Geliştiriciler, tasarımcılar ve web yöneticileri için güçlü araç koleksiyonu."
   },
-  "recent_tools": "Recent Tools",
-  "featured_tools": "Featured Tools",
+  "recent_tools": "Son Kullanılanlar",
+  "featured_tools": "Öne Çıkan Araçlar",
   "pwa": {
     "offline_ready": "App ready to work offline",
     "offline_ready_desc": "You can now use The Transformer without internet connection.",
@@ -415,7 +415,7 @@
     "noIp": "No IP addresses found in headers"
   },
   "regex": {
-    "title": "Regex Tester",
+    "title": "Regex Test Edici",
     "description": "Test and debug regular expressions in real-time.",
     "pattern": "Regular Expression Pattern",
     "testString": "Test String",
@@ -444,7 +444,7 @@
     "pasteNote": "You can also paste (Ctrl+V)"
   },
   "bgRemover": {
-    "title": "AI Background Remover",
+    "title": "AI Arka Plan Silici",
     "description": "Remove image backgrounds instantly in your browser."
   },
   "media": {
@@ -838,5 +838,48 @@
     "server": "Sunucu",
     "result": "Sonuç",
     "restart": "Yeniden Başlat"
-  }
+  },
+  "passwordChecker": {
+    "title": "Şifre Gücü Kontrolü",
+    "description": "Şifrenizin güvenliğini ve karmaşıklığını analiz edin",
+    "enter": "Şifreyi Girin",
+    "placeholder": "Kontrol edilecek şifreyi girin...",
+    "strength": "Güvenlik Seviyesi",
+    "strengths": {
+      "weak": "Zayıf",
+      "medium": "Orta",
+      "strong": "Güçlü",
+      "veryStrong": "Çok Güçlü"
+    },
+    "criteria": "Güvenlik Kriterleri",
+    "chars8": "En az 8 karakter",
+    "chars12": "En az 12 karakter",
+    "uppercase": "Büyük harf",
+    "lowercase": "Küçük harf",
+    "numbers": "Rakam (0-9)",
+    "special": "Özel karakter",
+    "info": "Güvenlik Metrikleri",
+    "length": "Şifre Uzunluğu",
+    "crackTime": "Tahmini Kırılma Süresi",
+    "suggestions": "Güvenlik Önerileri",
+    "feedback": {
+      "min8": "En az 8 karakter kullanın",
+      "uppercase": "Büyük harf ekleyin",
+      "lowercase": "Küçük harf ekleyin",
+      "numbers": "Rakam ekleyin",
+      "special": "Özel karakter ekleyin",
+      "length": "Daha iyi güvenlik için uzunluğu artırın",
+      "repeats": "Tekrar eden karakterlerden veya dizilerden kaçının"
+    },
+    "tips": "Şifre Güvenliği İpuçları",
+    "tipsList": {
+      "mix": "Harfleri (A-z), sayıları (0-9) ve sembolleri karıştırın",
+      "length": "Daha uzun daha iyidir: 12+ karakter önerilir",
+      "common": "Yaygın kelimelerden kaçının (sifre, 123456)",
+      "passphrase": "Tek bir kelime yerine bir cümle veya 'parola' kullanın",
+      "unique": "Her önemli hesap için benzersiz bir şifre kullanın"
+    }
+  },
+  "recent_tools_favorites": "Favoriler",
+  "launch_tool": "Aracı Başlat"
 }

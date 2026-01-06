@@ -394,7 +394,7 @@ export default function Home() {
         {
           id: "password-strength",
           icon: Lock,
-          title: t("commands.password-strength"),
+          title: t("passwordChecker.title"),
           path: "/password-strength",
           color: "from-red-600 to-rose-700",
         },

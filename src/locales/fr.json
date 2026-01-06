@@ -86,14 +86,14 @@
   },
   "categories": {
     "converters": "Convertisseurs",
-    "media": "Médias & Images",
-    "text": "Texte & Code",
-    "developer": "Outils de Développement",
-    "security": "Outils de Sécurité",
-    "visual": "Outils Visuels & CSS",
+    "media": "Médias et Images",
+    "text": "Texte et Code",
+    "developer": "Outils Développeur",
+    "security": "Sécurité",
+    "visual": "Visual & CSS",
     "settings": "Paramètres",
-    "network": "Network Tools",
-    "seo": "SEO & Web Tools"
+    "network": "Réseau",
+    "seo": "SEO & Web"
   },
   "converter": {
     "json_csv_title": "Convertisseur JSON <-> CSV",
@@ -221,11 +221,11 @@
     "generate": "Générer QR Code"
   },
   "boxShadow": {
-    "title": "Générateur d'Ombre Portée",
+    "title": "Générateur d'Ombres",
     "description": "Créer des ombres portées CSS complexes visuellement"
   },
   "metadata": {
-    "title": "Visionneuse de Métadonnées",
+    "title": "Visualiseur de Métadonnées",
     "description": "Afficher les métadonnées détaillées et le hexdump ou modifier l'identité PDF.",
     "dragText": "ou cliquez pour sélectionner un fichier",
     "basicInfo": "Infos de Base",
@@ -247,7 +247,7 @@
     "savePdf": "Enregistrer et Télécharger PDF"
   },
   "fingerprint": {
-    "title": "Empreinte Digitale Navigateur",
+    "title": "Empreinte Navigateur",
     "description": "Affichez les informations sensibles que votre navigateur révèle aux sites Web.",
     "browser": "Navigateur & Système",
     "screen": "Écran & Affichage",
@@ -307,7 +307,7 @@
     }
   },
   "password": {
-    "title": "Générateur de Mots de Passe",
+    "title": "Générateur de Mot de Passe",
     "description": "Générez des mots de passe sécurisés et aléatoires.",
     "length": "Longueur",
     "uppercase": "Majuscules (A-Z)",
@@ -335,10 +335,10 @@
     "copied": "Copié !"
   },
   "home": {
-    "subtitle": "Une collection d'outils puissants pour développeurs, designers et webmasters."
+    "subtitle": "Une collection d'outils puissants pour les développeurs, designers et webmasters."
   },
-  "recent_tools": "Outils Récents",
-  "featured_tools": "Outils en Vedette",
+  "recent_tools": "Outils récents",
+  "featured_tools": "Outils mis en avant",
   "pwa": {
     "offline_ready": "App prête hors-ligne",
     "offline_ready_desc": "You can now use The Transformer without internet connection.",
@@ -415,7 +415,7 @@
     "noIp": "No IP addresses found in headers"
   },
   "regex": {
-    "title": "Regex Tester",
+    "title": "Testeur Regex",
     "description": "Test and debug regular expressions in real-time.",
     "pattern": "Regular Expression Pattern",
     "testString": "Test String",
@@ -444,7 +444,7 @@
     "pasteNote": "You can also paste (Ctrl+V)"
   },
   "bgRemover": {
-    "title": "Suppression d'Arrière-plan",
+    "title": "Suppresseur de Fond AI",
     "description": "Remove image backgrounds instantly in your browser."
   },
   "media": {
@@ -838,5 +838,48 @@
     "server": "Server",
     "result": "Result",
     "restart": "Restart Test"
-  }
+  },
+  "passwordChecker": {
+    "title": "Vérificateur de Force de Mot de Passe",
+    "description": "Analysez la sécurité et la complexité de votre mot de passe",
+    "enter": "Entrez le Mot de Passe",
+    "placeholder": "Entrez un mot de passe à vérifier...",
+    "strength": "Force de Sécurité",
+    "strengths": {
+      "weak": "Faible",
+      "medium": "Moyen",
+      "strong": "Fort",
+      "veryStrong": "Très Fort"
+    },
+    "criteria": "Critères de Sécurité",
+    "chars8": "Au moins 8 caractères",
+    "chars12": "Au moins 12 caractères",
+    "uppercase": "Lettres majuscules",
+    "lowercase": "Lettres minuscules",
+    "numbers": "Chiffres (0-9)",
+    "special": "Caractères spéciaux",
+    "info": "Mesures de Sécurité",
+    "length": "Longueur du Mot de Passe",
+    "crackTime": "Temps de Craquage Estimé",
+    "suggestions": "Suggestions de Sécurité",
+    "feedback": {
+      "min8": "Utilisez au moins 8 caractères",
+      "uppercase": "Ajoutez des lettres majuscules",
+      "lowercase": "Ajoutez des lettres minuscules",
+      "numbers": "Ajoutez des chiffres",
+      "special": "Ajoutez des caractères spéciaux",
+      "length": "Augmentez la longueur pour une meilleure sécurité",
+      "repeats": "Évitez les caractères ou séquences répétitifs"
+    },
+    "tips": "Conseils de Sécurité de Mot de Passe",
+    "tipsList": {
+      "mix": "Mélangez lettres (A-z), chiffres (0-9) et symboles",
+      "length": "Plus c'est long, mieux c'est : 12+ caractères recommandés",
+      "common": "Évitez les mots courants (password, 123456)",
+      "passphrase": "Utilisez une phrase au lieu d'un seul mot",
+      "unique": "Utilisez un mot de passe unique pour chaque compte"
+    }
+  },
+  "recent_tools_favorites": "Favoris",
+  "launch_tool": "Lancer l'outil"
 }

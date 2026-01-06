@@ -5,6 +5,8 @@
   },
   "recent_tools": "Recent Tools",
   "featured_tools": "Featured Tools",
+  "recent_tools_favorites": "Favorites",
+  "launch_tool": "Launch Tool",
   "search_placeholder": "Type a command or search...",
   "common": {
     "press": "Press",
@@ -265,6 +267,47 @@
     "inputLabel": "Text to hash",
     "placeholder": "Enter text to generate hashes...",
     "generate": "Generate Hashes"
+  },
+  "passwordChecker": {
+    "title": "Password Strength Checker",
+    "description": "Analyze your password's security and complexity",
+    "enter": "Enter Password",
+    "placeholder": "Enter password to check...",
+    "strength": "Security Strength",
+    "strengths": {
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong",
+      "veryStrong": "Very Strong"
+    },
+    "criteria": "Security Criteria",
+    "chars8": "At least 8 characters",
+    "chars12": "At least 12 characters",
+    "uppercase": "Upper case letters",
+    "lowercase": "Lower case letters",
+    "numbers": "Numbers (0-9)",
+    "special": "Special characters",
+    "info": "Security Metrics",
+    "length": "Password Length",
+    "crackTime": "Est. Crack Time",
+    "suggestions": "Security Suggestions",
+    "feedback": {
+      "min8": "Use at least 8 characters",
+      "uppercase": "Add upper case letters",
+      "lowercase": "Add lower case letters",
+      "numbers": "Add numbers",
+      "special": "Add special characters",
+      "length": "Increase length for better security",
+      "repeats": "Avoid repeating characters or sequences"
+    },
+    "tips": "Password Security Tips",
+    "tipsList": {
+      "mix": "Mix letters (A-z), numbers (0-9), and symbols",
+      "length": "Longer is better: 12+ characters recommended",
+      "common": "Avoid common words (password, 123456)",
+      "passphrase": "Use a sentence or 'passphrase' instead of a single word",
+      "unique": "Use a unique password for every important account"
+    }
   },
   "uuid": {
     "title": "UUID Generator",
