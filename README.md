@@ -51,14 +51,22 @@ It runs **100% locally** in your browser. No data is ever sent to a server. Whet
 
 - **AI Background Remover:** Remove backgrounds locally using WASM (No server required).
 - **Image Pro:** Converter (WebP/AVIF), Compressor, Resizer/Cropper.
-- **OCR:** Extract text from images using local engines.
+- **Image/PDF:** PDF ↔ Image, Image to PDF, SVG to JSX.
+- **OCR:** AI-powered text extraction from images.
 - **Privacy:** EXIF Metadata Cleaner (GPS and personal info removal).
 
-### 🔐 Security & Network
+### 🎨 Visual & CSS Systems
 
-- **Keys:** Generate cryptographically secure Passwords, API Keys, and CSRF Tokens.
-- **Analysis:** Email Header Analyzer, Browser Fingerprinting.
-- **Network:** IP Info (CORS-fixed), HTTP Status Codes.
+- **CSS Generators:** Glassmorphism, Neumorphism, Shadow & Gradient.
+- **Typography:** Fluid Typography (Clamp) & Font Pairing toolkit.
+- **Colors:** Palette Generator, Nuances/Teintes, and Harmony logic.
+
+### 🌐 Network & Security
+
+- **Network Tools:** Professional **Speed Test** (Download, Ping, Jitter) and IP Information.
+- **Secrets:** Generate cryptographically secure Passwords, API Keys, and CSRF Tokens.
+- **Analysis:** Email Header Analyzer, JWT Decoder/Generator, User-Agent Parser.
+- **Security:** Browser Fingerprinting, URL Encoder, Hash Generators.
 
 ## 📦 Tech Stack
 
