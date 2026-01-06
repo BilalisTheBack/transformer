@@ -481,7 +481,16 @@
       "resultStep": "3. Result",
       "preview": "Compressed image preview",
       "newSize": "New Size",
-      "download": "Download"
+      "download": "Download",
+      "mode": "Compression Mode",
+      "auto": "Auto (Target Size)",
+      "manual": "Manual (Quality)",
+      "quality": "Quality",
+      "format": "Output Format",
+      "original": "Original",
+      "jpeg": "JPEG",
+      "png": "PNG",
+      "webp": "WebP"
     },
     "cropper": {
       "title": "Image Resizer & Cropper",

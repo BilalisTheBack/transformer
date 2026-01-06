@@ -16,6 +16,9 @@ export default function ImageCompressor() {
   const [file, setFile] = useState<File | null>(null);
   const [compressedFile, setCompressedFile] = useState<File | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
+  const [mode, setMode] = useState<"auto" | "manual">("auto");
+  const [quality, setQuality] = useState(80);
+  const [outputFormat, setOutputFormat] = useState<string>("original");
   const [options, setOptions] = useState({
     maxSizeMB: 1,
     maxWidthOrHeight: 1920,
@@ -33,7 +36,14 @@ export default function ImageCompressor() {
     if (!file) return;
     setIsCompressing(true);
     try {
-      const compressed = await imageCompression(file, options);
+      const compressionOptions = {
+        ...options,
+        initialQuality: mode === "manual" ? quality / 100 : undefined,
+        maxSizeMB: mode === "manual" ? 50 : options.maxSizeMB,
+        fileType:
+          outputFormat === "original" ? undefined : `image/${outputFormat}`,
+      };
+      const compressed = await imageCompression(file, compressionOptions);
       setCompressedFile(compressed);
     } catch (error) {
       console.error(error);
@@ -97,41 +107,112 @@ export default function ImageCompressor() {
               {t("media.compressor.settingsStep")}
             </h3>
             <div className="space-y-4">
+              {/* Mode Toggle */}
               <div>
-                <label className="text-sm text-gray-600 dark:text-gray-400 block mb-1">
-                  {t("media.compressor.maxSize")}
+                <label className="text-sm text-gray-600 dark:text-gray-400 block mb-2">
+                  {t("media.compressor.mode")}
                 </label>
-                <input
-                  type="number"
-                  step="0.1"
-                  min="0.1"
-                  value={options.maxSizeMB}
-                  onChange={(e) =>
-                    setOptions({
-                      ...options,
-                      maxSizeMB: parseFloat(e.target.value),
-                    })
-                  }
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-pink-500"
-                />
+                <div className="flex p-1 bg-gray-100 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">
+                  <button
+                    onClick={() => setMode("auto")}
+                    className={`flex-1 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      mode === "auto"
+                        ? "bg-white dark:bg-gray-800 shadow-sm text-pink-600"
+                        : "text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    }`}
+                  >
+                    {t("media.compressor.auto")}
+                  </button>
+                  <button
+                    onClick={() => setMode("manual")}
+                    className={`flex-1 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      mode === "manual"
+                        ? "bg-white dark:bg-gray-800 shadow-sm text-pink-600"
+                        : "text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    }`}
+                  >
+                    {t("media.compressor.manual")}
+                  </button>
+                </div>
               </div>
-              <div>
-                <label className="text-sm text-gray-600 dark:text-gray-400 block mb-1">
-                  {t("media.compressor.maxDimension")}
-                </label>
-                <input
-                  type="number"
-                  step="100"
-                  value={options.maxWidthOrHeight}
-                  onChange={(e) =>
-                    setOptions({
-                      ...options,
-                      maxWidthOrHeight: parseInt(e.target.value),
-                    })
-                  }
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-pink-500"
-                />
+
+              {mode === "auto" ? (
+                <div>
+                  <label className="text-sm text-gray-600 dark:text-gray-400 block mb-1">
+                    {t("media.compressor.maxSize")}
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0.1"
+                    value={options.maxSizeMB}
+                    onChange={(e) =>
+                      setOptions({
+                        ...options,
+                        maxSizeMB: parseFloat(e.target.value),
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-pink-500"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <div className="flex justify-between mb-1">
+                    <label className="text-sm text-gray-600 dark:text-gray-400 block">
+                      {t("media.compressor.quality")}
+                    </label>
+                    <span className="text-xs font-mono text-pink-600">
+                      {quality}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    value={quality}
+                    onChange={(e) => setQuality(parseInt(e.target.value))}
+                    className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-pink-600"
+                  />
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-gray-600 dark:text-gray-400 block mb-1">
+                    {t("media.compressor.maxDimension")}
+                  </label>
+                  <input
+                    type="number"
+                    step="100"
+                    value={options.maxWidthOrHeight}
+                    onChange={(e) =>
+                      setOptions({
+                        ...options,
+                        maxWidthOrHeight: parseInt(e.target.value),
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-pink-500"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600 dark:text-gray-400 block mb-1">
+                    {t("media.compressor.format")}
+                  </label>
+                  <select
+                    value={outputFormat}
+                    onChange={(e) => setOutputFormat(e.target.value)}
+                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 text-sm"
+                  >
+                    <option value="original">
+                      {t("media.compressor.original")}
+                    </option>
+                    <option value="jpeg">{t("media.compressor.jpeg")}</option>
+                    <option value="png">{t("media.compressor.png")}</option>
+                    <option value="webp">{t("media.compressor.webp")}</option>
+                  </select>
+                </div>
               </div>
+
               <button
                 onClick={handleCompress}
                 disabled={!file || isCompressing}

@@ -482,7 +482,16 @@
       "resultStep": "3. Result",
       "preview": "Compressed image preview",
       "newSize": "New Size",
-      "download": "Download"
+      "download": "Download",
+      "mode": "Sıkıştırma Modu",
+      "auto": "Otomatik (Hedef Boyut)",
+      "manual": "Manuel (Kalite)",
+      "quality": "Kalite",
+      "format": "Çıktı Formatı",
+      "original": "Orijinal",
+      "jpeg": "JPEG",
+      "png": "PNG",
+      "webp": "WebP"
     },
     "cropper": {
       "title": "Image Resizer & Cropper",
