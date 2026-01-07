@@ -43,30 +43,30 @@ It runs **100% locally** in your browser. No data is ever sent to a server. Whet
 ### 🛠️ Developer Essentials
 
 - **Code Tools:** Minifier & Beautifier for HTML, CSS, JS, and JSON.
-- **JWT Tools:** Full Decoder & Generator with signature verification.
-- **Converters:** JSON ↔ CSV/Excel, JSON ↔ YAML, XML ↔ JSON.
-- **Generators:** UUIDs, Hashes (MD5/SHA), Cron Expressions, Mock Data.
+- **JWT Tools:** Professional Decoder & Generator with advanced signature handling.
+- **Converters:** JSON ↔ CSV/Excel, JSON ↔ YAML, XML ↔ JSON, Config & cURL.
+- **Generators:** UUIDs, Hashes (MD5/SHA), Cron Expressions, Mock Data Generator.
 
 ### 🖼️ Media & AI Studio
 
-- **AI Background Remover:** Remove backgrounds locally using WASM (No server required).
-- **Image Pro:** Converter (WebP/AVIF), Compressor, Resizer/Cropper.
-- **Image/PDF:** PDF ↔ Image, Image to PDF, SVG to JSX.
-- **OCR:** AI-powered text extraction from images.
-- **Privacy:** EXIF Metadata Cleaner (GPS and personal info removal).
+- **AI Background Remover:** Remove backgrounds in-browser using advanced AI models.
+- **Image Pro:** Converter (WebP/AVIF), Compressor (**Manual Quality & Format Selection**), Resizer & Cropper.
+- **Image/PDF Utilities:** PDF ↔ Image, Image to PDF, SVG to JSX.
+- **OCR:** AI-powered text extraction from images with local processing.
+- **Privacy Suite:** EXIF Metadata Cleaner (GPS, device info, and sensor data removal).
 
-### 🎨 Visual & CSS Systems
+### 🌐 Network & Web Tools
 
-- **CSS Generators:** Glassmorphism, Neumorphism, Shadow & Gradient.
-- **Typography:** Fluid Typography (Clamp) & Font Pairing toolkit.
-- **Colors:** Palette Generator, Nuances/Teintes, and Harmony logic.
+- **Professional Speed Test:** Real-time **Download, Ping, and Jitter** analysis with local measurement.
+- **SEO & Web:** Meta Tag Generator, Robots.txt & Sitemap creator, Page Speed Checklist, and SEO Previews.
+- **IP Info:** Detailed geolocation and network information lookup.
 
-### 🌐 Network & Security
+### 🔒 Security & CSS Systems
 
-- **Network Tools:** Professional **Speed Test** (Download, Ping, Jitter) and IP Information.
-- **Secrets:** Generate cryptographically secure Passwords, API Keys, and CSRF Tokens.
-- **Analysis:** Email Header Analyzer, JWT Decoder/Generator, User-Agent Parser.
-- **Security:** Browser Fingerprinting, URL Encoder, Hash Generators.
+- **Secrets & Keys:** Cryptographically secure **Password, API Key, and CSRF Token** generators.
+- **CSS Engines:** Glassmorphism, Neumorphism, Box Shadow & Gradient generators with live code export.
+- **Typography & Layout:** Fluid Typography (Clamp) & Font Pairing design toolkit.
+- **Analysis Tools:** Email Header Analyzer, User-Agent Parser, and Browser Fingerprinting.
 
 ## 📦 Tech Stack
 
