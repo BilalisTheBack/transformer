@@ -534,14 +534,14 @@ export default function Home() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto space-y-12 pb-24 animate-in fade-in duration-500">
+    <div className="max-w-7xl mx-auto space-y-6 md:space-y-12 pb-24 animate-in fade-in duration-500">
       {/* Hero Section */}
-      <div className="text-center space-y-8 pt-12">
-        <div className="space-y-4">
-          <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 pb-2">
+      <div className="text-center space-y-6 md:space-y-8 pt-6 md:pt-12">
+        <div className="space-y-2 md:space-y-4">
+          <h1 className="text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 pb-1 md:pb-2">
             The Transformer
           </h1>
-          <p className="text-xl text-app-text-sub max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-app-text-sub max-w-2xl mx-auto leading-relaxed px-4">
             {t("home.subtitle")}
           </p>
         </div>
@@ -553,13 +553,32 @@ export default function Home() {
               new KeyboardEvent("keydown", { key: "k", metaKey: true })
             )
           }
-          className="inline-flex items-center gap-3 px-6 py-3 bg-app-panel border border-app-border rounded-full text-app-text-sub text-sm hover:border-app-primary/50 hover:shadow-lg hover:shadow-app-primary/10 transition-all cursor-pointer group"
+          className="inline-flex items-center gap-2 md:gap-3 px-4 py-2 md:px-6 md:py-3 bg-app-panel border border-app-border rounded-full text-app-text-sub text-xs md:text-sm hover:border-app-primary/50 hover:shadow-lg hover:shadow-app-primary/10 transition-all cursor-pointer group"
         >
           <span>{t("common.press")}</span>
           <kbd className="hidden sm:inline-flex h-6 items-center gap-1 rounded border border-app-border bg-app-bg px-2 font-mono text-[10px] font-medium text-app-text-sub group-hover:border-app-primary/50 group-hover:text-app-text transition-colors">
             <span className="text-xs">⌘</span>K
           </kbd>
           <span>{t("common.to_search")}</span>
+        </div>
+      </div>
+
+      {/* Category Quick Scroller */}
+      <div className="flex overflow-x-auto pb-4 px-2 no-scrollbar -mx-4 md:mx-0 mask-fade-right">
+        <div className="flex gap-2 px-4 md:px-0">
+          {sections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => {
+                document
+                  .getElementById(`section-${section.id}`)
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="whitespace-nowrap px-4 py-2 bg-app-panel border border-app-border rounded-full text-sm font-medium text-app-text-sub hover:text-app-primary hover:border-app-primary/50 transition-all shadow-sm"
+            >
+              {section.title}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -572,7 +591,7 @@ export default function Home() {
               {t("recent_tools_favorites", "Favorites")}
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
             {sections
               .flatMap((s) => s.tools)
               .filter((tool) => favorites.includes(tool.id))
@@ -580,14 +599,14 @@ export default function Home() {
                 <Link
                   key={tool.id}
                   to={tool.path}
-                  className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  className="group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <div
-                    className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <tool.icon className="w-6 h-6" />
+                    <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
+                  <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1">
                     {tool.title}
                   </h3>
                   <div className="mt-auto pt-4 flex items-center justify-between">
@@ -627,7 +646,7 @@ export default function Home() {
               {t("clear")}
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
             {sections
               .flatMap((s) => s.tools)
               .filter((tool) => recentTools.some((rt) => rt.path === tool.path))
@@ -636,14 +655,14 @@ export default function Home() {
                 <Link
                   key={tool.id}
                   to={tool.path}
-                  className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  className="group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <div
-                    className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <tool.icon className="w-6 h-6" />
+                    <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
+                  <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1">
                     {tool.title}
                   </h3>
                   <div className="mt-auto pt-4 flex items-center justify-between">
@@ -682,7 +701,7 @@ export default function Home() {
           <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
           {t("featured_tools")}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {[
             {
               id: "json-csv",
@@ -718,19 +737,19 @@ export default function Home() {
             <Link
               key={tool.id}
               to={tool.path}
-              className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              className="group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
             >
               {tool.badge && (
-                <div className="absolute top-3 right-3 px-2 py-1 bg-app-primary/10 text-app-primary text-xs font-medium rounded-full border border-app-primary/20">
+                <div className="absolute top-2 right-2 md:top-3 md:right-3 px-2 py-0.5 md:py-1 bg-app-primary/10 text-app-primary text-[10px] md:text-xs font-medium rounded-full border border-app-primary/20">
                   {tool.badge}
                 </div>
               )}
               <div
-                className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
               >
-                <tool.icon className="w-6 h-6" />
+                <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 group-hover:text-app-primary transition-colors">
+              <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1">
                 {tool.title}
               </h3>
               <div className="mt-auto pt-4 flex items-center justify-between">
@@ -761,27 +780,31 @@ export default function Home() {
       </div>
 
       {/* Tools Grid */}
-      <div className="space-y-16">
+      <div className="space-y-10 md:space-y-16">
         {sections.map((section) => (
-          <div key={section.id} className="space-y-6">
+          <div
+            key={section.id}
+            id={`section-${section.id}`}
+            className="space-y-4 md:space-y-6 scroll-mt-24 md:scroll-mt-6"
+          >
             <div className="flex items-center gap-3 px-2">
-              <div className="h-8 w-1 bg-app-primary rounded-full" />
-              <h2 className="text-2xl font-bold tracking-tight">
+              <div className="h-6 md:h-8 w-1 bg-app-primary rounded-full" />
+              <h2 className="text-xl md:text-2xl font-bold tracking-tight">
                 {section.title}
               </h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {section.tools.map((tool) => (
                 <Link
                   key={tool.id}
                   to={tool.path}
-                  className="group relative flex flex-col p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[160px]"
+                  className="group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[140px] md:min-h-[160px]"
                 >
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-3 md:mb-4">
                     <div
-                      className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                      className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
                     >
-                      <tool.icon className="w-6 h-6" />
+                      <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
                     </div>
                     <button
                       onClick={(e) => {
@@ -803,7 +826,7 @@ export default function Home() {
                       />
                     </button>
                   </div>
-                  <h3 className="text-lg font-semibold mt-auto group-hover:text-app-primary transition-colors">
+                  <h3 className="text-base md:text-lg font-semibold mt-auto group-hover:text-app-primary transition-colors line-clamp-1">
                     {tool.title}
                   </h3>
                 </Link>
