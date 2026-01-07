@@ -11,37 +11,93 @@ const manualTranslations = {
       subtitle:
         "Une collection d'outils puissants pour les développeurs, designers et webmasters.",
     },
-    recent_tools: "Outils récents",
-    featured_tools: "Outils mis en avant",
+    recent_tools: "Outils Récents",
     recent_tools_favorites: "Favoris",
-    launch_tool: "Lancer l'outil",
+    featured_tools: "Outils à la Une",
+    launch_tool: "Lancer l'Outil",
+    search_placeholder: "Tapez une commande ou recherchez...",
+    common: {
+      press: "Appuyez sur",
+      to_search: "pour chercher",
+      convert: "Convertir",
+      copy: "Copier",
+      copied: "Copié !",
+      clear: "Effacer",
+      download: "Télécharger",
+      generate: "Générer",
+      reset: "Réinitialiser",
+      remove: "Supprimer",
+      close: "Fermer",
+      input: "Entrée",
+      output: "Sortie",
+      clipboard_copy: "Copié dans le presse-papier !",
+      error: "Erreur",
+    },
     categories: {
       converters: "Convertisseurs",
-      media: "Médias et Images",
-      text: "Texte et Code",
+      media: "Médias & Images",
+      text: "Texte & Code",
       developer: "Outils Développeur",
-      security: "Sécurité",
-      visual: "Visual & CSS",
-      network: "Réseau",
-      seo: "SEO & Web",
+      security: "Outils de Sécurité",
+      visual: "Visuel & CSS",
+      network: "Outils Réseau",
+      seo: "SEO & Outils Web",
     },
-    media: {
-      compressor: {
-        mode: "Mode de Compression",
-        auto: "Auto (Taille Cible)",
-        manual: "Manuel (Qualité)",
-        quality: "Qualité",
-        format: "Format de Sortie",
-        original: "Original",
-      },
+    commands: {
+      "json-csv": "Convertisseur JSON ↔ CSV",
+      "img-conv": "Convertisseur d'Image (WebP)",
+      "img-format": "Format d'Image (PNG ↔ JPG)",
+      "text-md": "Éditeur Markdown & Aperçu",
+      "text-diff": "Visualiseur de Diff de Texte",
+      "log-analyzer": "Analyseur de Fichiers Log",
+      "json-ts": "JSON vers TypeScript",
+      "xml-json": "Convertisseur XML ↔ JSON",
+      "yaml-json": "Convertisseur YAML ↔ JSON",
+      config: "Convertisseur de Config",
+      curl: "cURL vers Code",
+      svg: "SVG vers JSX",
+      color: "Convertisseur de Couleur",
+      ocr: "OCR (Extraction de Texte)",
+      "excel-csv": "Convertisseur Excel ↔ CSV",
+      "img-pdf": "Image vers PDF",
+      "pdf-img": "PDF vers Image",
+      "exif-cleaner": "Nettoyeur EXIF",
+      "http-status": "Codes d'État HTTP",
+      "user-agent": "Analyseur User-Agent",
+      "cron-generator": "Générateur Cron",
+      "env-generator": "Générateur de Fichier .env",
+      "mock-data": "Générateur de Données Mock",
+      "password-strength": "Vérificateur de Force de Mdp",
+      "jwt-generator": "Générateur JWT",
+      "csrf-token": "Générateur de Token CSRF",
+      "secure-key": "Générateur de Clé Sécurisée",
+      "email-header": "Analyseur d'En-tête Email",
+      gradient: "Générateur de Dégradés",
+      glassmorphism: "Générateur de Glassmorphism",
+      neumorphism: "Générateur de Neumorphism",
+      clamp: "Générateur CSS Clamp",
+      "font-pairing": "Outil d'Association de Polices",
+      bgRemover: "Suppresseur de Fond IA",
+      compress: "Compresseur d'Image",
+      crop: "Redimensionner & Rogner",
+      minifier: "Minificateur de Code",
+      beautifier: "Embellisseur de Code",
+      validator: "Validateur JSON",
+      "text-case": "Convertisseur de Casse",
+      "meta-tags": "Générateur de Balises Meta",
+      "robots-txt": "Générateur Robots.txt",
+      sitemap: "Générateur Sitemap.xml",
+      "page-speed": "Checklist Vitesse de Page",
+      "seo-preview": "Aperçu SEO",
+      settings: "Paramètres",
     },
-    bgRemover: { title: "Suppresseur de Fond AI" },
+    bgRemover: { title: "Suppresseur de Fond IA" },
     lorem: { title: "Générateur Lorem Ipsum" },
     metadata: { title: "Visualiseur de Métadonnées" },
     regex: { title: "Testeur Regex" },
     fingerprint: { title: "Empreinte Navigateur" },
     password: { title: "Générateur de Mot de Passe" },
-    boxShadow: { title: "Générateur d'Ombres" },
+    boxShadow: { title: "Générateur d'Ombre" },
     passwordChecker: {
       title: "Vérificateur de Force de Mot de Passe",
       description:
@@ -75,13 +131,13 @@ const manualTranslations = {
         length: "Augmentez la longueur pour une meilleure sécurité",
         repeats: "Évitez les caractères ou séquences répétitifs",
       },
-      tips: "Conseils de Sécurité de Mot de Passe",
+      tips: "Conseils de Sécurité",
       tipsList: {
-        mix: "Mélangez lettres (A-z), chiffres (0-9) et symboles",
-        length: "Plus c'est long, mieux c'est : 12+ caractères recommandés",
-        common: "Évitez les mots courants (password, 123456)",
+        mix: "Mélangez lettres, chiffres et symboles",
+        length: "12+ caractères recommandés",
+        common: "Évitez les mots courants",
         passphrase: "Utilisez une phrase au lieu d'un seul mot",
-        unique: "Utilisez un mot de passe unique pour chaque compte",
+        unique: "Utilisez un mdp unique pour chaque compte",
       },
     },
   },
@@ -91,9 +147,27 @@ const manualTranslations = {
         "Geliştiriciler, tasarımcılar ve web yöneticileri için güçlü araç koleksiyonu.",
     },
     recent_tools: "Son Kullanılanlar",
-    featured_tools: "Öne Çıkan Araçlar",
     recent_tools_favorites: "Favoriler",
+    featured_tools: "Öne Çıkan Araçlar",
     launch_tool: "Aracı Başlat",
+    search_placeholder: "Bir komut yazın veya arayın...",
+    common: {
+      press: "Basın",
+      to_search: "aramak için",
+      convert: "Dönüştür",
+      copy: "Kopyala",
+      copied: "Kopyalandı!",
+      clear: "Temizle",
+      download: "İndir",
+      generate: "Oluştur",
+      reset: "Sıfırla",
+      remove: "Kaldır",
+      close: "Kapat",
+      input: "Giriş",
+      output: "Çıktı",
+      clipboard_copy: "Panoya kopyalandı!",
+      error: "Hata",
+    },
     categories: {
       converters: "Dönüştürücüler",
       media: "Medya ve Resim",
@@ -102,17 +176,55 @@ const manualTranslations = {
       security: "Güvenlik Araçları",
       visual: "Görsel ve CSS",
       network: "Ağ Araçları",
-      seo: "SEO ve Web",
+      seo: "SEO ve Web Tools",
     },
-    media: {
-      compressor: {
-        mode: "Sıkıştırma Modu",
-        auto: "Otomatik (Hedef Boyut)",
-        manual: "Manuel (Kalite)",
-        quality: "Kalite",
-        format: "Çıktı Formatı",
-        original: "Orijinal",
-      },
+    commands: {
+      "json-csv": "JSON ↔ CSV Dönüştürücü",
+      "img-conv": "Resim Dönüştürücü (WebP)",
+      "img-format": "Resim Formatı (PNG ↔ JPG)",
+      "text-md": "Markdown Editör ve Önizleme",
+      "text-diff": "Metin Karşılaştırma",
+      "log-analyzer": "Log Dosyası Analizörü",
+      "json-ts": "JSON'dan TypeScript'e",
+      "xml-json": "XML ↔ JSON Dönüştürücü",
+      "yaml-json": "YAML ↔ JSON Dönüştürücü",
+      config: "Config Dönüştürücü",
+      curl: "cURL'den Koda",
+      svg: "SVG'den JSX'e",
+      color: "Renk Dönüştürücü",
+      ocr: "OCR (Metin Çıkarma)",
+      "excel-csv": "Excel ↔ CSV Dönüştürücü",
+      "img-pdf": "Resimden PDF'e",
+      "pdf-img": "PDF'den Resme",
+      "exif-cleaner": "EXIF Temizleyici",
+      "http-status": "HTTP Durum Kodları",
+      "user-agent": "User-Agent Analizörü",
+      "cron-generator": "Cron Oluşturucu",
+      "env-generator": ".env Dosyası Oluşturucu",
+      "mock-data": "Mock Veri Oluşturucu",
+      "password-strength": "Şifre Gücü Kontrolü",
+      "jwt-generator": "JWT Oluşturucu",
+      "csrf-token": "CSRF Token Oluşturucu",
+      "secure-key": "Güvenli Anahtar Oluşturucu",
+      "email-header": "E-posta Başlığı Analizörü",
+      gradient: "Gradyan Oluşturucu",
+      glassmorphism: "Glassmorphism Oluşturucu",
+      neumorphism: "Neumorphism Oluşturucu",
+      clamp: "CSS Clamp Oluşturucu",
+      "font-pairing": "Yazı Tipi Eşleştirme",
+      bgRemover: "AI Arka Plan Silici",
+      compress: "Resim Sıkıştırıcı",
+      crop: "Yeniden Boyutlandır ve Kırp",
+      minifier: "Kod Küçültücü",
+      beautifier: "Kod Güzelleştirici",
+      validator: "JSON Doğrulayıcı",
+      "text-case": "Metin Büyük/Küçük Harf",
+      "meta-tags": "Meta Etiketi Oluşturucu",
+      "robots-txt": "Robots.txt Oluşturucu",
+      sitemap: "Sitemap.xml Oluşturucu",
+      "page-speed": "Sayfa Hızı Kontrolü",
+      "seo-preview": "SEO Önizleme",
+      settings: "Ayarlar",
     },
     bgRemover: { title: "AI Arka Plan Silici" },
     lorem: { title: "Lorem Ipsum Oluşturucu" },
@@ -125,7 +237,7 @@ const manualTranslations = {
       title: "Şifre Gücü Kontrolü",
       description: "Şifrenizin güvenliğini ve karmaşıklığını analiz edin",
       enter: "Şifreyi Girin",
-      placeholder: "Kontrol edilecek şifreyi girin...",
+      placeholder: "Şifrenizi buraya yazın...",
       strength: "Güvenlik Seviyesi",
       strengths: {
         weak: "Zayıf",
@@ -150,16 +262,16 @@ const manualTranslations = {
         lowercase: "Küçük harf ekleyin",
         numbers: "Rakam ekleyin",
         special: "Özel karakter ekleyin",
-        length: "Daha iyi güvenlik için uzunluğu artırın",
-        repeats: "Tekrar eden karakterlerden veya dizilerden kaçının",
+        length: "Güvenlik için uzunluğu artırın",
+        repeats: "Karakter tekrarlarından kaçının",
       },
       tips: "Şifre Güvenliği İpuçları",
       tipsList: {
-        mix: "Harfleri (A-z), sayıları (0-9) ve sembolleri karıştırın",
-        length: "Daha uzun daha iyidir: 12+ karakter önerilir",
-        common: "Yaygın kelimelerden kaçının (sifre, 123456)",
-        passphrase: "Tek bir kelime yerine bir cümle veya 'parola' kullanın",
-        unique: "Her önemli hesap için benzersiz bir şifre kullanın",
+        mix: "Harf, rakam ve sembol karıştırın",
+        length: "12+ karakter önerilir",
+        common: "Yaygın kelimelerden kaçının",
+        passphrase: "Bir cümle kullanın",
+        unique: "Her hesap için farklı şifre kullanın",
       },
     },
   },
@@ -169,7 +281,7 @@ function syncKeys(source, target) {
   let modified = false;
   for (const key in source) {
     if (typeof source[key] === "object" && source[key] !== null) {
-      if (!target[key]) {
+      if (!target[key] || typeof target[key] !== "object") {
         target[key] = {};
         modified = true;
       }
@@ -188,34 +300,38 @@ const languages = ["tr", "fr", "es", "de", "it", "pt", "ru"];
 
 languages.forEach((lang) => {
   const langPath = path.join(localesDir, `${lang}.json`);
+  let content = {};
   if (fs.existsSync(langPath)) {
-    let content = JSON.parse(fs.readFileSync(langPath, "utf8"));
-
-    // 1. Structure sync
-    let modified = syncKeys(en, content);
-
-    // 2. Manual overrides
-    if (manualTranslations[lang]) {
-      const manuals = manualTranslations[lang];
-      const applyManual = (src, dest) => {
-        for (const k in src) {
-          if (typeof src[k] === "object" && src[k] !== null) {
-            if (!dest[k]) dest[k] = {};
-            applyManual(src[k], dest[k]);
-          } else {
-            if (dest[k] !== src[k]) {
-              dest[k] = src[k];
-              modified = true;
-            }
-          }
-        }
-      };
-      applyManual(manuals, content);
-    }
-
-    if (modified) {
-      fs.writeFileSync(langPath, JSON.stringify(content, null, 2));
-      console.log(`Synced ${lang}.json`);
+    // We intentionally start with an empty object for TR and FR if they were corrupted
+    // but to be safer, let's just use the current content and trust the manual overrides.
+    // However, the user said they are "mixed".
+    // Let's clear TR and FR specifically to rebuild them.
+    if (lang === "tr" || lang === "fr") {
+      content = {};
+    } else {
+      content = JSON.parse(fs.readFileSync(langPath, "utf8"));
     }
   }
+
+  // 1. Structure sync (fill missing from EN)
+  syncKeys(en, content);
+
+  // 2. Manual overrides
+  if (manualTranslations[lang]) {
+    const manuals = manualTranslations[lang];
+    const applyManual = (src, dest) => {
+      for (const k in src) {
+        if (typeof src[k] === "object" && src[k] !== null) {
+          if (!dest[k] || typeof dest[k] !== "object") dest[k] = {};
+          applyManual(src[k], dest[k]);
+        } else {
+          dest[k] = src[k];
+        }
+      }
+    };
+    applyManual(manuals, content);
+  }
+
+  fs.writeFileSync(langPath, JSON.stringify(content, null, 2));
+  console.log(`Synced ${lang}.json`);
 });
