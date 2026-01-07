@@ -29,7 +29,7 @@ It runs **100% locally** in your browser. No data is ever sent to a server. Whet
 - **🔒 Privacy First:** Your data (keys, images, passwords) never leaves your browser.
 - **⚡ Blazing Fast:** Zero network latency. Built with Vite and WASM.
 - **📦 Offline Capable:** Works without an internet connection (PWA).
-- **🌍 Multi-language:** Fully localized in **8+ languages** (EN, TR, ES, FR, DE, IT, PT, RU).
+- **🌍 Multi-language:** Fully localized in **7 languages** (EN, TR, FR, ES, DE, IT, PT, RU).
 - **🎨 Amazing UX:** System-wide dark mode, command palette (`Ctrl+K`), and a smart dashboard with **Favorites** and **Recent Tools**.
 
 ## 🚀 Key Features
