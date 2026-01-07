@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Terminal, Copy, Check } from "lucide-react";
 
-const mockCurlConversion = (curl: string) => {
-  if (!curl.trim().startsWith("curl"))
-    return '// Please paste a valid curl command starting with "curl"';
+const mockCurlConversion = (t: any, curl: string) => {
+  if (!curl.trim().startsWith("curl")) return t("converter.curl_placeholder");
 
   // Very basic Mock parser for MVP demonstration
   // Real implementation would use a library like 'curl-to-json' then generate code
@@ -34,8 +34,9 @@ print(response.json())
 };
 
 export default function CurlConverter() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
-  const output = React.useMemo(() => mockCurlConversion(input), [input]);
+  const output = React.useMemo(() => mockCurlConversion(t, input), [t, input]);
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -51,17 +52,15 @@ export default function CurlConverter() {
           <div className="p-2 bg-gradient-to-br from-slate-600 to-slate-800 rounded-lg">
             <Terminal className="w-6 h-6 text-white" />
           </div>
-          cURL Converter
+          {t("converter.curl_title")}
         </h1>
-        <p className="text-neutral-400">
-          Convert cURL commands to Fetch, Python, or Axios code.
-        </p>
+        <p className="text-neutral-400">{t("converter.curl_desc")}</p>
       </header>
 
       <div className="flex-1 grid grid-cols-1 gap-6 min-h-0">
         <div className="flex flex-col bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden h-1/3">
           <div className="px-4 py-2 border-b border-neutral-800 bg-neutral-900/80 text-sm font-medium text-neutral-400">
-            Paste cURL Command
+            {t("converter.paste_curl")}
           </div>
           <textarea
             value={input}
@@ -74,7 +73,7 @@ export default function CurlConverter() {
         <div className="flex flex-col bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden flex-1">
           <div className="px-4 py-2 border-b border-neutral-800 bg-neutral-900/80 flex justify-between items-center">
             <span className="text-sm font-medium text-neutral-400">
-              Generated Code
+              {t("converter.generated_code")}
             </span>
             <button
               onClick={copyToClipboard}

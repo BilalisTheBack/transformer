@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import yaml from "js-yaml";
 // @ts-ignore
 import * as TOML from "@toml-tools/parser";
@@ -10,6 +11,7 @@ import { Copy, Check, Settings2 } from "lucide-react";
 type Format = "json" | "yaml" | "toml";
 
 export default function ConfigConverter() {
+  const { t } = useTranslation();
   const [inputFormat, setInputFormat] = useState<Format>("yaml");
   const [outputFormat, setOutputFormat] = useState<Format>("json");
   const [input, setInput] = useState("");
@@ -58,11 +60,9 @@ export default function ConfigConverter() {
           <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg">
             <Settings2 className="w-6 h-6 text-white" />
           </div>
-          Config Converter
+          {t("converter.config_title")}
         </h1>
-        <p className="text-neutral-400">
-          Convert between YAML, JSON, and TOML configuration files.
-        </p>
+        <p className="text-neutral-400">{t("converter.config_desc")}</p>
       </header>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0">
@@ -70,7 +70,9 @@ export default function ConfigConverter() {
         <div className="flex flex-col bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden">
           <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800 bg-neutral-900/80">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-neutral-500">From</span>
+              <span className="text-sm text-neutral-500">
+                {t("converter.from")}
+              </span>
               <select
                 value={inputFormat}
                 onChange={(e) => setInputFormat(e.target.value as Format)}
@@ -85,14 +87,14 @@ export default function ConfigConverter() {
               onClick={() => setInput("")}
               className="text-xs text-neutral-500"
             >
-              Clear
+              {t("common.clear")}
             </button>
           </div>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 bg-transparent p-4 resize-none outline-none font-mono text-sm leading-relaxed"
-            placeholder={`Paste ${inputFormat.toUpperCase()} here...`}
+            placeholder={t("converter.paste_config")}
             spellCheck={false}
           />
         </div>
@@ -101,7 +103,9 @@ export default function ConfigConverter() {
         <div className="flex flex-col bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden relative">
           <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800 bg-neutral-900/80">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-neutral-500">To</span>
+              <span className="text-sm text-neutral-500">
+                {t("converter.to")}
+              </span>
               <select
                 value={outputFormat}
                 onChange={(e) => setOutputFormat(e.target.value as Format)}

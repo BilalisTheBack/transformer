@@ -447,7 +447,7 @@ export default function MetadataViewer() {
                 </div>
                 <div className="flex justify-between items-center p-2 rounded">
                   <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                    Modified
+                    {t("metadata.modified")}
                   </dt>
                   <dd className="font-mono text-sm">
                     {format(new Date(file.lastModified), "yyyy-MM-dd HH:mm")}
@@ -665,7 +665,7 @@ export default function MetadataViewer() {
                   onClick={() => setPdfEditing(!pdfEditing)}
                   className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
                 >
-                  {pdfEditing ? "Cancel" : "Edit"}
+                  {pdfEditing ? t("common.cancel") : t("common.edit")}
                 </button>
               </div>
 
@@ -721,12 +721,12 @@ export default function MetadataViewer() {
             <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <Film className="w-5 h-5 text-red-500" />
-                Video Metadata
+                {t("metadata.videoMetadata")}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex flex-col gap-1">
                   <span className="text-gray-500 dark:text-gray-400 text-xs uppercase">
-                    Duration
+                    {t("metadata.duration")}
                   </span>
                   <span className="font-mono">
                     {formatDuration(videoMeta.duration)}
@@ -734,7 +734,7 @@ export default function MetadataViewer() {
                 </div>
                 <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex flex-col gap-1">
                   <span className="text-gray-500 dark:text-gray-400 text-xs uppercase">
-                    Resolution
+                    {t("metadata.resolution")}
                   </span>
                   <span className="font-mono">
                     {videoMeta.width} x {videoMeta.height}
@@ -742,7 +742,7 @@ export default function MetadataViewer() {
                 </div>
                 <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex flex-col gap-1">
                   <span className="text-gray-500 dark:text-gray-400 text-xs uppercase">
-                    Aspect Ratio
+                    {t("metadata.aspectRatio")}
                   </span>
                   <span className="font-mono">
                     {(videoMeta.width / videoMeta.height).toFixed(2)}

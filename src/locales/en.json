@@ -26,8 +26,17 @@
     "error": "Error",
     "dropFile": "Drop file here",
     "dropFileDesc": "To automatically open the relevant tool",
+    "cancel": "Cancel",
+    "edit": "Edit",
     "local_processing": "Processed Locally",
     "local_processing_desc": "Your data never leaves this device. 100% Privacy."
+  },
+  "layout": {
+    "search": "Search (Ctrl+K)",
+    "feedback": "Feedback & Support",
+    "github": "View on GitHub",
+    "settings": "Settings",
+    "home": "Home"
   },
   "settings": {
     "title": "Settings",
@@ -108,13 +117,6 @@
     "new_content_desc": "New version is available, click on reload button to update.",
     "reload": "Reload"
   },
-  "feedback": {
-    "title": "Feedback & Bug Report",
-    "subject": "Subject",
-    "description": "Description",
-    "send_email": "Send Email",
-    "open_github": "Open GitHub"
-  },
   "converter": {
     "json_csv_title": "JSON <-> CSV Converter",
     "description": "Convert between JSON and CSV/Excel formats easily.",
@@ -129,7 +131,40 @@
     "prettify": "Prettify JSON",
     "to_csv": "Convert to CSV",
     "to_excel": "Convert to Excel",
-    "to_json": "Convert to JSON"
+    "to_json": "Convert to JSON",
+    "json_ts_title": "JSON to TypeScript",
+    "json_ts_desc": "Instantly generate TypeScript interfaces from JSON objects.",
+    "interface_name": "Interface Name",
+    "ts_interface": "TypeScript Interface",
+    "xml_json_title": "XML <-> JSON Converter",
+    "xml_json_desc": "Convert data between XML and JSON formats instantly.",
+    "xml_to_json": "XML to JSON",
+    "json_to_xml": "JSON to XML",
+    "xml_input": "XML Input",
+    "placeholder": "Result will appear here...",
+    "invalid_xml": "Invalid XML format",
+    "invalid_json": "Invalid JSON format",
+    "config_title": "Config Converter",
+    "config_desc": "Convert between YAML, JSON, and TOML configuration files.",
+    "from": "From",
+    "to": "To",
+    "paste_config": "Paste JSON/YAML/TOML here...",
+    "excel_csv_title": "Excel <-> CSV Converter",
+    "excel_csv_desc": "Convert between Excel spreadsheets and CSV formats.",
+    "excel_to_csv": "Excel to CSV",
+    "csv_to_excel": "CSV to Excel",
+    "upload_file": "Upload Excel/CSV File",
+    "download_file": "Download CSV/Excel",
+    "preview": "Data Preview",
+    "rows": "rows",
+    "no_data": "No data loaded",
+    "upload_preview": "Upload a file to preview data",
+    "first_100": "Showing first 100 rows only",
+    "curl_title": "cURL Converter",
+    "curl_desc": "Convert cURL commands to Fetch, Python, or Axios code.",
+    "paste_curl": "Paste cURL Command",
+    "generated_code": "Generated Code",
+    "curl_placeholder": "// Please paste a valid curl command starting with \"curl\""
   },
   "jwt": {
     "title": "JWT Decoder",
@@ -215,6 +250,18 @@
     "dkimFail": "DKIM validation failed - email may be modified",
     "mismatch": "From and Return-Path mismatch - potential phishing",
     "noIp": "No IP addresses found in headers"
+  },
+  "feedback": {
+    "title": "Feedback & Bug Report",
+    "subject": "Subject",
+    "description": "Description",
+    "send_email": "Send Email",
+    "open_github": "Open GitHub",
+    "bug": "Bug",
+    "feature": "Feature",
+    "other": "Other",
+    "summary": "Brief summary...",
+    "explain": "Explain the issue or idea..."
   },
   "base64": {
     "title": "Base64 Encoder/Decoder",
@@ -366,7 +413,28 @@
     "pdfKeywords": "Keywords",
     "pdfCreator": "Creator",
     "pdfProducer": "Producer",
-    "savePdf": "Save & Download PDF"
+    "savePdf": "Save & Download PDF",
+    "modified": "Modified",
+    "videoMetadata": "Video Metadata",
+    "duration": "Duration",
+    "resolution": "Resolution",
+    "privacy": "Privacy & Security",
+    "cleanDesc": "Remove sensitive tags before sharing",
+    "clean": "Clean Metadata",
+    "location": "Location Data",
+    "lat": "Latitude",
+    "lng": "Longitude",
+    "map": "View on Map",
+    "device": "Device Info",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "make": "Make",
+    "model": "Model",
+    "lens": "Lens",
+    "software": "Software",
+    "exif": "Full EXIF Data",
+    "signature": "Digital Signature",
+    "noSig": "No digital signature found"
   },
   "fingerprint": {
     "title": "Browser Fingerprint",
@@ -426,6 +494,58 @@
       "changeFreq": "Change Frequency",
       "priority": "Priority",
       "addUrl": "Add URL"
+    },
+    "pagespeed": {
+      "title": "Page Speed Checklist",
+      "description": "Essential performance and SEO optimizations for modern websites.",
+      "score": "Optimization Score",
+      "reset": "Reset Progress",
+      "resetConfirm": "Are you sure you want to reset all progress?",
+      "categories": {
+        "performance": "Performance",
+        "ux": "User Experience",
+        "seo": "SEO",
+        "accessibility": "Accessibility"
+      },
+      "items": {
+        "imgOpt": "Image Optimization",
+        "imgOptDesc": "Use modern formats (WebP/AVIF) and compress images.",
+        "minify": "Minify CSS/JS",
+        "minifyDesc": "Remove unnecessary characters from code files.",
+        "caching": "Browser Caching",
+        "cachingDesc": "Set appropriate cache headers for static assets.",
+        "cdn": "Content Delivery Network",
+        "cdnDesc": "Serve assets from a CDN to reduce latency.",
+        "cls": "Cumulative Layout Shift",
+        "clsDesc": "Ensure elements don't jump around during loading.",
+        "lcp": "Largest Contentful Paint",
+        "lcpDesc": "Main content should load in under 2.5 seconds.",
+        "mobile": "Mobile Optimization",
+        "mobileDesc": "Responsive design and touch-friendly elements.",
+        "meta": "Meta Tags",
+        "metaDesc": "Proper title and description tags on every page.",
+        "sitemap": "XML Sitemap",
+        "sitemapDesc": "Help search engines discover your content.",
+        "https": "HTTPS Security",
+        "httpsDesc": "Serve your site over a secure connection.",
+        "alt": "Image Alt Text",
+        "altDesc": "Provide descriptive text for all images.",
+        "contrast": "Color Contrast",
+        "contrastDesc": "Ensure text is readable against background."
+      }
+    },
+    "snippet": {
+      "title": "SEO Snippet Preview",
+      "description": "Preview how your website appears in Google search results.",
+      "metaTitle": "Title Tag",
+      "metaDesc": "Meta Description",
+      "displayUrl": "Display URL",
+      "date": "Publish Date",
+      "desktop": "Desktop",
+      "mobile": "Mobile",
+      "preview": "Google Search Preview",
+      "tipTitle": "SEO Tip",
+      "tipContent": "Titles should be under 60 characters and descriptions under 160 to avoid being truncated in search results."
     }
   },
   "password": {
@@ -785,22 +905,6 @@
       }
     }
   },
-  "speedTest": {
-    "title": "Network Speed Test",
-    "description": "Check your internet connection speed and latency.",
-    "start": "Start Test",
-    "ping": "Ping",
-    "jitter": "Jitter",
-    "download": "Download",
-    "upload": "Upload",
-    "latency": "Latency",
-    "progress": "Testing...",
-    "mbps": "Mbps",
-    "ms": "ms",
-    "server": "Server",
-    "result": "Result",
-    "restart": "Restart Test"
-  },
   "css": {
     "gradient": {
       "title": "Gradient Generator",
@@ -880,5 +984,20 @@
       "copy": "Copy",
       "copied": "Copied!"
     }
+  },
+  "speedTest": {
+    "title": "Network Speed Test",
+    "description": "Check your internet connection speed, ping, and jitter instantly.",
+    "ping": "Ping",
+    "jitter": "Jitter",
+    "download": "Download",
+    "upload": "Upload",
+    "ms": "ms",
+    "mbps": "Mbps",
+    "start": "Start Test",
+    "restart": "Restart Test",
+    "progress": "Testing...",
+    "pressStart": "Press Start to begin",
+    "disclaimer": "* Latency is measured to Google. Download uses Wikimedia CDN. Upload uses HttpBin. Results are estimates and depend on browser performance."
   }
 }

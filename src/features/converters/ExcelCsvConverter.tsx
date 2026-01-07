@@ -1,10 +1,10 @@
 import { useState } from "react";
-// import { useTranslation } from "react-i18next"; // Unused
+import { useTranslation } from "react-i18next";
 import { FileSpreadsheet, Table, Download } from "lucide-react";
 import * as XLSX from "xlsx";
 
 export default function ExcelCsvConverter() {
-  // const { t } = useTranslation(); // Unused
+  const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
@@ -62,10 +62,10 @@ export default function ExcelCsvConverter() {
           <div className="p-2 bg-green-600 rounded-lg shadow-lg shadow-green-500/20">
             <FileSpreadsheet className="w-6 h-6 text-white" />
           </div>
-          Excel &lt;-&gt; CSV Converter
+          {t("converter.excel_csv_title")}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Convert between Excel spreadsheets and CSV formats.
+          {t("converter.excel_csv_desc")}
         </p>
       </header>
 
@@ -86,7 +86,7 @@ export default function ExcelCsvConverter() {
                     : "text-gray-500"
                 }`}
               >
-                Excel to CSV
+                {t("converter.excel_to_csv")}
               </button>
               <button
                 onClick={() => {
@@ -100,7 +100,7 @@ export default function ExcelCsvConverter() {
                     : "text-gray-500"
                 }`}
               >
-                CSV to Excel
+                {t("converter.csv_to_excel")}
               </button>
             </div>
 
@@ -118,9 +118,7 @@ export default function ExcelCsvConverter() {
                 <Table className="w-10 h-10 text-gray-400 mb-2" />
               )}
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {file
-                  ? file.name
-                  : `Upload ${mode === "excel2csv" ? "Excel" : "CSV"} File`}
+                {file ? file.name : t("converter.upload_file")}
               </p>
               <input
                 id="file-upload"
@@ -137,7 +135,7 @@ export default function ExcelCsvConverter() {
                 className="w-full mt-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium shadow-lg shadow-green-500/25 flex items-center justify-center gap-2"
               >
                 <Download className="w-4 h-4" />
-                Download {mode === "excel2csv" ? "CSV" : "Excel"}
+                {t("converter.download_file")}
               </button>
             )}
           </div>
@@ -147,10 +145,12 @@ export default function ExcelCsvConverter() {
         <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col overflow-hidden">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <Table className="w-4 h-4" /> Data Preview
+              <Table className="w-4 h-4" /> {t("converter.preview")}
             </h3>
             <span className="text-xs text-gray-500">
-              {data.length > 0 ? `${data.length} rows` : "No data loaded"}
+              {data.length > 0
+                ? `${data.length} ${t("converter.rows")}`
+                : t("converter.no_data")}
             </span>
           </div>
 
@@ -190,13 +190,13 @@ export default function ExcelCsvConverter() {
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-gray-400">
                 <Table className="w-16 h-16 mb-4 opacity-20" />
-                <p>Upload a file to preview data</p>
+                <p>{t("converter.upload_preview")}</p>
               </div>
             )}
           </div>
           {data.length > 100 && (
             <div className="p-2 text-center text-xs text-gray-500 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-              Showing first 100 rows only
+              {t("converter.first_100")}
             </div>
           )}
         </div>

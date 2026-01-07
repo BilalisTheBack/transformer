@@ -47,7 +47,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         <div className="flex items-center justify-between p-4 border-b border-app-border bg-app-bg/50">
           <h2 className="text-lg font-semibold text-app-text flex items-center gap-2">
             <MessageSquare className="w-5 h-5 text-app-primary" />
-            {t("feedback.title", "Feedback & Bug Report")}
+            {t("feedback.title")}
           </h2>
           <button
             onClick={onClose}
@@ -69,7 +69,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               }`}
             >
               <Bug className="w-6 h-6" />
-              <span className="text-xs font-medium">Bug</span>
+              <span className="text-xs font-medium">{t("feedback.bug")}</span>
             </button>
             <button
               onClick={() => setType("feature")}
@@ -80,7 +80,9 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               }`}
             >
               <Lightbulb className="w-6 h-6" />
-              <span className="text-xs font-medium">Feature</span>
+              <span className="text-xs font-medium">
+                {t("feedback.feature")}
+              </span>
             </button>
             <button
               onClick={() => setType("other")}
@@ -91,31 +93,31 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               }`}
             >
               <MessageSquare className="w-6 h-6" />
-              <span className="text-xs font-medium">Other</span>
+              <span className="text-xs font-medium">{t("feedback.other")}</span>
             </button>
           </div>
 
           <div className="space-y-4">
             <div>
               <label className="text-sm font-medium text-app-text-sub mb-1 block">
-                {t("feedback.subject", "Subject")}
+                {t("feedback.subject")}
               </label>
               <input
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder="Brief summary..."
+                placeholder={t("feedback.summary")}
                 className="w-full bg-app-bg border border-app-border rounded-lg px-3 py-2 text-app-text placeholder:text-app-text-mute focus:outline-none focus:border-app-primary transition-colors"
               />
             </div>
             <div>
               <label className="text-sm font-medium text-app-text-sub mb-1 block">
-                {t("feedback.description", "Description")}
+                {t("feedback.description")}
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Explain the issue or idea..."
+                placeholder={t("feedback.explain")}
                 className="w-full h-32 bg-app-bg border border-app-border rounded-lg px-3 py-2 text-app-text placeholder:text-app-text-mute focus:outline-none focus:border-app-primary transition-colors resize-none"
               />
             </div>
@@ -127,14 +129,14 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-app-bg border border-app-border hover:bg-app-panel text-app-text rounded-lg transition-colors font-medium"
             >
               <Mail className="w-4 h-4" />
-              {t("feedback.send_email", "Send Email")}
+              {t("feedback.send_email")}
             </button>
             <button
               onClick={handleOpenGithub}
               className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-app-primary hover:bg-app-primary-hover text-white rounded-lg transition-colors font-medium shadow-lg shadow-app-primary/20"
             >
               <Github className="w-4 h-4" />
-              {t("feedback.open_github", "Open GitHub")}
+              {t("feedback.open_github")}
             </button>
           </div>
         </div>

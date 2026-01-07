@@ -1,10 +1,10 @@
 import { useState } from "react";
-// import { useTranslation } from "react-i18next"; // Unused
+import { useTranslation } from "react-i18next";
 import { FileCode, ArrowRightLeft, Copy, Trash2, Check } from "lucide-react";
 import { XMLParser, XMLBuilder } from "fast-xml-parser";
 
 export default function XmlJsonConverter() {
-  // const { t } = useTranslation(); // Unused
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"xml2json" | "json2xml">("xml2json");
@@ -34,7 +34,9 @@ export default function XmlJsonConverter() {
       }
     } catch (err) {
       setError(
-        mode === "xml2json" ? "Invalid XML format" : "Invalid JSON format"
+        mode === "xml2json"
+          ? t("converter.invalid_xml")
+          : t("converter.invalid_json")
       );
       console.error(err);
     }
@@ -53,10 +55,10 @@ export default function XmlJsonConverter() {
           <div className="p-2 bg-orange-600 rounded-lg shadow-lg shadow-orange-500/20">
             <FileCode className="w-6 h-6 text-white" />
           </div>
-          XML &lt;-&gt; JSON Converter
+          {t("converter.xml_json_title")}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Convert data between XML and JSON formats instantly.
+          {t("converter.xml_json_desc")}
         </p>
       </header>
 
@@ -74,7 +76,7 @@ export default function XmlJsonConverter() {
               : "text-gray-500 hover:text-gray-900 dark:hover:text-gray-200"
           }`}
         >
-          XML to JSON
+          {t("converter.xml_to_json")}
         </button>
         <ArrowRightLeft className="w-4 h-4 text-gray-400" />
         <button
@@ -90,7 +92,7 @@ export default function XmlJsonConverter() {
               : "text-gray-500 hover:text-gray-900 dark:hover:text-gray-200"
           }`}
         >
-          JSON to XML
+          {t("converter.json_to_xml")}
         </button>
       </div>
 
@@ -98,7 +100,9 @@ export default function XmlJsonConverter() {
         {/* Input */}
         <div className="flex flex-col gap-2 relative">
           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            {mode === "xml2json" ? "XML Input" : "JSON Input"}
+            {mode === "xml2json"
+              ? t("converter.xml_input")
+              : t("converter.json_input")}
           </label>
           <textarea
             value={input}
@@ -127,7 +131,7 @@ export default function XmlJsonConverter() {
         <div className="flex flex-col gap-2 relative">
           <div className="flex justify-between items-center">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              {mode === "xml2json" ? "JSON Output" : "XML Output"}
+              {mode === "xml2json" ? t("common.output") : t("common.output")}
             </label>
             {output && (
               <button
@@ -136,11 +140,11 @@ export default function XmlJsonConverter() {
               >
                 {copied ? (
                   <>
-                    <Check className="w-3 h-3" /> Copied
+                    <Check className="w-3 h-3" /> {t("common.copied")}
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3 h-3" /> Copy
+                    <Copy className="w-3 h-3" /> {t("common.copy")}
                   </>
                 )}
               </button>
@@ -152,7 +156,7 @@ export default function XmlJsonConverter() {
             className={`flex-1 w-full p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl resize-none font-mono text-sm outline-none ${
               error ? "border-red-500 focus:border-red-500" : ""
             }`}
-            placeholder="Result will appear here..."
+            placeholder={t("converter.placeholder")}
           />
           {error && (
             <div className="absolute bottom-4 left-4 right-4 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 text-sm p-2 rounded border border-red-200 dark:border-red-800">
@@ -167,7 +171,7 @@ export default function XmlJsonConverter() {
           onClick={handleConvert}
           className="px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-medium shadow-lg shadow-orange-500/25 transition-all active:scale-95"
         >
-          Convert
+          {t("common.convert")}
         </button>
       </div>
     </div>

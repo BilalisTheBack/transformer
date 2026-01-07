@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Copy, Check, Code } from "lucide-react";
 
 // Simple type inference engine (mock for now, or basic implementation)
@@ -117,6 +118,7 @@ const jsonToTs = (json: string, rootName: string = "Root") => {
 };
 
 export default function JsonToTsConverter() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [rootName, setRootName] = useState("Root");
 
@@ -139,25 +141,23 @@ export default function JsonToTsConverter() {
           <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
             <Code className="w-6 h-6 text-white" />
           </div>
-          JSON to TypeScript
+          {t("converter.json_ts_title")}
         </h1>
-        <p className="text-neutral-400">
-          Instantly generate TypeScript interfaces from JSON objects.
-        </p>
+        <p className="text-neutral-400">{t("converter.json_ts_desc")}</p>
       </header>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0">
         <div className="flex flex-col bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
             <span className="text-sm font-medium text-neutral-400">
-              JSON Input
+              {t("converter.json_input")}
             </span>
             <input
               type="text"
               value={rootName}
               onChange={(e) => setRootName(e.target.value)}
               className="bg-neutral-950 border border-neutral-800 rounded px-2 py-1 text-xs text-neutral-300 w-32 focus:border-blue-500 outline-none transition-colors"
-              placeholder="Interface Name"
+              placeholder={t("converter.interface_name")}
             />
           </div>
           <textarea
@@ -172,7 +172,7 @@ export default function JsonToTsConverter() {
         <div className="flex flex-col bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden relative">
           <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800 bg-neutral-900/80">
             <span className="text-sm font-medium text-blue-400">
-              TypeScript Interface
+              {t("converter.ts_interface")}
             </span>
             <button
               onClick={copyToClipboard}

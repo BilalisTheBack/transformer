@@ -210,7 +210,7 @@ export default function SpeedTest() {
                 <>
                   <Zap className="w-16 h-16 text-app-text-sub opacity-50 mb-2" />
                   <span className="text-lg text-app-text-sub">
-                    {t("common.press")} Start
+                    {t("speedTest.pressStart")}
                   </span>
                 </>
               )}
@@ -310,8 +310,7 @@ export default function SpeedTest() {
       </div>
 
       <p className="text-xs text-app-text-sub max-w-md text-center opacity-60">
-        * Latency is measured to Google. Download uses Wikimedia CDN. Upload
-        uses HttpBin. Results are estimates and depend on browser performance.
+        {t("speedTest.disclaimer")}
       </p>
     </div>
   );

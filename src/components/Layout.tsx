@@ -9,8 +9,10 @@ import {
   MessageSquare,
 } from "lucide-react";
 import FeedbackModal from "./FeedbackModal";
+import { useTranslation } from "react-i18next";
 
 export default function Layout() {
+  const { t } = useTranslation();
   const [isPaletteOpen, setPaletteOpen] = useState(false);
   const [isFeedbackOpen, setFeedbackOpen] = useState(false);
   const navigate = useNavigate();
@@ -42,22 +44,22 @@ export default function Layout() {
           <button
             onClick={() => setPaletteOpen(true)}
             className="w-10 h-10 rounded-lg hover:bg-app-border flex items-center justify-center text-app-text-sub hover:text-app-text transition-colors group relative"
-            title="Open Command Palette (Ctrl+K)"
+            title={`${t("layout.search")} (Ctrl+K)`}
           >
             <CommandIcon className="w-5 h-5" />
             <div className="absolute left-14 bg-app-panel border border-app-border text-app-text text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
-              Search (Ctrl+K)
+              {t("layout.search")}
             </div>
           </button>
 
           <button
             onClick={() => setFeedbackOpen(true)}
             className="w-10 h-10 rounded-lg hover:bg-app-border flex items-center justify-center text-app-text-sub hover:text-app-text transition-colors group relative"
-            title="Feedback & Bug Report"
+            title={t("layout.feedback")}
           >
             <MessageSquare className="w-5 h-5" />
             <div className="absolute left-14 bg-app-panel border border-app-border text-app-text text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
-              Feedback
+              {t("layout.feedback")}
             </div>
           </button>
 
@@ -69,12 +71,14 @@ export default function Layout() {
             href="https://github.com/BilalisTheBack/transformer"
             target="_blank"
             rel="noopener noreferrer"
+            title={t("layout.github")}
             className="w-10 h-10 rounded-lg hover:bg-app-border flex items-center justify-center text-app-text-sub hover:text-app-text transition-colors"
           >
             <Github className="w-5 h-5" />
           </a>
           <button
             onClick={() => navigate("/settings")}
+            title={t("layout.settings")}
             className="w-10 h-10 rounded-lg hover:bg-app-border flex items-center justify-center text-app-text-sub hover:text-app-text transition-colors"
           >
             <Settings className="w-5 h-5" />
