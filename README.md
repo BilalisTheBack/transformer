@@ -89,6 +89,12 @@ npm run dev
 npm run build
 ```
 
+## 🚀 Deployment
+
+This project is a static Single Page Application (SPA). It can be deployed to any static host (Cloudflare Pages, Vercel, Netlify).
+
+👉 **[Read the Deployment Guide](deployment.md)** for detailed instructions.
+
 ## 📜 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
