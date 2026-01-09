@@ -1016,6 +1016,11 @@
     "features": "Concept Map Features",
     "feature1": "Free and Unlimited Use",
     "feature2": "Practical Drag-and-Drop Interface",
-    "feature3": "Real-time Editing"
+    "feature3": "Real-time Editing",
+    "newNode": "New Node",
+    "rootNode": "Central Topic",
+    "connect": "Link Nodes",
+    "deleteNode": "Delete Node",
+    "emptyState": "Drag & Drop and Connect"
   }
 }

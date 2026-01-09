@@ -97,7 +97,7 @@
     "sitemap": "Sitemap.xml Oluşturucu",
     "page-speed": "Sayfa Hızı Kontrolü",
     "seo-preview": "SEO Önizleme",
-    "mindflow": "MindFlow (Zihin Haritası)",
+    "mindflow": "MindFlow (Mind Map)",
     "settings": "Ayarlar"
   },
   "categories": {
@@ -1002,20 +1002,36 @@
     "disclaimer": "* Gecikme Google üzerinden ölçülür. İndirme Wikimedia CDN, yükleme ise HttpBin kullanır. Sonuçlar tahminidir ve tarayıcı performansına bağlıdır."
   },
   "mindflow": {
-    "title": "MindFlow - Zihin ve Kavram Haritası",
-    "description": "Sürükle bırak yöntemiyle ücretsiz bir şekilde kavram ve zihin haritaları oluşturmanıza yarayan bir araçtır. Bu uygulama ile ortak çalışmalar yaparak kavram ve zihin haritaları oluşturabilirsiniz. Kullanımı oldukça pratik ve kolaydır. İnsanların kavramları daha kolay ve kalıcı bir şekilde öğrenmeleri için işe yarar bir uygulamadır.",
-    "addNode": "Düğüm Ekle",
-    "clear": "Tümünü Temizle",
-    "export": "Resim Olarak Dışa Aktar",
-    "nodePlaceholder": "Konu adını girin...",
-    "helpTitle": "Nedir ve Nasıl Kullanılır?",
-    "q1": "MindFlow Nedir?",
-    "a1": "MindFlow, karmaşık fikirleri görselleştirmek için kullanılan sürükle-bırak destekli bir zihin haritası oluşturma aracıdır.",
-    "q2": "Nasıl kullanılır?",
-    "a2": "Düğüm Ekle butonuna basarak yeni bir kutucuk oluşturabilir, kutucukları sürükleyerek yerlerini değiştirebilir ve aralarındaki bağlantıları yönetebilirsiniz.",
+    "title": "MindFlow - Zihin Haritası",
+    "description": "Fikirlerinizi görselleştirin, kavram haritaları oluşturun.",
+    "addNode": "Add Node",
+    "clear": "Clear All",
+    "export": "Export as Image",
+    "nodePlaceholder": "Enter topic...",
+    "helpTitle": "What is it and How to Use?",
+    "q1": "What is MindFlow?",
+    "a1": "MindFlow is a drag-and-drop mind mapping tool used to visualize complex ideas.",
+    "q2": "How to use it?",
+    "a2": "You can create new boxes by clicking Add Node, move them by dragging, and manage connections between them.",
     "features": "Kavram Haritası Özellikleri",
     "feature1": "Ücretsiz ve Sınırsız Kullanım",
     "feature2": "Pratik Sürükle-Bırak Arayüzü",
-    "feature3": "Gerçek Zamanlı Düzenleme"
+    "feature3": "Gerçek Zamanlı Düzenleme",
+    "newNode": "Yeni Düğüm",
+    "rootNode": "Ana Konu",
+    "connect": "Bağlantı Kur",
+    "deleteNode": "Düğümü Sil",
+    "emptyState": "Sürükleyip Bırakın ve Bağlayın",
+    "commands": {
+      "addNode": "Düğüm Ekle",
+      "clearAll": "Hepsini Temizle",
+      "exportImage": "Resim Olarak İndir",
+      "help": "Nasıl Kullanılır?"
+    },
+    "help_title": "MindFlow Yardım",
+    "help_q1": "Düğüm nasıl eklenir?",
+    "help_a1": "'Düğüm Ekle' butonuna basın veya mevcut bir düğüme çift tıklayın.",
+    "help_q2": "Bağlantı nasıl kurulur?",
+    "help_a2": "Düğüm üzerindeki '+' ikonuna tıklayın, ardından bağlamak istediğiniz diğer düğüme tıklayın."
   }
 }

@@ -97,7 +97,8 @@
     "sitemap": "Générateur Sitemap.xml",
     "page-speed": "Checklist Vitesse de Page",
     "seo-preview": "Aperçu SEO",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "mindflow": "MindFlow (Mind Map)"
   },
   "categories": {
     "converters": "Convertisseurs",
@@ -1041,5 +1042,38 @@
       "boolean": "Booléen",
       "number": "Nombre (1-1000)"
     }
+  },
+  "mindflow": {
+    "title": "MindFlow - Carte Mentale",
+    "description": "Visualisez vos idées, créez des cartes conceptuelles.",
+    "addNode": "Add Node",
+    "clear": "Clear All",
+    "export": "Export as Image",
+    "nodePlaceholder": "Enter topic...",
+    "helpTitle": "What is it and How to Use?",
+    "q1": "What is MindFlow?",
+    "a1": "MindFlow is a drag-and-drop mind mapping tool used to visualize complex ideas.",
+    "q2": "How to use it?",
+    "a2": "You can create new boxes by clicking Add Node, move them by dragging, and manage connections between them.",
+    "features": "Caractéristiques",
+    "feature1": "Utilisation gratuite et illimitée",
+    "feature2": "Interface glisser-déposer",
+    "feature3": "Édition en temps réel",
+    "newNode": "Nouveau nœud",
+    "rootNode": "Sujet central",
+    "connect": "Relier les nœuds",
+    "deleteNode": "Supprimer le nœud",
+    "emptyState": "Glissez-déposez et connectez",
+    "commands": {
+      "addNode": "Ajouter un nœud",
+      "clearAll": "Tout effacer",
+      "exportImage": "Exporter image",
+      "help": "Comment utiliser ?"
+    },
+    "help_title": "Aide MindFlow",
+    "help_q1": "Comment ajouter ?",
+    "help_a1": "Cliquez sur 'Ajouter' ou double-cliquez sur un nœud.",
+    "help_q2": "Comment connecter ?",
+    "help_a2": "Cliquez sur '+' sur un nœud, puis sur le nœud cible."
   }
 }

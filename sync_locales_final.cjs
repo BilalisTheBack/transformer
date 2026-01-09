@@ -1030,6 +1030,30 @@ const manualTranslations = {
       disclaimer:
         "* La latence est mesurée via Google. Le téléchargement utilise Wikimedia CDN et le téléversement utilise HttpBin. Les résultats sont estimés et dépendent des performances du navigateur.",
     },
+    mindflow: {
+      title: "MindFlow - Carte Mentale",
+      description: "Visualisez vos idées, créez des cartes conceptuelles.",
+      commands: {
+        addNode: "Ajouter un nœud",
+        clearAll: "Tout effacer",
+        exportImage: "Exporter image",
+        help: "Comment utiliser ?",
+      },
+      newNode: "Nouveau nœud",
+      rootNode: "Sujet central",
+      connect: "Relier les nœuds",
+      deleteNode: "Supprimer le nœud",
+      emptyState: "Glissez-déposez et connectez",
+      help_title: "Aide MindFlow",
+      help_q1: "Comment ajouter ?",
+      help_a1: "Cliquez sur 'Ajouter' ou double-cliquez sur un nœud.",
+      help_q2: "Comment connecter ?",
+      help_a2: "Cliquez sur '+' sur un nœud, puis sur le nœud cible.",
+      features: "Caractéristiques",
+      feature1: "Utilisation gratuite et illimitée",
+      feature2: "Interface glisser-déposer",
+      feature3: "Édition en temps réel",
+    },
   },
   tr: {
     home: {
@@ -2101,6 +2125,32 @@ const manualTranslations = {
       pressStart: "Başlamak için Başlat'a basın",
       disclaimer:
         "* Gecikme Google üzerinden ölçülür. İndirme Wikimedia CDN, yükleme ise HttpBin kullanır. Sonuçlar tahminidir ve tarayıcı performansına bağlıdır.",
+    },
+    mindflow: {
+      title: "MindFlow - Zihin Haritası",
+      description: "Fikirlerinizi görselleştirin, kavram haritaları oluşturun.",
+      commands: {
+        addNode: "Düğüm Ekle",
+        clearAll: "Hepsini Temizle",
+        exportImage: "Resim Olarak İndir",
+        help: "Nasıl Kullanılır?",
+      },
+      newNode: "Yeni Düğüm",
+      rootNode: "Ana Konu",
+      connect: "Bağlantı Kur",
+      deleteNode: "Düğümü Sil",
+      emptyState: "Sürükleyip Bırakın ve Bağlayın",
+      help_title: "MindFlow Yardım",
+      help_q1: "Düğüm nasıl eklenir?",
+      help_a1:
+        "'Düğüm Ekle' butonuna basın veya mevcut bir düğüme çift tıklayın.",
+      help_q2: "Bağlantı nasıl kurulur?",
+      help_a2:
+        "Düğüm üzerindeki '+' ikonuna tıklayın, ardından bağlamak istediğiniz diğer düğüme tıklayın.",
+      features: "Kavram Haritası Özellikleri",
+      feature1: "Ücretsiz ve Sınırsız Kullanım",
+      feature2: "Pratik Sürükle-Bırak Arayüzü",
+      feature3: "Gerçek Zamanlı Düzenleme",
     },
   },
   es: {

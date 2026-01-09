@@ -41,7 +41,13 @@ const MindMap: React.FC = () => {
   useRecentTools();
 
   const [nodes, setNodes] = useState<MindNode[]>([
-    { id: "root", text: "Ana Konu", x: 400, y: 300, color: "bg-blue-600" },
+    {
+      id: "root",
+      text: t("mindflow.rootNode"),
+      x: 400,
+      y: 300,
+      color: "bg-blue-600",
+    },
   ]);
   const [connections, setConnections] = useState<Connection[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -52,7 +58,7 @@ const MindMap: React.FC = () => {
     const newNodeId = Math.random().toString(36).substr(2, 9);
     const newNode: MindNode = {
       id: newNodeId,
-      text: "Yeni Düğüm",
+      text: t("mindflow.newNode"),
       x: 100 + Math.random() * 200,
       y: 100 + Math.random() * 200,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
@@ -160,7 +166,7 @@ const MindMap: React.FC = () => {
               setNodes([
                 {
                   id: "root",
-                  text: "Ana Konu",
+                  text: t("mindflow.rootNode"),
                   x: 400,
                   y: 300,
                   color: "bg-blue-600",
@@ -277,13 +283,14 @@ const MindMap: React.FC = () => {
                             ? "bg-white/40"
                             : "hover:bg-black/20"
                         }`}
-                        title="Bağlantı Kur"
+                        title={t("mindflow.connect")}
                       >
                         <Plus className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => deleteNode(node.id)}
                         className="p-1 hover:bg-black/20 rounded text-white/80 hover:text-white"
+                        title={t("mindflow.deleteNode")}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -305,9 +312,7 @@ const MindMap: React.FC = () => {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
             <div className="text-center space-y-2">
               <Move className="w-12 h-12 mx-auto" />
-              <p className="text-xl font-medium">
-                Sürükleyip Bırakın ve Bağlayın
-              </p>
+              <p className="text-xl font-medium">{t("mindflow.emptyState")}</p>
             </div>
           </div>
         )}
