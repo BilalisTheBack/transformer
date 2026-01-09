@@ -21,6 +21,12 @@ interface MindNode {
   color: string;
 }
 
+interface Connection {
+  id: string;
+  from: string;
+  to: string;
+}
+
 const COLORS = [
   "bg-blue-500",
   "bg-purple-500",
@@ -37,27 +43,75 @@ const MindMap: React.FC = () => {
   const [nodes, setNodes] = useState<MindNode[]>([
     { id: "root", text: "Ana Konu", x: 400, y: 300, color: "bg-blue-600" },
   ]);
+  const [connections, setConnections] = useState<Connection[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [linkingFromId, setLinkingFromId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const addNode = () => {
+    const newNodeId = Math.random().toString(36).substr(2, 9);
     const newNode: MindNode = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: newNodeId,
       text: "Yeni Düğüm",
       x: 100 + Math.random() * 200,
       y: 100 + Math.random() * 200,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
     };
     setNodes([...nodes, newNode]);
+    // Auto-link to root if it exists
+    if (nodes.some((n) => n.id === "root")) {
+      setConnections([
+        ...connections,
+        {
+          id: Math.random().toString(36).substr(2, 9),
+          from: "root",
+          to: newNodeId,
+        },
+      ]);
+    }
   };
 
   const updateNodeText = (id: string, text: string) => {
-    setNodes(nodes.map((node) => (node.id === id ? { ...node, text } : node)));
+    setNodes((prev) =>
+      prev.map((node) => (node.id === id ? { ...node, text } : node))
+    );
   };
 
   const deleteNode = (id: string) => {
     if (id === "root") return;
-    setNodes(nodes.filter((node) => node.id !== id));
+    setNodes((prev) => prev.filter((node) => node.id !== id));
+    setConnections((prev) => prev.filter((c) => c.from !== id && c.to !== id));
+  };
+
+  const startLinking = (id: string) => {
+    if (linkingFromId === id) {
+      setLinkingFromId(null);
+    } else if (linkingFromId) {
+      // Create connection
+      if (
+        !connections.some(
+          (c) =>
+            (c.from === linkingFromId && c.to === id) ||
+            (c.from === id && c.to === linkingFromId)
+        )
+      ) {
+        setConnections([
+          ...connections,
+          {
+            id: Math.random().toString(36).substr(2, 9),
+            from: linkingFromId,
+            to: id,
+          },
+        ]);
+      }
+      setLinkingFromId(null);
+    } else {
+      setLinkingFromId(id);
+    }
+  };
+
+  const deleteConnection = (id: string) => {
+    setConnections(connections.filter((c) => c.id !== id));
   };
 
   const exportAsImage = async () => {
@@ -102,7 +156,7 @@ const MindMap: React.FC = () => {
             <Download className="w-5 h-5" />
           </button>
           <button
-            onClick={() =>
+            onClick={() => {
               setNodes([
                 {
                   id: "root",
@@ -111,8 +165,10 @@ const MindMap: React.FC = () => {
                   y: 300,
                   color: "bg-blue-600",
                 },
-              ])
-            }
+              ]);
+              setConnections([]);
+              setLinkingFromId(null);
+            }}
             className="p-2 bg-app-panel border border-app-border text-app-text-sub rounded-xl hover:text-red-500 hover:border-red-500/50 transition-all"
             title={t("mindflow.clear")}
           >
@@ -133,20 +189,38 @@ const MindMap: React.FC = () => {
       >
         {/* Connection Lines (SVG) */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
-          {nodes
-            .filter((n) => n.id !== "root")
-            .map((node) => (
-              <line
-                key={`line-${node.id}`}
-                x1={nodes.find((n) => n.id === "root")?.x || 0}
-                y1={nodes.find((n) => n.id === "root")?.y || 0}
-                x2={node.x}
-                y2={node.y}
-                stroke="currentColor"
-                strokeWidth="2"
-                className="text-app-border opacity-50"
-              />
-            ))}
+          {connections.map((conn) => {
+            const fromNode = nodes.find((n) => n.id === conn.from);
+            const toNode = nodes.find((n) => n.id === conn.to);
+            if (!fromNode || !toNode) return null;
+
+            return (
+              <g key={`conn-${conn.id}`} className="group pointer-events-auto">
+                <line
+                  x1={fromNode.x}
+                  y1={fromNode.y}
+                  x2={toNode.x}
+                  y2={toNode.y}
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  className="text-transparent hover:text-red-500/20 cursor-pointer transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteConnection(conn.id);
+                  }}
+                />
+                <line
+                  x1={fromNode.x}
+                  y1={fromNode.y}
+                  x2={toNode.x}
+                  y2={toNode.y}
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="text-app-border opacity-50 pointer-events-none"
+                />
+              </g>
+            );
+          })}
         </svg>
 
         {/* Nodes */}
@@ -156,19 +230,25 @@ const MindMap: React.FC = () => {
               key={node.id}
               drag
               dragMomentum={false}
-              onDrag={(_, info) => {
-                setNodes(
-                  nodes.map((n) =>
+              onDragEnd={(_, info) => {
+                setNodes((prev) =>
+                  prev.map((n) =>
                     n.id === node.id
-                      ? { ...n, x: n.x + info.delta.x, y: n.y + info.delta.y }
+                      ? { ...n, x: n.x + info.offset.x, y: n.y + info.offset.y }
                       : n
                   )
                 );
               }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1, x: node.x, y: node.y }}
+              initial={false}
+              animate={{ x: node.x, y: node.y }}
               exit={{ scale: 0, opacity: 0 }}
-              className={`absolute group cursor-grab active:cursor-grabbing p-4 rounded-xl shadow-lg border-2 border-white/20 text-white min-w-[150px] ${node.color}`}
+              className={`absolute group cursor-grab active:cursor-grabbing p-4 rounded-xl shadow-lg border-2 text-white min-w-[150px] ${
+                node.color
+              } ${
+                linkingFromId === node.id
+                  ? "ring-4 ring-white animate-pulse"
+                  : "border-white/20"
+              }`}
               style={{ left: -75, top: -25 }}
             >
               <div className="flex flex-col gap-2">
@@ -189,7 +269,18 @@ const MindMap: React.FC = () => {
                     >
                       {node.text}
                     </span>
-                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => startLinking(node.id)}
+                        className={`p-1 rounded text-white/80 hover:text-white transition-colors ${
+                          linkingFromId === node.id
+                            ? "bg-white/40"
+                            : "hover:bg-black/20"
+                        }`}
+                        title="Bağlantı Kur"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
                       <button
                         onClick={() => deleteNode(node.id)}
                         className="p-1 hover:bg-black/20 rounded text-white/80 hover:text-white"
