@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Plus,
   Trash2,
-  Trash2 as ClearIcon,
+  Trash2,
   Download,
   Move,
   HelpCircle,
   Grab,
-  Type,
+  Star,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRecentTools } from "../../hooks/useRecentTools";
@@ -20,11 +20,6 @@ interface MindNode {
   x: number;
   y: number;
   color: string;
-}
-
-interface Connection {
-  from: string;
-  to: string;
 }
 
 const COLORS = [
