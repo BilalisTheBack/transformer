@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import {
   Plus,
   Trash2,
-  Trash2,
   Download,
   Move,
   HelpCircle,

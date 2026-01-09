@@ -30,7 +30,6 @@ import {
   Star,
   Clock,
   Gauge,
-  Wifi,
   Grab,
 } from "lucide-react";
 
