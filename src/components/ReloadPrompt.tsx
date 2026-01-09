@@ -11,7 +11,7 @@ export default function ReloadPrompt() {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
-    onRegisteredSW(_swUrl, r) {
+    onRegisteredSW(_swUrl: string, r: ServiceWorkerRegistration | undefined) {
       // Check for updates every 30 seconds
       if (r) {
         setInterval(() => {
