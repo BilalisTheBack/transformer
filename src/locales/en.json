@@ -97,6 +97,7 @@
     "sitemap": "Sitemap.xml Generator",
     "page-speed": "Page Speed Checklist",
     "seo-preview": "SEO Snippet Preview",
+    "mindflow": "MindFlow (Mind Map)",
     "settings": "Settings"
   },
   "categories": {
@@ -999,5 +1000,22 @@
     "progress": "Testing...",
     "pressStart": "Press Start to begin",
     "disclaimer": "* Latency is measured to Google. Download uses Wikimedia CDN. Upload uses HttpBin. Results are estimates and depend on browser performance."
+  },
+  "mindflow": {
+    "title": "MindFlow - Mind & Concept Map",
+    "description": "MindFlow is a free tool that allows you to create concept and mind maps using a drag-and-drop method. Its use is very practical and easy. It is a useful application for people to learn concepts more easily and permanently.",
+    "addNode": "Add Node",
+    "clear": "Clear All",
+    "export": "Export as Image",
+    "nodePlaceholder": "Enter topic...",
+    "helpTitle": "What is it and How to Use?",
+    "q1": "What is MindFlow?",
+    "a1": "MindFlow is a drag-and-drop mind mapping tool used to visualize complex ideas.",
+    "q2": "How to use it?",
+    "a2": "You can create new boxes by clicking Add Node, move them by dragging, and manage connections between them.",
+    "features": "Concept Map Features",
+    "feature1": "Free and Unlimited Use",
+    "feature2": "Practical Drag-and-Drop Interface",
+    "feature3": "Real-time Editing"
   }
 }

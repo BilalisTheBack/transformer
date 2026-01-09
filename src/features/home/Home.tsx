@@ -31,6 +31,7 @@ import {
   Clock,
   Gauge,
   Wifi,
+  Grab,
 } from "lucide-react";
 
 import { useFavorites } from "../../hooks/useFavorites";
@@ -438,6 +439,13 @@ export default function Home() {
           title: t("colorPalette.title"),
           path: "/palette",
           color: "from-pink-500 to-rose-600",
+        },
+        {
+          id: "mind-map",
+          icon: Grab,
+          title: t("commands.mindflow"),
+          path: "/mind-map",
+          color: "from-blue-500 to-indigo-600",
         },
         {
           id: "qr",

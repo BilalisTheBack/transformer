@@ -68,6 +68,7 @@ import GlassmorphismGenerator from "./features/css/GlassmorphismGenerator";
 import NeumorphismGenerator from "./features/css/NeumorphismGenerator";
 import CssClampGenerator from "./features/css/CssClampGenerator";
 import FontPairingTool from "./features/css/FontPairingTool";
+import MindMap from "./features/visual/MindMap";
 
 // SEO Tools
 import MetaTagGenerator from "./features/seo/MetaTagGenerator";
@@ -160,6 +161,7 @@ function App() {
           <Route path="/clamp" element={<CssClampGenerator />} />
           <Route path="/font-pairing" element={<FontPairingTool />} />
           <Route path="/box-shadow" element={<BoxShadowGenerator />} />
+          <Route path="/mind-map" element={<MindMap />} />
 
           {/* SEO & Web */}
           <Route path="/meta-tags" element={<MetaTagGenerator />} />

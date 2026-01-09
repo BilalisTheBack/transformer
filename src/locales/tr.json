@@ -97,6 +97,7 @@
     "sitemap": "Sitemap.xml Oluşturucu",
     "page-speed": "Sayfa Hızı Kontrolü",
     "seo-preview": "SEO Önizleme",
+    "mindflow": "MindFlow (Zihin Haritası)",
     "settings": "Ayarlar"
   },
   "categories": {
@@ -999,5 +1000,22 @@
     "progress": "Test Ediliyor...",
     "pressStart": "Başlamak için Başlat'a basın",
     "disclaimer": "* Gecikme Google üzerinden ölçülür. İndirme Wikimedia CDN, yükleme ise HttpBin kullanır. Sonuçlar tahminidir ve tarayıcı performansına bağlıdır."
+  },
+  "mindflow": {
+    "title": "MindFlow - Zihin ve Kavram Haritası",
+    "description": "Sürükle bırak yöntemiyle ücretsiz bir şekilde kavram ve zihin haritaları oluşturmanıza yarayan bir araçtır. Bu uygulama ile ortak çalışmalar yaparak kavram ve zihin haritaları oluşturabilirsiniz. Kullanımı oldukça pratik ve kolaydır. İnsanların kavramları daha kolay ve kalıcı bir şekilde öğrenmeleri için işe yarar bir uygulamadır.",
+    "addNode": "Düğüm Ekle",
+    "clear": "Tümünü Temizle",
+    "export": "Resim Olarak Dışa Aktar",
+    "nodePlaceholder": "Konu adını girin...",
+    "helpTitle": "Nedir ve Nasıl Kullanılır?",
+    "q1": "MindFlow Nedir?",
+    "a1": "MindFlow, karmaşık fikirleri görselleştirmek için kullanılan sürükle-bırak destekli bir zihin haritası oluşturma aracıdır.",
+    "q2": "Nasıl kullanılır?",
+    "a2": "Düğüm Ekle butonuna basarak yeni bir kutucuk oluşturabilir, kutucukları sürükleyerek yerlerini değiştirebilir ve aralarındaki bağlantıları yönetebilirsiniz.",
+    "features": "Kavram Haritası Özellikleri",
+    "feature1": "Ücretsiz ve Sınırsız Kullanım",
+    "feature2": "Pratik Sürükle-Bırak Arayüzü",
+    "feature3": "Gerçek Zamanlı Düzenleme"
   }
 }
