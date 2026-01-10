@@ -613,7 +613,7 @@ export default function Home() {
                   >
                     <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1">
+                  <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1 gradient-text-optimized">
                     {tool.title}
                   </h3>
                   <div className="mt-auto pt-4 flex items-center justify-between">
@@ -669,7 +669,7 @@ export default function Home() {
                   >
                     <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1">
+                  <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1 gradient-text-optimized">
                     {tool.title}
                   </h3>
                   <div className="mt-auto pt-4 flex items-center justify-between">
