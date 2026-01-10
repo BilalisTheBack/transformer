@@ -29,7 +29,7 @@ It runs **100% locally** in your browser. No data is ever sent to a server. Whet
 - **🔒 Privacy First:** Your data (keys, images, passwords) never leaves your browser.
 - **⚡ Blazing Fast:** Zero network latency. Built with Vite and WASM.
 - **📦 Offline Capable:** Works without an internet connection (PWA).
-- **🌍 Multi-language:** Fully localized in **7 languages** (EN, TR, FR, ES, DE, IT, PT, RU).
+- **🌍 Multi-language:** Fully localized in **8 languages** (EN, TR, FR, ES, DE, IT, PT, RU).
 - **🎨 Amazing UX:** System-wide dark mode, command palette (`Ctrl+K`), and a smart dashboard with **Favorites** and **Recent Tools**.
 
 ## 🚀 Key Features
@@ -65,6 +65,7 @@ It runs **100% locally** in your browser. No data is ever sent to a server. Whet
 
 - **Secrets & Keys:** Cryptographically secure **Password, API Key, and CSRF Token** generators.
 - **CSS Engines:** Glassmorphism, Neumorphism, Box Shadow & Gradient generators with live code export.
+- **MindFlow:** Advanced mind mapping tool with drag-and-drop, node-to-node connections, and PNG export.
 - **Typography & Layout:** Fluid Typography (Clamp) & Font Pairing design toolkit.
 - **Analysis Tools:** Email Header Analyzer, User-Agent Parser, and Browser Fingerprinting.
 
@@ -74,7 +75,7 @@ It runs **100% locally** in your browser. No data is ever sent to a server. Whet
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
 - **Icons:** [Lucide React](https://lucide.dev/)
 - **PWA:** `vite-plugin-pwa` for full offline support.
-- **Key Libraries:** `i18next`, `@imgly/background-removal`, `tesseract.js`, `pdf-lib`, `papaparse`
+- **Key Libraries:** `i18next`, `@imgly/background-removal`, `tesseract.js`, `pdf-lib`, `papaparse`, `framer-motion`, `html2canvas`
 
 ## 🏃‍♂️ Quick Start
 
