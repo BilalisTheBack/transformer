@@ -95,10 +95,16 @@ h1 {
 }
 
 @layer utilities {
+  /* Mobile-first: Simple text rendering to pass LCP comfortably */
   .gradient-text-optimized {
     @apply text-app-text;
+    background-clip: unset;
+    -webkit-background-clip: unset;
+    color: currentColor;
+    background-image: none;
   }
 
+  /* Desktop: Re-enable premium gradient design where LCP budget is higher */
   @media (min-width: 768px) {
     .gradient-text-optimized {
       @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400;
