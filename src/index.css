@@ -89,8 +89,28 @@ body {
   -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
 }
 
+/* LCP Optimizations: Inform the browser that these elements won't change layout */
+h1,
+h2,
+h3 {
+  contain-intrinsic-size: auto 1.5em;
+  will-change: transform, opacity;
+}
+
 @layer utilities {
+  /* Mobile-first: Simple text rendering to pass LCP comfortably */
   .gradient-text-optimized {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400;
+    @apply text-app-text;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    color: inherit !important;
+    background-image: none !important;
+  }
+
+  /* Desktop: Re-enable premium gradient design once LCP budget is safe */
+  @media (min-width: 768px) {
+    .gradient-text-optimized {
+      @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400;
+    }
   }
 }

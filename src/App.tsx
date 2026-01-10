@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import { ThemeProvider } from "./providers/ThemeProvider";
@@ -140,12 +140,38 @@ const SeoSnippetPreview = lazy(
 );
 
 import { useRecentTools } from "./hooks/useRecentTools";
-import ReloadPrompt from "./components/ReloadPrompt";
 
-// Basic loading fallback
+// Premium loading fallback with "The Transformer" branding
 const LoadingFallback = () => (
-  <div className="flex items-center justify-center min-h-screen bg-slate-900 text-white">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  <div className="fixed inset-0 flex flex-col items-center justify-center bg-app-bg z-50 overflow-hidden">
+    {/* Animated background glow */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-app-primary/10 rounded-full blur-[100px] animate-pulse" />
+
+    <div className="relative flex flex-col items-center gap-8">
+      {/* Premium Gradient Spinner */}
+      <div className="relative w-20 h-20">
+        <div className="absolute inset-0 rounded-full border-4 border-app-border/10" />
+        <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-app-primary border-r-purple-500 animate-spin shadow-[0_0_15px_rgba(0,212,255,0.3)]" />
+      </div>
+
+      {/* Branded Text */}
+      <div className="flex flex-col items-center gap-2">
+        <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 animate-pulse">
+          The Transformer
+        </h2>
+        <div className="h-1 w-32 bg-app-border rounded-full overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 w-1/2 animate-[loadingBar_2s_infinite_ease-in-out]" />
+        </div>
+      </div>
+    </div>
+
+    <style>{`
+      @keyframes loadingBar {
+        0% { transform: translateX(-100%); width: 30%; }
+        50% { transform: translateX(50%); width: 60%; }
+        100% { transform: translateX(200%); width: 30%; }
+      }
+    `}</style>
   </div>
 );
 
@@ -239,7 +265,6 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
-      {/* <ReloadPrompt /> */}
     </ThemeProvider>
   );
 }
