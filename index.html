@@ -5,66 +5,13 @@
     <link rel="icon" type="image/svg+xml" href="/transformer.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Transformer</title>
-    <!-- Performance: CPU/Network Pre-warming -->
+    <!-- Simplified font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
-    <!-- 
-      LCP Fix: High Priority Font Loading 
-      Standard Google Fonts CSS is render-blocking. 
-      We load it as 'print' (low priority) and switch to 'all' once loaded to prevent block.
-    -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap"
-    />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap"
       rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
     />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
-    <script>
-      (function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        if (
-          urlParams.has("fix") ||
-          urlParams.has("clear") ||
-          urlParams.has("reset")
-        ) {
-          if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.getRegistrations().then((registrations) => {
-              for (const registration of registrations) {
-                registration.unregister();
-              }
-            });
-          }
-          if ("caches" in window) {
-            caches.keys().then((names) => {
-              for (const name of names) {
-                caches.delete(name);
-              }
-            });
-          }
-          localStorage.clear();
-          sessionStorage.clear();
-          const cleanUrl = window.location.origin + window.location.pathname;
-          console.log("Recovery mode active: Cleared all caches. Reloading...");
-          setTimeout(() => {
-            window.location.href = cleanUrl + "?v=" + Date.now();
-          }, 500);
-        }
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>
