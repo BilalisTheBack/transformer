@@ -239,7 +239,7 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
-      <ReloadPrompt />
+      {/* <ReloadPrompt /> */}
     </ThemeProvider>
   );
 }
