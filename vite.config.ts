@@ -9,11 +9,12 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        globPatterns: ["**/*.{js,css,html}"],
         maximumFileSizeToCacheInBytes: 10000000,
         cleanupOutdatedCaches: true,
         skipWaiting: true,
         clientsClaim: true,
+        navigateFallback: "/index.html",
       },
       manifest: {
         name: "The Transformer",
