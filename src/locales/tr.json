@@ -48,7 +48,11 @@
     "system": "Sistem",
     "outputPath": "Varsayılan Çıktı Yolu",
     "pathNote": "Not: Bu varsayılan bir tercihtir. Tarayıcı güvenliği hala belirli konumlar için size sorabilir.",
-    "downloadLabel": "İndirilenler şuraya kaydedilecek:"
+    "downloadLabel": "İndirilenler şuraya kaydedilecek:",
+    "troubleshooting": "Sorun Giderme",
+    "reloadTitle": "Yenile ve Güncelle",
+    "reloadDesc": "Eğer uygulama düzgün güncellenmiyorsa, önbelleği temizlemek ve güncellemeyi zorlamak için burayı kullanın.",
+    "reloadButton": "Önbelleği Temizle ve Güncelle"
   },
   "commands": {
     "json-csv": "JSON ↔ CSV Dönüştürücü",

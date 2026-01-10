@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../../hooks/useTheme";
-import { Monitor, Moon, Sun, Globe, Check, FolderOpen } from "lucide-react";
+import {
+  Monitor,
+  Moon,
+  Sun,
+  Globe,
+  Check,
+  FolderOpen,
+  RefreshCw,
+} from "lucide-react";
 import clsx from "clsx";
 
 export default function Settings() {
@@ -108,6 +116,51 @@ export default function Settings() {
             />
           </div>
           <p className="text-xs text-app-text-mute">{t("settings.pathNote")}</p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold flex items-center gap-2 text-app-text">
+          <RefreshCw className="w-5 h-5" />
+          {t("settings.troubleshooting")}
+        </h2>
+        <div className="p-4 bg-app-panel/50 border border-app-border rounded-xl space-y-4">
+          <div>
+            <h3 className="text-base font-medium text-app-text">
+              {t("settings.reloadTitle")}
+            </h3>
+            <p className="text-sm text-app-text-sub">
+              {t("settings.reloadDesc")}
+            </p>
+          </div>
+          <button
+            onClick={async () => {
+              // Clear Service Workers
+              if ("serviceWorker" in navigator) {
+                const regs = await navigator.serviceWorker.getRegistrations();
+                for (const reg of regs) {
+                  await reg.unregister();
+                }
+              }
+              // Clear Caches
+              if ("caches" in window) {
+                const names = await caches.keys();
+                for (const name of names) {
+                  await caches.delete(name);
+                }
+              }
+              // Force reload with cache bust
+              window.location.href =
+                window.location.origin +
+                window.location.pathname +
+                "?v=" +
+                Date.now();
+            }}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 rounded-xl transition-all font-medium"
+          >
+            <RefreshCw className="w-4 h-4" />
+            {t("settings.reloadButton")}
+          </button>
         </div>
       </section>
     </div>

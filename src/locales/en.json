@@ -48,7 +48,11 @@
     "system": "System",
     "outputPath": "Default Output Path",
     "pathNote": "Note: This serves as a default preference. Browser security may still prompt you for specific locations.",
-    "downloadLabel": "Downloads will be saved to:"
+    "downloadLabel": "Downloads will be saved to:",
+    "troubleshooting": "Troubleshooting",
+    "reloadTitle": "Reload and Update",
+    "reloadDesc": "If the app is not updating correctly, use this to clear cache and force update.",
+    "reloadButton": "Clean Cache & Update"
   },
   "commands": {
     "json-csv": "Convert JSON to CSV",
