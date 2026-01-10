@@ -150,7 +150,7 @@ export default function SpeedTest() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-in fade-in zoom-in duration-500">
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+        <h1 className="text-4xl md:text-5xl font-bold gradient-text-optimized">
           {t("speedTest.title")}
         </h1>
         <p className="text-xl text-app-text-sub max-w-2xl mx-auto">

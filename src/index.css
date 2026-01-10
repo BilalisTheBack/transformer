@@ -88,3 +88,20 @@ body {
   mask-image: linear-gradient(to right, black 90%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
 }
+
+/* LCP Optimizations */
+h1 {
+  will-change: contents;
+}
+
+@layer utilities {
+  .gradient-text-optimized {
+    @apply text-app-text;
+  }
+
+  @media (min-width: 768px) {
+    .gradient-text-optimized {
+      @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400;
+    }
+  }
+}

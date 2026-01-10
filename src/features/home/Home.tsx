@@ -545,7 +545,7 @@ export default function Home() {
       {/* Hero Section */}
       <div className="text-center space-y-6 md:space-y-8 pt-6 md:pt-12">
         <div className="space-y-2 md:space-y-4">
-          <h1 className="text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 pb-1 md:pb-2">
+          <h1 className="text-4xl md:text-7xl font-bold gradient-text-optimized pb-1 md:pb-2">
             The Transformer
           </h1>
           <p className="text-lg md:text-xl text-app-text-sub max-w-2xl mx-auto leading-relaxed px-4">

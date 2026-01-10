@@ -8,9 +8,47 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
+      media="all"
     />
+    <script>
+      (function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (
+          urlParams.has("fix") ||
+          urlParams.has("clear") ||
+          urlParams.has("reset")
+        ) {
+          if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+              for (const registration of registrations) {
+                registration.unregister();
+              }
+            });
+          }
+          if ("caches" in window) {
+            caches.keys().then((names) => {
+              for (const name of names) {
+                caches.delete(name);
+              }
+            });
+          }
+          localStorage.clear();
+          sessionStorage.clear();
+          const cleanUrl = window.location.origin + window.location.pathname;
+          console.log("Recovery mode active: Cleared all caches. Reloading...");
+          setTimeout(() => {
+            window.location.href = cleanUrl + "?v=" + Date.now();
+          }, 500);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
