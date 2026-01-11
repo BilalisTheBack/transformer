@@ -32,6 +32,7 @@
     "papaparse": "^5.5.3",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.4.530",
+    "piexifjs": "^1.0.6",
     "qrcode": "^1.5.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

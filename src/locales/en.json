@@ -436,10 +436,17 @@
     "make": "Make",
     "model": "Model",
     "lens": "Lens",
-    "software": "Software",
     "exif": "Full EXIF Data",
     "signature": "Digital Signature",
-    "noSig": "No digital signature found"
+    "noSig": "No digital signature found",
+    "editTags": "Edit Metadata Tags",
+    "saveChanges": "Save Changes",
+    "tagName": "Tag Name",
+    "tagValue": "Tag Value",
+    "tagArtist": "Artist/Author",
+    "tagSoftware": "Software/Creator",
+    "tagDescription": "Description",
+    "tagCopyright": "Copyright"
   },
   "fingerprint": {
     "title": "Browser Fingerprint",

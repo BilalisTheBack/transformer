@@ -436,10 +436,17 @@
     "make": "Marka",
     "model": "Model",
     "lens": "Lens",
-    "software": "Yazılım",
     "exif": "Tüm EXIF Verileri",
     "signature": "Dijital İmza",
-    "noSig": "Dijital imza bulunamadı"
+    "noSig": "Dijital imza bulunamadı",
+    "editTags": "Üstverileri Düzenle",
+    "saveChanges": "Değişiklikleri Kaydet",
+    "tagName": "Etiket Adı",
+    "tagValue": "Etiket Değeri",
+    "tagArtist": "Sanatçı / Yazar",
+    "tagSoftware": "Yazılım / Oluşturan",
+    "tagDescription": "Açıklama",
+    "tagCopyright": "Telif Hakkı"
   },
   "fingerprint": {
     "title": "Tarayıcı Parmak İzi",

@@ -98,6 +98,17 @@ h3 {
 }
 
 @layer utilities {
+  .premium-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600;
+    /* Ensure legibility on light/dark backgrounds */
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
+  }
+
+  .dark .premium-gradient {
+    /* Slightly brighter for dark mode if needed, but current colors are vivid enough */
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.05));
+  }
+
   /* Mobile-first: Simple text rendering to pass LCP comfortably */
   .gradient-text-optimized {
     @apply text-app-text;
@@ -110,7 +121,8 @@ h3 {
   /* Desktop: Re-enable premium gradient design once LCP budget is safe */
   @media (min-width: 768px) {
     .gradient-text-optimized {
-      @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400;
+      @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600;
+      filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
     }
   }
 }

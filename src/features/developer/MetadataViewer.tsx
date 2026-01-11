@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Upload,
   FileText,
@@ -14,12 +14,18 @@ import {
   Smartphone,
   Aperture,
   Trash2,
+  CheckCircle2,
+  XCircle,
+  Save,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 // @ts-ignore
 import ExifReader from "exifreader";
 import { PDFDocument } from "pdf-lib";
+// @ts-ignore
+import * as piexif from "piexifjs";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface FileSignature {
   hex: string;
@@ -39,39 +45,29 @@ const SIGNATURES: FileSignature[] = [
   {
     hex: "50 4B 03 04",
     type: "application/zip",
-    description: "ZIP Archive / OpenXml (Docx, Xlsx)",
+    description: "ZIP Archive / OpenXml",
   },
   { hex: "52 61 72 21", type: "application/x-rar", description: "RAR Archive" },
   {
     hex: "4D 5A",
     type: "application/x-msdownload",
-    description: "Windows Executable (EXE/DLL)",
+    description: "Windows Executable",
   },
-  {
-    hex: "7F 45 4C 46",
-    type: "application/x-elf",
-    description: "ELF Executable",
-  },
-  { hex: "49 44 33", type: "audio/mp3", description: "MP3 Audio (ID3)" },
+  { hex: "49 D3 33", type: "audio/mp3", description: "MP3 Audio" },
   {
     hex: "00 00 00 18 66 74 79 70",
     type: "video/mp4",
     description: "MP4 Video",
   },
-  {
-    hex: "00 00 00 20 66 74 79 70",
-    type: "video/mp4",
-    description: "MP4 Video",
-  },
 ];
 
-interface PdfMeta {
+interface EditableMeta {
   title: string;
   author: string;
   subject: string;
   keywords: string;
-  creator: string;
-  producer: string;
+  software: string;
+  copyright: string;
 }
 
 export default function MetadataViewer() {
@@ -80,679 +76,572 @@ export default function MetadataViewer() {
   const [headerHex, setHeaderHex] = useState<string>("");
   const [detectedType, setDetectedType] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [editMode, setEditMode] = useState(false);
 
-  // Image Meta
-  const [imageDims, setImageDims] = useState<{
-    width: number;
-    height: number;
-  } | null>(null);
-
-  // Device & GPS Info
-  const [deviceInfo, setDeviceInfo] = useState<{
-    make?: string;
-    model?: string;
-    software?: string;
-    lens?: string;
-  } | null>(null);
-
-  const [gpsInfo, setGpsInfo] = useState<{
-    latStr: string;
-    lngStr: string;
-    mapLink?: string;
-  } | null>(null);
-
-  // Video Meta
-  const [videoMeta, setVideoMeta] = useState<{
-    duration: number;
-    width: number;
-    height: number;
-  } | null>(null);
-
-  const [exifData, setExifData] = useState<any | null>(null);
-
-  // PDF Meta
-  const [pdfDoc, setPdfDoc] = useState<PDFDocument | null>(null);
-  const [pdfMeta, setPdfMeta] = useState<PdfMeta>({
+  // States for Editing
+  const [editableMeta, setEditableMeta] = useState<EditableMeta>({
     title: "",
     author: "",
     subject: "",
     keywords: "",
-    creator: "",
-    producer: "",
+    software: "",
+    copyright: "",
   });
-  const [isPdf, setIsPdf] = useState(false);
-  const [pdfEditing, setPdfEditing] = useState(false);
+
+  // Display-only states
+  const [imageDims, setImageDims] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
+  const [deviceInfo, setDeviceInfo] = useState<any>(null);
+  const [gpsInfo, setGpsInfo] = useState<any>(null);
+  const [videoMeta, setVideoMeta] = useState<any>(null);
+  const [exifData, setExifData] = useState<any>(null);
+  const [pdfDoc, setPdfDoc] = useState<PDFDocument | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const processFile = async (file: File) => {
-    setFile(file);
-    // Reset states
+  const processFile = async (selectedFile: File) => {
+    setFile(selectedFile);
+    setEditMode(false);
+    // Reset secondary states
     setImageDims(null);
     setVideoMeta(null);
-    setDetectedType(null);
     setExifData(null);
     setDeviceInfo(null);
     setGpsInfo(null);
     setPdfDoc(null);
-    setIsPdf(false);
-    setPdfEditing(false);
     if (previewUrl) URL.revokeObjectURL(previewUrl);
     setPreviewUrl(null);
-    setPdfMeta({
+
+    setEditableMeta({
       title: "",
       author: "",
       subject: "",
       keywords: "",
-      creator: "",
-      producer: "",
+      software: "",
+      copyright: "",
     });
 
-    // Create Preview URL
-    if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
-      setPreviewUrl(URL.createObjectURL(file));
+    if (
+      selectedFile.type.startsWith("image/") ||
+      selectedFile.type.startsWith("video/")
+    ) {
+      setPreviewUrl(URL.createObjectURL(selectedFile));
     }
 
-    // Read first 64 bytes for hex dump & signature check
+    // Signatures
     const reader = new FileReader();
     reader.onload = (e) => {
       if (e.target?.result instanceof ArrayBuffer) {
         const buffer = new Uint8Array(e.target.result);
-        const hexParts = Array.from(buffer).map((b) =>
-          b.toString(16).padStart(2, "0").toUpperCase()
-        );
-        const hexStr = hexParts.join(" ");
-        setHeaderHex(hexStr);
-
-        // Detect Magic Number
-        const foundSig = SIGNATURES.find((sig) => hexStr.startsWith(sig.hex));
-        if (foundSig) {
-          setDetectedType(foundSig.description);
-        } else {
-          setDetectedType(null);
-        }
+        const hex = Array.from(buffer)
+          .map((b) => b.toString(16).padStart(2, "0").toUpperCase())
+          .join(" ");
+        setHeaderHex(hex);
+        const found = SIGNATURES.find((s) => hex.startsWith(s.hex));
+        setDetectedType(found ? found.description : null);
       }
     };
-    reader.readAsArrayBuffer(file.slice(0, 64));
+    reader.readAsArrayBuffer(selectedFile.slice(0, 64));
 
-    // Image: Dimensions & EXIF
-    if (file.type.startsWith("image/")) {
+    // Image Extraction
+    if (selectedFile.type.startsWith("image/")) {
       const img = new Image();
-      img.onload = () => {
-        setImageDims({ width: img.width, height: img.height });
-      };
-      img.src = URL.createObjectURL(file);
+      img.onload = () => setImageDims({ width: img.width, height: img.height });
+      img.src = URL.createObjectURL(selectedFile);
 
-      // EXIF
       try {
-        // Use expanded: true to ensure we get meaningful data structures
-        const tags = await ExifReader.load(file, { expanded: true });
-        // Also get raw tags for display list
-        const rawTags = await ExifReader.load(file);
+        const tags = await ExifReader.load(selectedFile, { expanded: true });
+        const rawTags = await ExifReader.load(selectedFile);
         setExifData(rawTags);
 
-        // Extract Device Info (Try multiple sources)
-        const make =
-          tags.exif?.Make?.description || rawTags["Make"]?.description || "";
+        setDeviceInfo({
+          make: tags.exif?.Make?.description || "",
+          model: tags.exif?.Model?.description || "",
+          software: tags.exif?.Software?.description || "",
+          lens: tags.exif?.LensModel?.description || "",
+        });
 
-        const model =
-          tags.exif?.Model?.description || rawTags["Model"]?.description || "";
+        // Set initial editable meta from image tags
+        setEditableMeta({
+          title: rawTags["ImageDescription"]?.description || "",
+          author: rawTags["Artist"]?.description || "",
+          subject: "",
+          keywords: "",
+          software: rawTags["Software"]?.description || "",
+          copyright: rawTags["Copyright"]?.description || "",
+        });
 
-        const software =
-          tags.exif?.Software?.description ||
-          rawTags["Software"]?.description ||
-          "";
-
-        const lens =
-          tags.exif?.LensModel?.description ||
-          rawTags["LensModel"]?.description ||
-          "";
-
-        if (make || model || software || lens) {
-          setDeviceInfo({ make, model, software, lens });
-        }
-
-        // Extract GPS
         if (tags.gps) {
-          const lat = tags.gps.Latitude;
-          const lng = tags.gps.Longitude;
-
-          if (lat && lng) {
-            const latStr = `${lat.toFixed(6)}°`;
-            const lngStr = `${lng.toFixed(6)}°`;
-
-            setGpsInfo({
-              latStr,
-              lngStr,
-              mapLink: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
-            });
-          }
-        } else if (rawTags["GPSLatitude"] && rawTags["GPSLongitude"]) {
-          // Fallback to raw tags if expanded didn't work but raw did
-          const latStr = rawTags["GPSLatitude"]?.description || "";
-          const lngStr = rawTags["GPSLongitude"]?.description || "";
-
-          if (latStr && lngStr) {
-            setGpsInfo({
-              latStr,
-              lngStr,
-              mapLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                `${latStr} ${lngStr}`
-              )}`,
-            });
-          }
+          setGpsInfo({
+            lat: tags.gps.Latitude,
+            lng: tags.gps.Longitude,
+            mapLink: `https://www.google.com/maps?q=${tags.gps.Latitude},${tags.gps.Longitude}`,
+          });
         }
-      } catch (err) {
-        console.warn("No EXIF data found or error reading", err);
+      } catch (e) {
+        console.warn("EXIF error", e);
       }
     }
 
-    // Video: Duration & Dimensions
-    if (file.type.startsWith("video/")) {
-      const video = document.createElement("video");
-      video.preload = "metadata";
-      video.onloadedmetadata = () => {
-        setVideoMeta({
-          duration: video.duration,
-          width: video.videoWidth,
-          height: video.videoHeight,
-        });
-        URL.revokeObjectURL(video.src);
-      };
-      video.src = URL.createObjectURL(file);
-    }
-
-    // PDF: Read metadata
-    if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
-      setIsPdf(true);
+    // PDF Extraction
+    if (selectedFile.type === "application/pdf") {
       try {
-        const arrayBuffer = await file.arrayBuffer();
-        const doc = await PDFDocument.load(arrayBuffer);
+        const arr = await selectedFile.arrayBuffer();
+        const doc = await PDFDocument.load(arr);
         setPdfDoc(doc);
-        setPdfMeta({
+        setEditableMeta({
           title: doc.getTitle() || "",
           author: doc.getAuthor() || "",
           subject: doc.getSubject() || "",
-          keywords: (() => {
-            const kw = doc.getKeywords();
-            if (!kw) return "";
-            if (Array.isArray(kw)) return kw.join(", ");
-            return String(kw);
-          })(),
-          creator: doc.getCreator() || "",
-          producer: doc.getProducer() || "",
+          keywords: doc.getKeywords() || "",
+          software: doc.getCreator() || "",
+          copyright: doc.getProducer() || "",
         });
-      } catch (err) {
-        console.warn("Error loading PDF", err);
+      } catch (e) {
+        console.warn("PDF error", e);
       }
     }
   };
 
-  const cleanMetadata = async () => {
-    if (!file || !imageDims) return;
+  const saveEditedFile = async () => {
+    if (!file) return;
 
-    // Privacy scrub for images: Draw to canvas and re-export
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    await new Promise((resolve) => (img.onload = resolve));
+    // JPEG Edit Logic
+    if (file.type === "image/jpeg") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const dataUrl = reader.result as string;
+          let exifObj: any = {
+            "0th": {},
+            Exif: {},
+            GPS: {},
+            "1st": {},
+            thumbnail: null,
+          };
 
-    const canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+          try {
+            exifObj = piexif.load(dataUrl);
+          } catch (e) {}
 
-    ctx.drawImage(img, 0, 0);
+          // Update tags
+          exifObj["0th"][piexif.ImageIFD.ImageDescription] = editableMeta.title;
+          exifObj["0th"][piexif.ImageIFD.Artist] = editableMeta.author;
+          exifObj["0th"][piexif.ImageIFD.Software] = editableMeta.software;
+          exifObj["0th"][piexif.ImageIFD.Copyright] = editableMeta.copyright;
 
-    // Convert to Blob (strips EXIF)
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) return;
-        const url = URL.createObjectURL(blob);
+          const exifBytes = piexif.dump(exifObj);
+          const newUrl = piexif.insert(exifBytes, dataUrl);
+
+          const a = document.createElement("a");
+          a.href = newUrl;
+          a.download = `edited_${file.name}`;
+          a.click();
+        } catch (e) {
+          console.error("Save Error", e);
+          alert(
+            "Editing failed. This JPEG might have a non-standard structure."
+          );
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    // PDF Edit Logic
+    else if (file.type === "application/pdf" && pdfDoc) {
+      pdfDoc.setTitle(editableMeta.title);
+      pdfDoc.setAuthor(editableMeta.author);
+      pdfDoc.setSubject(editableMeta.subject);
+      pdfDoc.setKeywords(editableMeta.keywords.split(","));
+      pdfDoc.setProducer(editableMeta.copyright);
+      pdfDoc.setCreator(editableMeta.software);
+      const bytes = await pdfDoc.save();
+      const blob = new Blob([bytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `edited_${file.name}`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      alert("Editing is only supported for JPEG and PDF files.");
+    }
+  };
+
+  const scrubAll = async () => {
+    if (!file) return;
+    if (file.type.startsWith("image/")) {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      await new Promise((r) => (img.onload = r));
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(img, 0, 0);
+      canvas.toBlob((b) => {
+        if (!b) return;
         const a = document.createElement("a");
-        a.href = url;
-        a.download = `clean_${file.name}`;
+        a.href = URL.createObjectURL(b);
+        a.download = `scrubbed_${file.name}`;
         a.click();
-        URL.revokeObjectURL(url);
-      },
-      file.type,
-      0.95
-    );
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      processFile(e.target.files[0]);
+      }, file.type);
     }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      processFile(e.dataTransfer.files[0]);
-    }
-  };
-
-  const handlePdfMetaChange = (field: keyof PdfMeta, value: string) => {
-    setPdfMeta((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSavePdf = async () => {
-    if (!pdfDoc) return;
-    pdfDoc.setTitle(pdfMeta.title);
-    pdfDoc.setAuthor(pdfMeta.author);
-    pdfDoc.setSubject(pdfMeta.subject);
-    pdfDoc.setKeywords(pdfMeta.keywords.split(",").map((k) => k.trim()));
-    pdfDoc.setCreator(pdfMeta.creator);
-    pdfDoc.setProducer(pdfMeta.producer);
-
-    const pdfBytes = await pdfDoc.save();
-    const blob = new Blob([pdfBytes as BlobPart], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = file?.name || "modified.pdf";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const formatDuration = (seconds: number) => {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = Math.floor(seconds % 60);
-    if (h > 0) return `${h}h ${m}m ${s}s`;
-    return `${m}m ${s}s`;
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500 pb-24">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-          <Binary className="w-8 h-8 text-blue-500" />
+    <div className="flex flex-col items-center max-w-6xl mx-auto space-y-8 p-4 md:p-8 animate-in fade-in duration-700">
+      <div className="text-center space-y-3">
+        <h1 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient">
           {t("metadata.title")}
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-app-text-sub text-lg max-w-xl mx-auto">
           {t("metadata.description")}
         </p>
       </div>
 
-      <div
-        className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-12 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors cursor-pointer bg-gray-50 dark:bg-gray-800/50"
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={handleDrop}
-        onClick={() => fileInputRef.current?.click()}
-      >
-        <input
-          type="file"
-          ref={fileInputRef}
-          className="hidden"
-          onChange={handleFileChange}
-        />
-        <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-        <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
-          {t("common.dropFile")}
-        </p>
-        <p className="text-sm text-gray-500 mt-2">{t("metadata.dragText")}</p>
-      </div>
-
-      {file && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* LEFT COLUMN: Preview & Basic Info */}
-          <div className="space-y-6">
-            {/* Thumbnail Preview */}
-            {previewUrl && file.type.startsWith("image/") && (
-              <div className="bg-gray-100 dark:bg-gray-900/50 rounded-xl p-4 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden">
-                <img
-                  src={previewUrl}
-                  alt="Preview"
-                  className="max-h-64 rounded-lg object-contain shadow-sm"
-                />
-              </div>
-            )}
-
-            {/* Basic Info */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-purple-500" />
-                {t("metadata.basicInfo")}
-              </h3>
-              <dl className="space-y-3">
-                <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 p-2 rounded">
-                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("metadata.name")}
-                  </dt>
-                  <dd
-                    className="font-mono text-sm max-w-[200px] truncate"
-                    title={file.name}
-                  >
-                    {file.name}
-                  </dd>
-                </div>
-                <div className="flex justify-between items-center p-2 rounded">
-                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("metadata.size")}
-                  </dt>
-                  <dd className="font-mono text-sm">
-                    {(file.size / 1024).toFixed(2)} KB
-                  </dd>
-                </div>
-                <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 p-2 rounded">
-                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("metadata.type")}
-                  </dt>
-                  <dd className="font-mono text-sm">
-                    {file.type || "Unknown"}
-                  </dd>
-                </div>
-                <div className="flex justify-between items-center p-2 rounded">
-                  <dt className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("metadata.modified")}
-                  </dt>
-                  <dd className="font-mono text-sm">
-                    {format(new Date(file.lastModified), "yyyy-MM-dd HH:mm")}
-                  </dd>
-                </div>
-              </dl>
-
-              {/* Magic Number */}
-              <div
-                className={`mt-4 p-3 rounded-lg border flex items-start gap-3 ${
-                  detectedType
-                    ? "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800"
-                    : "bg-gray-50 border-gray-200 dark:bg-gray-900/50 dark:border-gray-700"
+      {!file ? (
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            e.preventDefault();
+            e.dataTransfer.files[0] && processFile(e.dataTransfer.files[0]);
+          }}
+          onClick={() => fileInputRef.current?.click()}
+          className="w-full max-w-3xl aspect-[16/9] border-2 border-dashed border-app-border rounded-[40px] flex flex-col items-center justify-center space-y-6 bg-app-panel/50 backdrop-blur-xl group cursor-pointer hover:border-app-primary transition-all duration-500"
+        >
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={(e) =>
+              e.target.files?.[0] && processFile(e.target.files[0])
+            }
+          />
+          <div className="p-8 rounded-full bg-app-bg border border-app-border group-hover:scale-110 transition-transform duration-500">
+            <Upload className="w-12 h-12 text-app-primary" />
+          </div>
+          <div className="text-center">
+            <p className="text-2xl font-bold text-app-text">
+              {t("common.dropFile")}
+            </p>
+            <p className="text-app-text-sub mt-1">{t("metadata.dragText")}</p>
+          </div>
+        </motion.div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+          {/* LEFT: Preview & Quick Actions */}
+          <div className="lg:col-span-12 flex flex-wrap gap-4 mb-4">
+            <button
+              onClick={() => setFile(null)}
+              className="px-6 py-2 rounded-xl bg-app-panel border border-app-border text-app-text font-bold flex items-center gap-2 hover:bg-app-bg transition-all"
+            >
+              <Trash2 className="w-4 h-4 text-rose-500" /> New File
+            </button>
+            {(file.type === "image/jpeg" ||
+              file.type === "application/pdf") && (
+              <button
+                onClick={() => setEditMode(!editMode)}
+                className={`px-6 py-2 rounded-xl border font-bold flex items-center gap-2 transition-all ${
+                  editMode
+                    ? "bg-indigo-500 text-white border-indigo-400"
+                    : "bg-app-panel border-app-border text-app-text hover:bg-indigo-500/10"
                 }`}
               >
-                <Info
-                  className={`w-5 h-5 mt-0.5 ${
-                    detectedType
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-gray-500"
-                  }`}
-                />
-                <div>
-                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                    {t("metadata.signature")}
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                    {detectedType ? detectedType : t("metadata.noSig")}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Privacy Tools (Clean Metadata) */}
-            {imageDims && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                  <ShieldAlert className="w-5 h-5 text-red-500" />
-                  {t("metadata.privacy")}
-                </h3>
-                <p className="text-sm text-gray-500 mb-4">
-                  {t("metadata.cleanDesc")}
-                </p>
-                <button
-                  onClick={cleanMetadata}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition shadow-sm hover:shadow-md"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  {t("metadata.clean")}
-                </button>
-              </div>
+                <Edit3 className="w-4 h-4" />{" "}
+                {editMode ? t("common.cancel") : t("metadata.edit")}
+              </button>
             )}
+            <button
+              onClick={scrubAll}
+              className="px-6 py-2 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 font-bold flex items-center gap-2 hover:bg-rose-500 hover:text-white transition-all"
+            >
+              <ShieldAlert className="w-4 h-4" /> {t("metadata.clean")}
+            </button>
           </div>
 
-          {/* RIGHT COLUMN: Detailed EXIF, Device, Hex */}
-          <div className="space-y-6">
-            {/* GPS Location Info */}
-            {gpsInfo && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-red-500" />
-                  {t("metadata.location")}
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-start text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
-                    <span className="text-gray-500 dark:text-gray-400">
-                      {t("metadata.lat")}
-                    </span>
-                    <span className="font-mono text-right max-w-[200px]">
-                      {gpsInfo.latStr}
-                    </span>
+          <div className="lg:col-span-5 space-y-6">
+            <motion.div
+              layout
+              className="p-4 rounded-3xl bg-app-panel border border-app-border shadow-xl overflow-hidden"
+            >
+              {previewUrl ? (
+                file.type.startsWith("image/") ? (
+                  <img
+                    src={previewUrl}
+                    className="w-full rounded-2xl object-contain max-h-[400px]"
+                    alt="Preview"
+                  />
+                ) : (
+                  <div className="aspect-square bg-app-bg rounded-2xl flex flex-col items-center justify-center">
+                    <FileText className="w-20 h-20 text-indigo-400" />
+                    <p className="mt-4 font-bold text-app-text uppercase">
+                      {file.type.split("/")[1]}
+                    </p>
                   </div>
-                  <div className="flex justify-between items-start text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
-                    <span className="text-gray-500 dark:text-gray-400">
-                      {t("metadata.lng")}
-                    </span>
-                    <span className="font-mono text-right max-w-[200px]">
-                      {gpsInfo.lngStr}
-                    </span>
-                  </div>
-
-                  {gpsInfo.mapLink && (
-                    <a
-                      href={gpsInfo.mapLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full text-center mt-4 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition font-medium flex items-center justify-center gap-2"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      {t("metadata.map")}
-                    </a>
-                  )}
+                )
+              ) : (
+                <div className="aspect-square bg-app-bg rounded-2xl flex items-center justify-center p-8 break-all font-mono text-xs text-app-text-sub">
+                  {headerHex.slice(0, 200)}...
                 </div>
-              </div>
-            )}
+              )}
+            </motion.div>
 
-            {/* Device Info */}
-            {deviceInfo && (
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl p-6 shadow-lg">
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Smartphone className="w-5 h-5 text-blue-400" />
-                  {t("metadata.device")}
-                </h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  {deviceInfo.make && (
-                    <div>
-                      <span className="text-gray-400 text-xs block uppercase">
-                        {t("metadata.make")}
-                      </span>
-                      <span className="font-medium">{deviceInfo.make}</span>
-                    </div>
-                  )}
-                  {deviceInfo.model && (
-                    <div>
-                      <span className="text-gray-400 text-xs block uppercase">
-                        {t("metadata.model")}
-                      </span>
-                      <span className="font-medium">{deviceInfo.model}</span>
-                    </div>
-                  )}
-                  {deviceInfo.lens && (
-                    <div className="col-span-2">
-                      <span className="text-gray-400 text-xs block uppercase">
-                        {t("metadata.lens")}
-                      </span>
-                      <span className="font-medium truncate block">
-                        {deviceInfo.lens}
-                      </span>
-                    </div>
-                  )}
-                  {deviceInfo.software && (
-                    <div className="col-span-2 border-t border-gray-700 pt-2 mt-2">
-                      <span className="text-gray-400 text-xs block uppercase">
-                        {t("metadata.software")}
-                      </span>
-                      <span className="font-mono text-xs">
-                        {deviceInfo.software}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* EXIF Data (Scrollable) */}
-            {exifData && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <Aperture className="w-5 h-5 text-teal-500" />
-                    {t("metadata.exif")}
-                  </h3>
-                  <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">
-                    {Object.keys(exifData).length} tags
-                  </span>
-                </div>
-
-                <div className="h-64 overflow-y-auto pr-2 space-y-1 custom-scrollbar">
-                  {Object.entries(exifData).map(
-                    ([key, value]: [string, any]) => {
-                      if (
-                        key === "MakerNote" ||
-                        key === "UserComment" ||
-                        typeof value?.description !== "string"
-                      )
-                        return null;
-                      return (
-                        <div
-                          key={key}
-                          className="flex justify-between items-start text-sm border-b border-gray-100 dark:border-gray-800 pb-1 last:border-0"
-                        >
-                          <span
-                            className="text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap mr-4 w-1/3 truncate"
-                            title={key}
-                          >
-                            {key}
-                          </span>
-                          <span
-                            className="text-gray-800 dark:text-gray-200 font-mono text-right w-2/3 truncate"
-                            title={value.description}
-                          >
-                            {value.description}
-                          </span>
-                        </div>
-                      );
-                    }
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Hex Dump (Scrollable) */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Hash className="w-5 h-5 text-orange-500" />
-                {t("metadata.hexDump")}
+            <div className="p-6 rounded-3xl bg-app-panel border border-app-border shadow-xl space-y-4">
+              <h3 className="text-sm font-black text-app-primary uppercase tracking-widest flex items-center gap-2">
+                <Info className="w-4 h-4" /> {t("metadata.basicInfo")}
               </h3>
-              <div className="bg-gray-900 p-4 rounded-lg overflow-x-auto">
-                <div className="font-mono text-xs text-green-400 leading-relaxed whitespace-pre-wrap break-all">
-                  {headerHex}
-                </div>
+              <div className="grid gap-3">
+                <InfoItem label={t("metadata.name")} value={file.name} />
+                <InfoItem
+                  label={t("metadata.type")}
+                  value={detectedType || file.type}
+                />
+                <InfoItem
+                  label={t("metadata.size")}
+                  value={`${(file.size / 1024).toFixed(2)} KB`}
+                />
+                <InfoItem
+                  label={t("metadata.lastModified")}
+                  value={format(file.lastModified, "yyyy-MM-dd HH:mm")}
+                />
+                {imageDims && (
+                  <InfoItem
+                    label={t("metadata.dimensions")}
+                    value={`${imageDims.width}x${imageDims.height}`}
+                  />
+                )}
               </div>
             </div>
           </div>
 
-          {/* Bottom Area: PDF Editor (Full Width) */}
-          {isPdf && pdfDoc && (
-            <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Edit3 className="w-5 h-5 text-indigo-500" />
-                  {t("metadata.pdfEdit")}
-                </h3>
-                <button
-                  onClick={() => setPdfEditing(!pdfEditing)}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+          {/* RIGHT: Edit Form or View Data */}
+          <div className="lg:col-span-7 space-y-6">
+            <AnimatePresence mode="wait">
+              {editMode ? (
+                <motion.div
+                  key="edit"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="p-8 rounded-[40px] bg-app-panel border-2 border-indigo-500/30 shadow-2xl space-y-6 relative overflow-hidden"
                 >
-                  {pdfEditing ? t("common.cancel") : t("common.edit")}
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {(
-                  [
-                    ["title", t("metadata.pdfTitle")],
-                    ["author", t("metadata.pdfAuthor")],
-                    ["subject", t("metadata.pdfSubject")],
-                    ["keywords", t("metadata.pdfKeywords")],
-                    ["creator", t("metadata.pdfCreator")],
-                    ["producer", t("metadata.pdfProducer")],
-                  ] as [keyof PdfMeta, string][]
-                ).map(([field, label]) => (
-                  <div key={field} className="space-y-1">
-                    <label className="text-xs text-gray-500 dark:text-gray-400 uppercase">
-                      {label}
-                    </label>
-                    {pdfEditing ? (
-                      <input
-                        type="text"
-                        value={pdfMeta[field]}
-                        onChange={(e) =>
-                          handlePdfMetaChange(field, e.target.value)
+                  <div className="absolute top-0 right-0 p-8 opacity-5">
+                    <Edit3 className="w-32 h-32 text-indigo-500" />
+                  </div>
+                  <h2 className="text-2xl font-black tracking-tighter text-app-text flex items-center gap-3">
+                    <Save className="w-6 h-6 text-indigo-500" />{" "}
+                    {t("metadata.pdfEdit")}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <EditField
+                      label={t("metadata.pdfTitle")}
+                      value={editableMeta.title}
+                      onChange={(v) =>
+                        setEditableMeta({ ...editableMeta, title: v })
+                      }
+                    />
+                    <EditField
+                      label={t("metadata.tagArtist")}
+                      value={editableMeta.author}
+                      onChange={(v) =>
+                        setEditableMeta({ ...editableMeta, author: v })
+                      }
+                    />
+                    {file.type === "application/pdf" && (
+                      <EditField
+                        label={t("metadata.pdfSubject")}
+                        value={editableMeta.subject}
+                        onChange={(v) =>
+                          setEditableMeta({ ...editableMeta, subject: v })
                         }
-                        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
-                    ) : (
-                      <div className="px-3 py-2 bg-gray-50 dark:bg-gray-900/50 rounded-lg text-sm font-mono truncate">
-                        {pdfMeta[field] || (
-                          <span className="text-gray-400">—</span>
+                    )}
+                    {file.type === "application/pdf" && (
+                      <EditField
+                        label={t("metadata.pdfKeywords")}
+                        value={editableMeta.keywords}
+                        onChange={(v) =>
+                          setEditableMeta({ ...editableMeta, keywords: v })
+                        }
+                      />
+                    )}
+                    <EditField
+                      label={t("metadata.tagSoftware")}
+                      value={editableMeta.software}
+                      onChange={(v) =>
+                        setEditableMeta({ ...editableMeta, software: v })
+                      }
+                    />
+                    <EditField
+                      label={t("metadata.tagCopyright")}
+                      value={editableMeta.copyright}
+                      onChange={(v) =>
+                        setEditableMeta({ ...editableMeta, copyright: v })
+                      }
+                    />
+                  </div>
+                  <button
+                    onClick={saveEditedFile}
+                    className="w-full mt-4 py-4 rounded-2xl bg-indigo-600 text-white font-black text-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-indigo-500/20"
+                  >
+                    <Download className="w-6 h-6" /> {t("common.download")}
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="view"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="space-y-6"
+                >
+                  {/* GPS UI */}
+                  {gpsInfo && (
+                    <div className="p-6 rounded-3xl bg-amber-500/5 border border-amber-500/20 shadow-xl overflow-hidden relative group">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-black text-amber-500 uppercase tracking-widest flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />{" "}
+                          {t("metadata.location")}
+                        </h3>
+                        <a
+                          href={gpsInfo.mapLink}
+                          target="_blank"
+                          className="p-2 rounded-xl bg-amber-500 text-white hover:scale-110 transition-all shadow-lg"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-3 rounded-2xl bg-white dark:bg-app-bg border border-app-border">
+                          <p className="text-[10px] font-bold text-app-text-sub uppercase">
+                            {t("metadata.lat")}
+                          </p>
+                          <p className="font-mono text-sm font-bold text-app-text">
+                            {gpsInfo.lat?.toFixed(6)}°
+                          </p>
+                        </div>
+                        <div className="p-3 rounded-2xl bg-white dark:bg-app-bg border border-app-border">
+                          <p className="text-[10px] font-bold text-app-text-sub uppercase">
+                            {t("metadata.lng")}
+                          </p>
+                          <p className="font-mono text-sm font-bold text-app-text">
+                            {gpsInfo.lng?.toFixed(6)}°
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Device UI */}
+                  {deviceInfo && (deviceInfo.make || deviceInfo.model) && (
+                    <div className="p-6 rounded-3xl bg-cyan-500/5 border border-cyan-500/20 shadow-xl relative overflow-hidden">
+                      <ShieldAlert className="absolute -top-4 -right-4 w-24 h-24 text-cyan-500 opacity-10" />
+                      <h3 className="text-sm font-black text-cyan-500 uppercase tracking-widest flex items-center gap-2 mb-4">
+                        <Smartphone className="w-4 h-4" />{" "}
+                        {t("metadata.device")}
+                      </h3>
+                      <div className="grid grid-cols-2 gap-6">
+                        <InfoItem
+                          label={t("metadata.make")}
+                          value={deviceInfo.make}
+                        />
+                        <InfoItem
+                          label={t("metadata.model")}
+                          value={deviceInfo.model}
+                        />
+                        <div className="col-span-2">
+                          <InfoItem
+                            label={t("metadata.tagSoftware")}
+                            value={deviceInfo.software}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Hex Dump */}
+                  <div className="p-6 rounded-3xl bg-app-panel border border-app-border shadow-xl">
+                    <h3 className="text-sm font-black text-app-text-sub uppercase tracking-widest flex items-center gap-2 mb-4">
+                      <Binary className="w-4 h-4" /> {t("metadata.hexDump")}
+                    </h3>
+                    <div className="font-mono text-[10px] text-indigo-400 p-4 bg-app-bg rounded-2xl border border-app-border overflow-x-auto whitespace-pre">
+                      {headerHex}
+                    </div>
+                  </div>
+
+                  {/* Full Tags */}
+                  {exifData && (
+                    <div className="p-6 rounded-3xl bg-app-panel border border-app-border shadow-xl">
+                      <h3 className="text-sm font-black text-app-text-sub uppercase tracking-widest flex items-center gap-2 mb-4">
+                        <Aperture className="w-4 h-4" /> {t("metadata.exif")} (
+                        {Object.keys(exifData).length})
+                      </h3>
+                      <div className="max-h-60 overflow-y-auto pr-4 custom-scrollbar space-y-1">
+                        {Object.entries(exifData).map(
+                          ([k, v]: any) =>
+                            k !== "MakerNote" &&
+                            v?.description && (
+                              <div
+                                key={k}
+                                className="flex justify-between items-center py-2 border-b border-app-border/50 text-xs text-app-text"
+                              >
+                                <span className="text-app-text-sub font-bold w-1/3 truncate">
+                                  {k}
+                                </span>
+                                <span className="text-app-text font-mono truncate w-2/3 text-right">
+                                  {String(v.description)}
+                                </span>
+                              </div>
+                            )
                         )}
                       </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {pdfEditing && (
-                <button
-                  onClick={handleSavePdf}
-                  className="mt-6 flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
-                >
-                  <Download className="w-4 h-4" />
-                  {t("metadata.savePdf")}
-                </button>
+                    </div>
+                  )}
+                </motion.div>
               )}
-            </div>
-          )}
-
-          {/* Video Metadata (Full Width) */}
-          {videoMeta && (
-            <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Film className="w-5 h-5 text-red-500" />
-                {t("metadata.videoMetadata")}
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex flex-col gap-1">
-                  <span className="text-gray-500 dark:text-gray-400 text-xs uppercase">
-                    {t("metadata.duration")}
-                  </span>
-                  <span className="font-mono">
-                    {formatDuration(videoMeta.duration)}
-                  </span>
-                </div>
-                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex flex-col gap-1">
-                  <span className="text-gray-500 dark:text-gray-400 text-xs uppercase">
-                    {t("metadata.resolution")}
-                  </span>
-                  <span className="font-mono">
-                    {videoMeta.width} x {videoMeta.height}
-                  </span>
-                </div>
-                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded flex flex-col gap-1">
-                  <span className="text-gray-500 dark:text-gray-400 text-xs uppercase">
-                    {t("metadata.aspectRatio")}
-                  </span>
-                  <span className="font-mono">
-                    {(videoMeta.width / videoMeta.height).toFixed(2)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
+            </AnimatePresence>
+          </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function InfoItem({ label, value }: { label: string; value: string }) {
+  if (!value) return null;
+  return (
+    <div className="min-w-0">
+      <p className="text-[10px] font-black text-app-text-sub uppercase tracking-tighter">
+        {label}
+      </p>
+      <p className="text-sm font-bold text-app-text truncate">{value}</p>
+    </div>
+  );
+}
+
+function EditField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <label className="text-[10px] font-black text-app-text-sub uppercase tracking-widest px-1">
+        {label}
+      </label>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full bg-app-bg border border-app-border rounded-2xl px-4 py-3 text-sm font-bold text-app-text focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:opacity-30"
+        placeholder={`Enter ${label.toLowerCase()}...`}
+      />
     </div>
   );
 }

@@ -1,6 +1,26 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Activity, Download, RefreshCw, Upload, Wifi, Zap } from "lucide-react";
+import {
+  Activity,
+  Download,
+  RefreshCw,
+  Upload,
+  Wifi,
+  Zap,
+  Globe,
+  MapPin,
+  Server,
+  ShieldCheck,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+interface NetworkInfo {
+  ip: string;
+  isp: string;
+  city: string;
+  country_name: string;
+  org: string;
+}
 
 export default function SpeedTest() {
   const { t } = useTranslation();
@@ -14,341 +34,422 @@ export default function SpeedTest() {
     upload: number | null;
   }>({ ping: null, jitter: null, download: null, upload: null });
 
+  const [networkInfo, setNetworkInfo] = useState<NetworkInfo | null>(null);
   const [liveSpeed, setLiveSpeed] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  const testSpeed = async () => {
-    setStatus("ping");
-    setProgress(0);
-    setLiveSpeed(0);
-    setResults({ ping: null, jitter: null, download: null, upload: null });
+  // Fetch Network Identity
+  useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        setNetworkInfo(data);
+      } catch (e) {
+        console.error("Identity fetch failed", e);
+      }
+    };
+    fetchInfo();
+  }, []);
 
-    try {
-      // 1. Ping & Jitter Test
-      const pings: number[] = [];
-      for (let i = 0; i < 5; i++) {
-        const start = performance.now();
+  const testPing = useCallback(async () => {
+    setStatus("ping");
+    const pings: number[] = [];
+    for (let i = 0; i < 8; i++) {
+      const start = performance.now();
+      try {
         await fetch("https://www.google.com/favicon.ico", {
           mode: "no-cors",
           cache: "no-store",
         });
         const end = performance.now();
         pings.push(end - start);
-        setProgress((i + 1) * 4); // Up to 20%
+      } catch (e) {
+        pings.push(50); // Fallback
+      }
+      setProgress((i + 1) * 2.5); // Up to 20%
+      await new Promise((r) => setTimeout(r, 100));
+    }
+
+    const avgPing = Math.round(pings.reduce((a, b) => a + b, 0) / pings.length);
+    const jitter = Math.round(
+      pings.reduce((acc, curr) => acc + Math.abs(curr - avgPing), 0) /
+        pings.length
+    );
+
+    setResults((prev) => ({ ...prev, ping: avgPing, jitter }));
+    return true;
+  }, []);
+
+  const testDownload = useCallback(async () => {
+    setStatus("download");
+    const testFile =
+      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Tokyo_Sky_Tree_2012.JPG"; // Large high-res image
+    const fileSize = 8 * 1024 * 1024; // Approx 8MB for a decent sample
+
+    const startTime = performance.now();
+    try {
+      const response = await fetch(testFile + "?t=" + Date.now(), {
+        cache: "no-store",
+      });
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("No reader");
+
+      let receivedLength = 0;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        receivedLength += value.length;
+        const currentProgress = (receivedLength / fileSize) * 100;
+        setProgress(20 + currentProgress * 0.4); // 20% to 60%
+
+        const elapsed = (performance.now() - startTime) / 1000;
+        const speedMbps = (receivedLength * 8) / (1024 * 1024) / elapsed;
+        setLiveSpeed(parseFloat(speedMbps.toFixed(2)));
       }
 
-      const minPing = Math.min(...pings);
-      const avgPing = Math.round(
-        pings.reduce((a, b) => a + b, 0) / pings.length
-      );
-      // Simple jitter calculation: average difference from mean
-      const jitter = Math.round(
-        pings.reduce((acc, curr) => acc + Math.abs(curr - avgPing), 0) /
-          pings.length
-      );
-
-      setResults((prev) => ({ ...prev, ping: avgPing, jitter }));
-
-      // 2. Download Test
-      setStatus("download");
-      const imageAddr =
-        "https://upload.wikimedia.org/wikipedia/commons/2/2d/Snake_River_%285mb%29.jpg";
-      const downloadSize = 5242880; // ~5MB
-
-      const startTime = performance.now();
-      const download = new Image();
-
-      // Artificial progress for download since Image() doesn't give progress events
-      let downloadProgress = 20;
-      const dlInterval = setInterval(() => {
-        downloadProgress = Math.min(downloadProgress + 5, 55);
-        setProgress(downloadProgress);
-      }, 200);
-
-      download.onload = () => {
-        clearInterval(dlInterval);
-        const endTime = performance.now();
-        const duration = (endTime - startTime) / 1000;
-        const bitsLoaded = downloadSize * 8;
-        const speedBps = bitsLoaded / duration;
-        const speedMbps = (speedBps / (1024 * 1024)).toFixed(2);
-
-        setResults((prev) => ({ ...prev, download: parseFloat(speedMbps) }));
-        setLiveSpeed(parseFloat(speedMbps));
-        startUploadTest();
-      };
-
-      download.onerror = () => {
-        clearInterval(dlInterval);
-        cancelTest();
-      };
-
-      download.src = imageAddr + "?n=" + Math.random();
+      const totalTime = (performance.now() - startTime) / 1000;
+      const finalSpeed = (receivedLength * 8) / (1024 * 1024) / totalTime;
+      setResults((prev) => ({
+        ...prev,
+        download: parseFloat(finalSpeed.toFixed(2)),
+      }));
     } catch (e) {
-      console.error(e);
-      cancelTest();
+      console.error("DL Error", e);
     }
-  };
+    return true;
+  }, []);
 
-  const startUploadTest = () => {
+  const testUpload = useCallback(async () => {
     setStatus("upload");
-    setProgress(60);
     setLiveSpeed(0);
 
-    // Creates a 2MB blob
-    const payload = new Blob([new ArrayBuffer(2 * 1024 * 1024)]);
-    const xhr = new XMLHttpRequest();
-    const startTime = performance.now();
+    // 10MB Payload for high accuracy on modern connections
+    const size = 10 * 1024 * 1024;
+    const data = new Uint8Array(size);
+    window.crypto.getRandomValues(data);
+    const blob = new Blob([data]);
 
-    xhr.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        const percentComplete = (event.loaded / event.total) * 100;
-        // Map 0-100 of upload to 60-100 of total progress
-        setProgress(60 + percentComplete * 0.4);
-      }
-    };
+    return new Promise((resolve) => {
+      const xhr = new XMLHttpRequest();
+      const startTime = performance.now();
 
-    xhr.onload = () => {
-      const endTime = performance.now();
-      const duration = (endTime - startTime) / 1000;
-      const bitsLoaded = payload.size * 8;
-      const speedBps = bitsLoaded / duration;
-      const speedMbps = (speedBps / (1024 * 1024)).toFixed(2);
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percent = (e.loaded / e.total) * 100;
+          setProgress(60 + percent * 0.4); // 60% to 100%
+          const elapsed = (performance.now() - startTime) / 1000;
+          const speedMbps = (e.loaded * 8) / (1024 * 1024) / elapsed;
+          setLiveSpeed(parseFloat(speedMbps.toFixed(2)));
+        }
+      };
 
-      setResults((prev) => ({ ...prev, upload: parseFloat(speedMbps) }));
-      setLiveSpeed(parseFloat(speedMbps));
-      setStatus("idle");
-      setProgress(100);
-    };
+      xhr.onload = () => {
+        const totalTime = (performance.now() - startTime) / 1000;
+        const finalSpeed = (size * 8) / (1024 * 1024) / totalTime;
+        setResults((prev) => ({
+          ...prev,
+          upload: parseFloat(finalSpeed.toFixed(2)),
+        }));
+        setLiveSpeed(parseFloat(finalSpeed.toFixed(2)));
+        setStatus("idle");
+        setProgress(100);
+        resolve(true);
+      };
 
-    xhr.onerror = () => {
-      cancelTest();
-    };
+      xhr.onerror = () => {
+        setStatus("idle");
+        resolve(false);
+      };
 
-    // Use httpbin for echo - widespread enough for a demo
-    xhr.open("POST", "https://httpbin.org/post");
-    xhr.send(payload);
-  };
+      xhr.open("POST", "https://httpbin.org/post"); // Echo server
+      xhr.send(blob);
+    });
+  }, []);
 
-  const cancelTest = () => {
-    setStatus("idle");
+  const startTest = async () => {
+    setResults({ ping: null, jitter: null, download: null, upload: null });
     setProgress(0);
     setLiveSpeed(0);
+
+    await testPing();
+    await testDownload();
+    await testUpload();
   };
 
-  const getGaugeColor = () => {
-    if (status === "download") return "text-cyan-400";
-    if (status === "upload") return "text-purple-400";
-    return "text-app-primary";
-  };
-
-  const getGaugeValue = () => {
-    if (status === "idle" && results.download) return results.download; // Show download as primary result at end
-    return liveSpeed;
-  };
+  const currentPrimarySpeed =
+    status === "idle" ? results.download || 0 : liveSpeed;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-in fade-in zoom-in duration-500">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold gradient-text-optimized">
+    <div className="flex flex-col items-center max-w-5xl mx-auto space-y-8 p-4 md:p-8 animate-in fade-in duration-700">
+      {/* Header Section */}
+      <div className="text-center space-y-3">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-6xl font-black tracking-tighter premium-gradient"
+        >
           {t("speedTest.title")}
-        </h1>
-        <p className="text-xl text-app-text-sub max-w-2xl mx-auto">
+        </motion.h1>
+        <p className="text-app-text-sub text-lg max-w-xl mx-auto">
           {t("speedTest.description")}
         </p>
       </div>
 
-      <div className="w-full max-w-2xl mx-auto p-8 rounded-3xl bg-app-panel border border-app-border shadow-2xl relative overflow-hidden">
-        {/* Decorative Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+        {/* Left: Identity & Info */}
+        <div className="lg:col-span-4 space-y-6">
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="p-6 rounded-3xl bg-app-panel border border-app-border shadow-2xl relative overflow-hidden group"
+          >
+            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Globe className="w-20 h-20 text-app-primary" />
+            </div>
+            <h3 className="text-sm font-bold text-app-primary uppercase tracking-widest mb-6 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4" />
+              {t("speedTest.networkInfo")}
+            </h3>
 
-        <div className="relative z-10 flex flex-col items-center gap-12">
-          {/* Speed Gauge */}
-          <div className="relative group cursor-default">
-            <div
-              className={`absolute -inset-4 bg-gradient-to-r ${
-                status === "upload"
-                  ? "from-purple-500/20 to-pink-500/20"
-                  : "from-cyan-500/20 to-blue-500/20"
-              } rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+            <div className="space-y-5">
+              <InfoRow
+                icon={Server}
+                label={t("speedTest.isp")}
+                value={networkInfo?.isp || networkInfo?.org || "..."}
+              />
+              <InfoRow
+                icon={ShieldCheck}
+                label={t("speedTest.ip")}
+                value={networkInfo?.ip || "..."}
+              />
+              <InfoRow
+                icon={MapPin}
+                label={t("speedTest.location")}
+                value={
+                  networkInfo
+                    ? `${networkInfo.city}, ${networkInfo.country_name}`
+                    : "..."
+                }
+              />
+            </div>
+          </motion.div>
+
+          {/* Secondary Stats */}
+          <div className="grid grid-cols-2 gap-4">
+            <StatBox
+              label={t("speedTest.ping")}
+              value={results.ping}
+              unit="ms"
+              icon={Activity}
+              color="text-yellow-400"
+              loading={status === "ping"}
             />
-            <div className="relative w-64 h-64 rounded-full border-8 border-app-border bg-app-bg flex flex-col items-center justify-center shadow-inner transition-colors duration-500">
-              {status !== "idle" ? (
-                <>
+            <StatBox
+              label={t("speedTest.jitter")}
+              value={results.jitter}
+              unit="ms"
+              icon={Zap}
+              color="text-orange-400"
+              loading={status === "ping"}
+            />
+          </div>
+        </div>
+
+        {/* Center: Major Gauge */}
+        <div className="lg:col-span-8 flex flex-col items-center justify-center p-8 rounded-3xl bg-app-panel/50 border border-app-border backdrop-blur-xl shadow-2xl relative">
+          {/* Scientific Grid Glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,212,255,0.05),transparent_70%)]" />
+
+          <div className="relative w-72 h-72 md:w-96 md:h-96">
+            {/* Progress SVG */}
+            <svg
+              className="absolute inset-0 w-full h-full -rotate-90 scale-x-[-1]"
+              viewBox="0 0 100 100"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+                className="text-app-border/20"
+              />
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="none"
+                stroke="url(#gaugeGradient)"
+                strokeWidth="6"
+                strokeLinecap="round"
+                strokeDasharray="283"
+                initial={{ strokeDashoffset: 283 }}
+                animate={{
+                  strokeDashoffset:
+                    283 - (283 * (status === "idle" ? 100 : progress)) / 100,
+                }}
+                transition={{ type: "spring", stiffness: 50 }}
+              />
+              <defs>
+                <linearGradient
+                  id="gaugeGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stopColor="#22d3ee" />
+                  <stop offset="100%" stopColor="#8b5cf6" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Live Counter */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center space-y-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={status}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.2 }}
+                >
                   {status === "download" && (
-                    <Download className="w-12 h-12 text-cyan-400 animate-bounce mb-2" />
+                    <Download className="w-8 h-8 text-cyan-400 animate-bounce" />
                   )}
                   {status === "upload" && (
-                    <Upload className="w-12 h-12 text-purple-400 animate-bounce mb-2" />
+                    <Upload className="w-8 h-8 text-purple-400 animate-bounce" />
                   )}
-                  {status === "ping" && (
-                    <Activity className="w-12 h-12 text-yellow-400 animate-pulse mb-2" />
+                  {status === "idle" && results.download && (
+                    <Wifi className="w-10 h-10 text-green-500" />
                   )}
+                  {status === "idle" && !results.download && (
+                    <Zap className="w-10 h-10 text-app-text-sub opacity-30" />
+                  )}
+                </motion.div>
+              </AnimatePresence>
 
-                  <span
-                    className={`text-4xl font-mono font-bold tabular-nums ${getGaugeColor()}`}
-                  >
-                    {getGaugeValue() || "..."}
-                  </span>
-                  <span className="text-sm text-app-text-sub uppercase tracking-wider mt-1">
-                    {status === "ping"
-                      ? t("speedTest.ms")
-                      : t("speedTest.mbps")}
-                  </span>
-                </>
-              ) : results.download ? (
-                <>
-                  <Wifi className="w-12 h-12 text-green-500 mb-2" />
-                  <span className="text-5xl font-mono font-bold text-green-500 tabular-nums">
-                    {results.download}
-                  </span>
-                  <span className="text-xs text-app-text-sub uppercase tracking-wider mt-1">
-                    {t("speedTest.download")}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <Zap className="w-16 h-16 text-app-text-sub opacity-50 mb-2" />
-                  <span className="text-lg text-app-text-sub">
-                    {t("speedTest.pressStart")}
-                  </span>
-                </>
-              )}
-
-              {/* Progress Ring */}
-              {status !== "idle" && (
-                <svg
-                  className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
-                  viewBox="0 0 100 100"
-                >
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="46"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className="text-app-border"
-                  />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="46"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeDasharray="289" // 2 * PI * 46
-                    strokeDashoffset={289 - (289 * progress) / 100}
-                    className={`transition-all duration-300 ${
-                      status === "upload" ? "text-purple-500" : "text-cyan-500"
-                    }`}
-                  />
-                </svg>
-              )}
+              <div className="flex flex-col items-center">
+                <span className="text-7xl md:text-8xl font-black font-mono tracking-tighter tabular-nums premium-gradient">
+                  {Math.round(currentPrimarySpeed)}
+                </span>
+                <span className="text-xl font-bold text-app-text-sub uppercase tracking-widest -mt-2">
+                  {t("speedTest.mbps")}
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Metrics Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-            <MetricBox
-              icon={Activity}
-              label={t("speedTest.ping")}
-              value={results.ping}
-              unit={t("speedTest.ms")}
-              active={status === "ping"}
-            />
-            <MetricBox
-              icon={Zap}
-              label={t("speedTest.jitter")}
-              value={results.jitter}
-              unit={t("speedTest.ms")}
-              active={status === "ping"}
-            />
-            <MetricBox
-              icon={Download}
-              label={t("speedTest.download")}
-              value={results.download}
-              unit={t("speedTest.mbps")}
-              active={status === "download"}
-              color="text-cyan-400"
-            />
-            <MetricBox
-              icon={Upload}
-              label={t("speedTest.upload")}
-              value={results.upload}
-              unit={t("speedTest.mbps")}
-              active={status === "upload"}
-              color="text-purple-400"
-            />
-          </div>
+          {/* Action Area */}
+          <div className="mt-12 w-full max-w-md space-y-6 text-center">
+            <button
+              onClick={startTest}
+              disabled={status !== "idle"}
+              className={`
+                 w-full py-5 rounded-2xl font-black text-xl tracking-tighter transition-all duration-300 relative overflow-hidden group
+                 ${
+                   status !== "idle"
+                     ? "bg-app-border text-app-text-sub cursor-not-allowed"
+                     : "bg-white dark:bg-app-text text-app-bg hover:scale-[1.02] shadow-xl hover:shadow-cyan-500/20 active:scale-95"
+                 }
+               `}
+            >
+              <div className="relative z-10 flex items-center justify-center gap-3">
+                {status !== "idle" ? (
+                  <>
+                    <RefreshCw className="w-6 h-6 animate-spin" />
+                    {t("speedTest.progress")}
+                  </>
+                ) : results.download ? (
+                  t("speedTest.restart")
+                ) : (
+                  t("speedTest.start")
+                )}
+              </div>
+              {status === "idle" && (
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+              )}
+            </button>
 
-          {/* Action Button */}
-          <button
-            onClick={testSpeed}
-            disabled={status !== "idle"}
-            className={`
-                    relative px-12 py-4 rounded-full font-bold text-lg tracking-wide transition-all duration-300
-                    ${
-                      status !== "idle"
-                        ? "bg-app-border text-app-text-sub cursor-not-allowed"
-                        : "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95"
-                    }
-                `}
-          >
-            {status !== "idle" ? (
-              <span className="flex items-center gap-2">
-                <RefreshCw className="w-5 h-5 animate-spin" />
-                {t("speedTest.progress")}
-              </span>
-            ) : results.download ? (
-              t("speedTest.restart")
-            ) : (
-              t("speedTest.start")
-            )}
-          </button>
+            {/* Sub-results */}
+            <div className="flex justify-center gap-12">
+              <div className="text-center group">
+                <p className="text-xs font-bold text-app-text-sub uppercase tracking-widest transition-colors group-hover:text-cyan-400">
+                  {t("speedTest.download")}
+                </p>
+                <p className="text-2xl font-mono font-bold text-app-text">
+                  {results.download || "--"}
+                </p>
+              </div>
+              <div className="text-center group">
+                <p className="text-xs font-bold text-app-text-sub uppercase tracking-widest transition-colors group-hover:text-purple-400">
+                  {t("speedTest.upload")}
+                </p>
+                <p className="text-2xl font-mono font-bold text-app-text">
+                  {results.upload || "--"}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <p className="text-xs text-app-text-sub max-w-md text-center opacity-60">
+      <p className="text-xs text-app-text-sub opacity-40 max-w-sm text-center italic">
         {t("speedTest.disclaimer")}
       </p>
     </div>
   );
 }
 
-function MetricBox({
+function InfoRow({
   icon: Icon,
   label,
   value,
-  unit,
-  active,
-  color = "text-app-text",
-}: any) {
+}: {
+  icon: any;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-center gap-4">
+      <div className="p-2 rounded-xl bg-app-bg border border-app-border">
+        <Icon className="w-5 h-5 text-app-primary" />
+      </div>
+      <div className="flex flex-col min-w-0">
+        <span className="text-[10px] text-app-text-sub uppercase font-bold tracking-widest">
+          {label}
+        </span>
+        <span className="text-sm font-semibold truncate text-app-text">
+          {value}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function StatBox({ label, value, unit, icon: Icon, color, loading }: any) {
   return (
     <div
-      className={`
-            flex flex-col items-center p-4 rounded-2xl border transition-colors duration-300
-            ${
-              active
-                ? "bg-app-panel border-app-primary/50 shadow-lg"
-                : "bg-app-bg border-app-border"
-            }
-        `}
+      className={`p-4 rounded-3xl bg-app-panel border border-app-border shadow-lg transition-all ${
+        loading ? "ring-2 ring-app-primary ring-opacity-50" : ""
+      }`}
     >
-      <span className="flex items-center gap-2 text-xs font-medium text-app-text-sub uppercase tracking-wider mb-1">
-        <Icon className="w-3 h-3" />
-        {label}
-      </span>
-      <span
-        className={`text-xl md:text-2xl font-bold font-mono ${
-          value ? color : "text-app-text"
-        }`}
-      >
-        {value !== null ? value : "--"}
-        <span className="text-xs md:text-sm text-app-text-sub ml-1 font-normal">
-          {unit}
+      <div className="flex items-center gap-2 mb-1">
+        <Icon className={`w-3 h-3 ${color}`} />
+        <span className="text-[10px] font-bold text-app-text-sub uppercase tracking-widest">
+          {label}
         </span>
-      </span>
+      </div>
+      <div className="flex items-baseline gap-1">
+        <span
+          className={`text-xl font-black font-mono ${
+            value ? "text-app-text" : "text-app-text-sub"
+          }`}
+        >
+          {value || "--"}
+        </span>
+        <span className="text-[10px] text-app-text-sub font-bold">{unit}</span>
+      </div>
     </div>
   );
 }
