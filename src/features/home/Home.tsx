@@ -74,14 +74,14 @@ export default function Home() {
   }, [recentTools, sections, activeCategory]);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 md:space-y-12 pb-24 animate-in fade-in duration-500">
+    <div className="w-full max-w-7xl mx-auto space-y-6 md:space-y-12 pb-24 relative overflow-x-hidden">
       {/* Hero Section */}
-      <div className="text-center space-y-6 md:space-y-8 pt-6 md:pt-12">
-        <div className="space-y-2 md:space-y-4">
-          <h1 className="text-4xl md:text-7xl font-bold gradient-text-optimized pb-1 md:pb-2">
+      <div className="w-full text-center space-y-6 md:space-y-8 pt-6 md:pt-12 px-4">
+        <div className="space-y-2 md:space-y-4 w-full">
+          <h1 className="text-4xl md:text-7xl font-bold gradient-text-optimized pb-1 md:pb-2 break-words w-full">
             The Transformer
           </h1>
-          <p className="text-lg md:text-xl text-app-text-sub max-w-2xl mx-auto leading-relaxed px-4">
+          <p className="text-lg md:text-xl text-app-text-sub max-w-2xl mx-auto leading-relaxed break-words w-full">
             {t("home.subtitle")}
           </p>
         </div>
@@ -104,9 +104,9 @@ export default function Home() {
       </div>
 
       {/* Category Quick Scroller */}
-      <div className="sticky top-0 z-30 -mx-4 md:mx-0 px-4 md:px-0 bg-app-bg/80 backdrop-blur-xl py-4 border-b border-app-border/50 md:border-none md:relative md:bg-transparent">
-        <div className="flex overflow-x-auto no-scrollbar mask-fade-right">
-          <div className="flex gap-2.5 pb-2">
+      <div className="sticky top-0 z-30 w-full left-0 right-0 bg-app-bg/80 backdrop-blur-xl md:bg-transparent md:backdrop-blur-none border-b border-app-border/50 md:border-none md:relative">
+        <div className="flex overflow-x-auto no-scrollbar scroll-smooth px-4 md:px-0 w-full">
+          <div className="flex gap-2.5 py-4 md:py-0">
             <button
               onClick={() => setActiveCategory(null)}
               className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm flex items-center gap-2 ${
@@ -178,7 +178,7 @@ export default function Home() {
               )}
             </h2>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 px-1">
             {filteredFavorites.map((tool) => (
               <Link
                 key={tool.id}
@@ -235,7 +235,7 @@ export default function Home() {
               {t("clear")}
             </button>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 px-1">
             {filteredRecent
               .slice(0, 10) // Limit to 10
               .map((tool) => (
@@ -288,7 +288,7 @@ export default function Home() {
           <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
           {t("featured_tools")}
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-1">
           {[
             {
               id: "json-csv",
@@ -385,8 +385,8 @@ export default function Home() {
               <div
                 className={
                   viewMode === "grid"
-                    ? "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"
-                    : "flex flex-col gap-2"
+                    ? "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 px-1"
+                    : "flex flex-col gap-2 px-1"
                 }
               >
                 {section.tools.map((tool) => (

@@ -33,7 +33,7 @@ export default function Layout() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-app-bg text-app-text flex font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-app-bg text-app-text flex font-sans transition-colors duration-200 overflow-x-hidden">
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-16 flex-col items-center py-6 border-r border-app-border bg-app-nav/80 backdrop-blur-md fixed h-full z-40 transition-colors duration-200">
         <button
@@ -145,8 +145,8 @@ export default function Layout() {
         </button>
       </nav>
       {/* Main Content */}
-      <main className="flex-1 md:ml-16 flex flex-col min-h-screen relative bg-app-bg">
-        <div className="flex-1 p-4 md:p-8">
+      <main className="flex-1 md:ml-16 flex flex-col min-h-screen relative bg-app-bg w-full max-w-full overflow-x-hidden">
+        <div className="flex-1 p-4 md:p-8 w-full max-w-full overflow-x-hidden">
           <Outlet />
         </div>
       </main>
