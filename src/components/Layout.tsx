@@ -10,11 +10,14 @@ import {
 } from "lucide-react";
 import FeedbackModal from "./FeedbackModal";
 import { useTranslation } from "react-i18next";
+import { useFavorites } from "../hooks/useFavorites";
+import { ALL_TOOLS } from "../config/tools";
 
 export default function Layout() {
   const { t } = useTranslation();
   const [isPaletteOpen, setPaletteOpen] = useState(false);
   const [isFeedbackOpen, setFeedbackOpen] = useState(false);
+  const { favorites } = useFavorites();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,6 +67,27 @@ export default function Layout() {
           </button>
 
           <div className="h-px w-8 bg-app-border" />
+
+          {/* Favorites List */}
+          <div className="flex flex-col items-center gap-4 w-full overflow-y-auto no-scrollbar max-h-[40vh]">
+            {favorites.map((favId) => {
+              const tool = ALL_TOOLS.find((t) => t.id === favId);
+              if (!tool) return null;
+              return (
+                <button
+                  key={favId}
+                  onClick={() => navigate(tool.path)}
+                  className="w-10 h-10 rounded-lg bg-app-panel border border-app-border flex items-center justify-center text-app-text-sub hover:text-app-primary hover:border-app-primary/50 transition-all group relative shadow-sm"
+                  title={t(`commands.${tool.id}`)}
+                >
+                  <tool.icon className="w-5 h-5" />
+                  <div className="absolute left-14 bg-app-panel border border-app-border text-app-text text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl z-50">
+                    {t(`commands.${tool.id}`)}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </nav>
 
         <div className="flex flex-col items-center gap-4 mt-auto">

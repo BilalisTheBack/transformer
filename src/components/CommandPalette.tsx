@@ -68,6 +68,7 @@ export default function CommandPalette({
           label: t("commands.json-csv"),
           path: "/json-csv",
           icon: FileJson,
+          keywords: ["excel", "data", "sheet", "table"],
         },
         {
           id: "json-ts",
@@ -110,6 +111,7 @@ export default function CommandPalette({
           label: t("commands.img-conv"),
           path: "/image-converter",
           icon: ImageIcon,
+          keywords: ["photo", "picture", "resize", "crop"],
         },
         {
           id: "img-format",
@@ -204,14 +206,26 @@ export default function CommandPalette({
           path: "/base64",
           icon: Binary,
         },
-        { id: "epoch", label: t("epoch.title"), path: "/epoch", icon: Clock },
+        {
+          id: "epoch",
+          label: t("epoch.title"),
+          path: "/epoch",
+          icon: Clock,
+          keywords: ["unix", "timestamp", "time", "date"],
+        },
         {
           id: "json-yaml",
           label: t("jsonYaml.title"),
           path: "/json-yaml",
           icon: FileJson,
         },
-        { id: "sql", label: t("sql.title"), path: "/sql", icon: Database },
+        {
+          id: "sql",
+          label: t("sql.title"),
+          path: "/sql",
+          icon: Database,
+          keywords: ["db", "database", "query", "format", "beautifier"],
+        },
         {
           id: "metadata",
           label: t("metadata.title"),
@@ -355,6 +369,7 @@ export default function CommandPalette({
           label: t("ip.title"),
           path: "/ip",
           icon: Globe,
+          keywords: ["address", "network", "location", "whois"],
         },
       ],
     },
@@ -487,8 +502,13 @@ export default function CommandPalette({
   const filteredSections = sections
     .map((section) => ({
       ...section,
-      items: section.items.filter((item) =>
-        item.label.toLowerCase().includes(query.toLowerCase())
+      items: section.items.filter(
+        (item) =>
+          item.label.toLowerCase().includes(query.toLowerCase()) ||
+          item.keywords?.some((k: string) =>
+            k.toLowerCase().includes(query.toLowerCase())
+          ) ||
+          item.path.toLowerCase().includes(query.toLowerCase())
       ),
     }))
     .filter((section) => section.items.length > 0);

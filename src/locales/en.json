@@ -88,7 +88,7 @@
     "neumorphism": "Neumorphism Generator",
     "clamp": "CSS Clamp Generator",
     "font-pairing": "Font Pairing Tool",
-    "bgRemover": "Background Remover",
+    "bg-remover": "AI Background Remover",
     "compress": "Image Compressor",
     "crop": "Image Resizer & Cropper",
     "minifier": "Code Minifier",
@@ -101,7 +101,32 @@
     "sitemap": "Sitemap.xml Generator",
     "page-speed": "Page Speed Checklist",
     "seo-preview": "SEO Snippet Preview",
-    "mindflow": "MindFlow (Mind Map)",
+    "mind-map": "MindFlow (Mind Map)",
+    "chmod": "Chmod Calculator",
+    "gitignore": "Gitignore Generator",
+    "favicon": "Favicon Generator",
+    "pdf-tools": "PDF Tools (Merge/Split)",
+    "svg-optimizer": "SVG Optimizer",
+    "clip-path": "Clip-Path Maker",
+    "lorem": "Lorem Ipsum Generator",
+    "jwt": "JWT Decoder",
+    "base64": "Base64 Encoder/Decoder",
+    "epoch": "Epoch Timestamp Converter",
+    "json-yaml": "JSON ↔ YAML Converter",
+    "sql": "SQL Formatter",
+    "metadata": "Metadata Viewer",
+    "seo": "SEO & Open Graph",
+    "regex": "Regex Tester",
+    "ip": "IP Address Info",
+    "speed-test": "Network Speed Test",
+    "hash": "Hash Generator",
+    "uuid": "UUID Generator",
+    "url": "URL Encoder/Decoder",
+    "fingerprint": "Browser Fingerprint",
+    "password": "Password Generator",
+    "palette": "Color Palette Generator",
+    "qr": "QR Code Generator",
+    "box-shadow": "Box Shadow Generator",
     "settings": "Settings"
   },
   "categories": {
@@ -1031,7 +1056,33 @@
     "newNode": "New Node",
     "rootNode": "Central Topic",
     "connect": "Link Nodes",
-    "deleteNode": "Delete Node",
-    "emptyState": "Drag & Drop and Connect"
+    "deleteNode": "Delete Node"
+  },
+  "chmod": {
+    "title": "Chmod Calculator",
+    "subtitle": "Visually calculate Unix file permissions",
+    "owner": "Owner",
+    "group": "Group",
+    "others": "Others"
+  },
+  "gitignore": {
+    "title": ".gitignore Generator",
+    "subtitle": "Generate professional .gitignore files for your projects"
+  },
+  "clippath": {
+    "title": "CSS Clip-Path Maker",
+    "subtitle": "Generate CSS clip-path shapes visually"
+  },
+  "svg": {
+    "title": "SVG Optimizer",
+    "subtitle": "Compress and clean SVG files without quality loss"
+  },
+  "favicon": {
+    "title": "Favicon Generator",
+    "subtitle": "Create all standard favicon sizes from one image"
+  },
+  "pdf": {
+    "title": "PDF Tools",
+    "subtitle": "Merge or split PDF files entirely in your browser"
   }
 }

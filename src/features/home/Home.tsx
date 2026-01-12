@@ -1,544 +1,77 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
-  FileJson,
-  Image as ImageIcon,
-  FileType,
-  FileCode,
-  ArrowRightLeft,
-  Settings,
-  Activity,
-  Palette,
-  QrCode,
-  Square,
-  Binary,
-  Database,
-  Terminal,
-  FileText,
-  Lock,
-  Fingerprint,
-  Link as LinkIcon,
-  Code2,
-  Share2,
-  Regex,
-  Globe,
-  Eraser,
-  FileSpreadsheet,
-  CaseUpper,
-  Wand2,
-  ShieldAlert,
   Star,
   Clock,
-  Gauge,
-  Grab,
+  List,
+  LayoutGrid,
+  FileJson,
+  Eraser,
+  Image as ImageIcon,
+  Share2,
 } from "lucide-react";
 
 import { useFavorites } from "../../hooks/useFavorites";
 import { useRecentTools } from "../../hooks/useRecentTools";
+import { useState, useEffect, useMemo } from "react";
+import { TOOLS_CONFIG } from "../../config/tools";
 
 export default function Home() {
   const { t } = useTranslation();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { recentTools, clearRecent } = useRecentTools();
 
-  const sections = [
-    {
-      id: "converters",
-      title: t("categories.converters"),
-      tools: [
-        {
-          id: "json-csv",
-          icon: FileJson,
-          title: t("commands.json-csv"),
-          path: "/json-csv",
-          color: "from-orange-500 to-red-600",
-        },
-        {
-          id: "json-ts",
-          icon: FileCode,
-          title: t("commands.json-ts"),
-          path: "/json-ts",
-          color: "from-blue-600 to-indigo-600",
-        },
-        {
-          id: "config",
-          icon: Settings,
-          title: t("commands.config"),
-          path: "/config",
-          color: "from-gray-600 to-slate-700",
-        },
-        {
-          id: "xml-json",
-          icon: ArrowRightLeft,
-          title: t("commands.xml-json"),
-          path: "/xml-json",
-          color: "from-orange-500 to-amber-600",
-        },
-        {
-          id: "excel-csv",
-          icon: FileSpreadsheet,
-          title: t("commands.excel-csv"),
-          path: "/excel-csv",
-          color: "from-green-600 to-emerald-700",
-        },
-        {
-          id: "curl",
-          icon: Terminal,
-          title: t("commands.curl"),
-          path: "/curl",
-          color: "from-green-600 to-emerald-700",
-        },
-      ],
-    },
-    {
-      id: "media",
-      title: t("categories.media"),
-      tools: [
-        {
-          id: "img-conv",
-          icon: ImageIcon,
-          title: t("commands.img-conv"),
-          path: "/image-converter",
-          color: "from-purple-500 to-pink-600",
-        },
-        {
-          id: "img-format",
-          icon: FileType,
-          title: t("commands.img-format"),
-          path: "/img-format",
-          color: "from-blue-500 to-cyan-600",
-        },
-        {
-          id: "svg",
-          icon: Code2,
-          title: t("commands.svg"),
-          path: "/svg",
-          color: "from-amber-500 to-orange-600",
-        },
-        {
-          id: "color",
-          icon: Palette,
-          title: t("commands.color"),
-          path: "/color",
-          color: "from-pink-500 to-rose-600",
-        },
-        {
-          id: "ocr",
-          icon: FileText,
-          title: t("commands.ocr"),
-          path: "/ocr",
-          color: "from-neutral-600 to-neutral-800",
-        },
-        {
-          id: "bg-remover",
-          icon: Eraser,
-          title: t("bgRemover.title"),
-          path: "/bg-remover",
-          color: "from-purple-600 to-indigo-600",
-        },
-        {
-          id: "compress",
-          icon: Share2,
-          title: t("commands.compress"),
-          path: "/compress",
-          color: "from-pink-600 to-rose-600",
-        },
-        {
-          id: "crop",
-          icon: Eraser,
-          title: t("commands.crop"),
-          path: "/crop",
-          color: "from-teal-600 to-emerald-600",
-        },
-        {
-          id: "img-pdf",
-          icon: FileText,
-          title: t("commands.img-pdf"),
-          path: "/img-pdf",
-          color: "from-red-600 to-rose-600",
-        },
-        {
-          id: "pdf-img",
-          icon: ImageIcon,
-          title: t("commands.pdf-img"),
-          path: "/pdf-img",
-          color: "from-orange-600 to-amber-600",
-        },
-        {
-          id: "exif-cleaner",
-          icon: ShieldAlert,
-          title: t("commands.exif-cleaner"),
-          path: "/exif-cleaner",
-          color: "from-red-500 to-pink-600",
-        },
-      ],
-    },
-    {
-      id: "text",
-      title: t("categories.text"),
-      tools: [
-        {
-          id: "text-md",
-          icon: FileCode,
-          title: t("commands.text-md"),
-          path: "/markdown",
-          color: "from-emerald-500 to-green-600",
-        },
-        {
-          id: "text-diff",
-          icon: ArrowRightLeft,
-          title: t("commands.text-diff"),
-          path: "/diff",
-          color: "from-amber-500 to-yellow-600",
-        },
-        {
-          id: "log-analyzer",
-          icon: Activity,
-          title: t("commands.log-analyzer"),
-          path: "/log-analyzer",
-          color: "from-rose-500 to-red-600",
-        },
-        {
-          id: "lorem",
-          icon: FileText,
-          title: t("lorem.title"),
-          path: "/lorem",
-          color: "from-purple-500 to-indigo-600",
-        },
-      ],
-    },
-    {
-      id: "developer",
-      title: t("categories.developer"),
-      tools: [
-        {
-          id: "jwt",
-          icon: Lock,
-          title: t("jwt.title"),
-          path: "/jwt",
-          color: "from-yellow-600 to-orange-700",
-        },
-        {
-          id: "base64",
-          icon: Binary,
-          title: t("base64.title"),
-          path: "/base64",
-          color: "from-cyan-600 to-blue-700",
-        },
-        {
-          id: "epoch",
-          icon: Clock,
-          title: t("epoch.title"),
-          path: "/epoch",
-          color: "from-violet-600 to-purple-700",
-        },
-        {
-          id: "json-yaml",
-          icon: FileJson,
-          title: t("jsonYaml.title"),
-          path: "/json-yaml",
-          color: "from-teal-600 to-green-700",
-        },
-        {
-          id: "sql",
-          icon: Database,
-          title: t("sql.title"),
-          path: "/sql",
-          color: "from-blue-700 to-indigo-800",
-        },
-        {
-          id: "metadata",
-          icon: Binary,
-          title: t("metadata.title"),
-          path: "/metadata",
-          color: "from-fuchsia-600 to-purple-800",
-        },
-        {
-          id: "seo",
-          icon: Share2,
-          title: t("seo.title"),
-          path: "/seo",
-          color: "from-indigo-600 to-cyan-600",
-        },
-        {
-          id: "minifier",
-          icon: Wand2,
-          title: t("commands.minifier"),
-          path: "/minifier",
-          color: "from-cyan-600 to-sky-700",
-        },
-        {
-          id: "validator",
-          icon: FileJson,
-          title: t("commands.validator"),
-          path: "/json-validator",
-          color: "from-green-600 to-teal-700",
-        },
-        {
-          id: "beautifier",
-          icon: Wand2,
-          title: t("commands.beautifier"),
-          path: "/beautifier",
-          color: "from-fuchsia-600 to-pink-700",
-        },
-        {
-          id: "text-case",
-          icon: CaseUpper,
-          title: t("commands.text-case"),
-          path: "/text-case",
-          color: "from-violet-600 to-indigo-700",
-        },
-        {
-          id: "regex",
-          icon: Regex,
-          title: t("regex.title"),
-          path: "/regex",
-          color: "from-yellow-500 to-amber-600",
-        },
-        {
-          id: "http-status",
-          icon: Globe,
-          title: t("commands.http-status"),
-          path: "/http-status",
-          color: "from-blue-500 to-indigo-600",
-        },
-        {
-          id: "user-agent",
-          icon: Globe,
-          title: t("commands.user-agent"),
-          path: "/user-agent",
-          color: "from-cyan-500 to-teal-600",
-        },
-        {
-          id: "cron-generator",
-          icon: Clock,
-          title: t("commands.cron-generator"),
-          path: "/cron-generator",
-          color: "from-emerald-500 to-green-600",
-        },
-        {
-          id: "env-generator",
-          icon: FileText,
-          title: t("commands.env-generator"),
-          path: "/env-generator",
-          color: "from-slate-500 to-gray-600",
-        },
-        {
-          id: "mock-data",
-          icon: Database,
-          title: t("commands.mock-data"),
-          path: "/mock-data",
-          color: "from-orange-500 to-red-600",
-        },
-      ],
-    },
-    {
-      id: "network",
-      title: t("categories.network"),
-      tools: [
-        {
-          id: "ip",
-          icon: Globe,
-          title: t("ip.title"),
-          path: "/ip",
-          color: "from-teal-500 to-cyan-600",
-        },
-        {
-          id: "speed-test",
-          icon: Gauge,
-          title: t("speedTest.title"),
-          path: "/speed-test",
-          color: "from-cyan-400 to-blue-500",
-        },
-      ],
-    },
-    {
-      id: "security",
-      title: t("categories.security"),
-      tools: [
-        {
-          id: "hash",
-          icon: Fingerprint,
-          title: t("hash.title"),
-          path: "/hash",
-          color: "from-slate-600 to-zinc-700",
-        },
-        {
-          id: "uuid",
-          icon: Fingerprint,
-          title: t("uuid.title"),
-          path: "/uuid",
-          color: "from-indigo-600 to-blue-700",
-        },
-        {
-          id: "url",
-          icon: LinkIcon,
-          title: t("url.title"),
-          path: "/url-encode",
-          color: "from-sky-600 to-cyan-700",
-        },
-        {
-          id: "fingerprint",
-          icon: Fingerprint,
-          title: t("fingerprint.title"),
-          path: "/fingerprint",
-          color: "from-rose-600 to-red-700",
-        },
-        {
-          id: "password",
-          icon: Lock,
-          title: t("password.title"),
-          path: "/password",
-          color: "from-emerald-600 to-green-700",
-        },
-        {
-          id: "password-strength",
-          icon: Lock,
-          title: t("passwordChecker.title"),
-          path: "/password-strength",
-          color: "from-red-600 to-rose-700",
-        },
-        {
-          id: "jwt-generator",
-          icon: Lock,
-          title: t("commands.jwt-generator"),
-          path: "/jwt-generator",
-          color: "from-orange-600 to-amber-700",
-        },
-        {
-          id: "csrf-token",
-          icon: Lock,
-          title: t("commands.csrf-token"),
-          path: "/csrf-token",
-          color: "from-blue-600 to-indigo-700",
-        },
-        {
-          id: "secure-key",
-          icon: Lock,
-          title: t("commands.secure-key"),
-          path: "/secure-key",
-          color: "from-purple-600 to-violet-700",
-        },
-        {
-          id: "email-header",
-          icon: Lock,
-          title: t("commands.email-header"),
-          path: "/email-header",
-          color: "from-cyan-600 to-sky-700",
-        },
-      ],
-    },
-    {
-      id: "visual",
-      title: t("categories.visual"),
-      tools: [
-        {
-          id: "palette",
-          icon: Palette,
-          title: t("colorPalette.title"),
-          path: "/palette",
-          color: "from-pink-500 to-rose-600",
-        },
-        {
-          id: "mind-map",
-          icon: Grab,
-          title: t("commands.mindflow"),
-          path: "/mind-map",
-          color: "from-blue-500 to-indigo-600",
-        },
-        {
-          id: "qr",
-          icon: QrCode,
-          title: t("qrCode.title"),
-          path: "/qr",
-          color: "from-slate-700 to-gray-800",
-        },
-        {
-          id: "box-shadow",
-          icon: Square,
-          title: t("boxShadow.title"),
-          path: "/box-shadow",
-          color: "from-indigo-500 to-purple-600",
-        },
-        {
-          id: "gradient",
-          icon: Palette,
-          title: t("commands.gradient"),
-          path: "/gradient",
-          color: "from-orange-500 to-red-600",
-        },
-        {
-          id: "glassmorphism",
-          icon: Palette,
-          title: t("commands.glassmorphism"),
-          path: "/glassmorphism",
-          color: "from-blue-500 to-cyan-600",
-        },
-        {
-          id: "neumorphism",
-          icon: Palette,
-          title: t("commands.neumorphism"),
-          path: "/neumorphism",
-          color: "from-slate-500 to-gray-600",
-        },
-        {
-          id: "clamp",
-          icon: Code2,
-          title: t("commands.clamp"),
-          path: "/clamp",
-          color: "from-green-500 to-emerald-600",
-        },
-        {
-          id: "font-pairing",
-          icon: FileText,
-          title: t("commands.font-pairing"),
-          path: "/font-pairing",
-          color: "from-purple-500 to-violet-600",
-        },
-      ],
-    },
-    {
-      id: "seo",
-      title: t("categories.seo"),
-      tools: [
-        {
-          id: "meta-tags",
-          icon: Globe,
-          title: t("commands.meta-tags"),
-          path: "/meta-tags",
-          color: "from-blue-500 to-indigo-600",
-        },
-        {
-          id: "robots-txt",
-          icon: FileText,
-          title: t("commands.robots-txt"),
-          path: "/robots-txt",
-          color: "from-green-500 to-emerald-600",
-        },
-        {
-          id: "sitemap",
-          icon: Share2,
-          title: t("commands.sitemap"),
-          path: "/sitemap",
-          color: "from-orange-500 to-amber-600",
-        },
-        {
-          id: "page-speed",
-          icon: Activity,
-          title: t("commands.page-speed"),
-          path: "/page-speed",
-          color: "from-purple-500 to-pink-600",
-        },
-        {
-          id: "seo-preview",
-          icon: Globe,
-          title: t("commands.seo-preview"),
-          path: "/seo-preview",
-          color: "from-cyan-500 to-sky-600",
-        },
-      ],
-    },
-  ];
+  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
+    return (localStorage.getItem("viewMode") as "grid" | "list") || "grid";
+  });
+
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("viewMode", viewMode);
+  }, [viewMode]);
+
+  const sections = useMemo(() => {
+    return TOOLS_CONFIG.map((section) => ({
+      ...section,
+      title: t(`categories.${section.id}`),
+      tools: section.tools.map((tool) => ({
+        ...tool,
+        title: t(`commands.${tool.id}`),
+      })),
+    }));
+  }, [t]);
+
+  // Combined filters for Favorites and Recent
+  const filteredFavorites = useMemo(() => {
+    const favTools = sections
+      .flatMap((s) => s.tools)
+      .filter((tool) => favorites.includes(tool.id));
+
+    if (!activeCategory) return favTools;
+
+    const activeSection = sections.find((s) => s.id === activeCategory);
+    if (!activeSection) return favTools;
+
+    return favTools.filter((tool) =>
+      activeSection.tools.some((t) => t.id === tool.id)
+    );
+  }, [favorites, sections, activeCategory]);
+
+  const filteredRecent = useMemo(() => {
+    const recent = sections
+      .flatMap((s) => s.tools)
+      .filter((tool) => recentTools.some((rt) => rt.path === tool.path));
+
+    if (!activeCategory) return recent;
+
+    const activeSection = sections.find((s) => s.id === activeCategory);
+    if (!activeSection) return recent;
+
+    return recent.filter((tool) =>
+      activeSection.tools.some((t) => t.id === tool.id)
+    );
+  }, [recentTools, sections, activeCategory]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 md:space-y-12 pb-24 animate-in fade-in duration-500">
@@ -571,80 +104,129 @@ export default function Home() {
       </div>
 
       {/* Category Quick Scroller */}
-      <div className="flex overflow-x-auto pb-4 px-2 no-scrollbar -mx-4 md:mx-0 mask-fade-right">
-        <div className="flex gap-2 px-4 md:px-0">
-          {sections.map((section) => (
+      <div className="sticky top-0 z-30 -mx-4 md:mx-0 px-4 md:px-0 bg-app-bg/80 backdrop-blur-xl py-4 border-b border-app-border/50 md:border-none md:relative md:bg-transparent">
+        <div className="flex overflow-x-auto no-scrollbar mask-fade-right">
+          <div className="flex gap-2.5 pb-2">
             <button
-              key={section.id}
-              onClick={() => {
-                document
-                  .getElementById(`section-${section.id}`)
-                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              className="whitespace-nowrap px-4 py-2 bg-app-panel border border-app-border rounded-full text-sm font-medium text-app-text-sub hover:text-app-primary hover:border-app-primary/50 transition-all shadow-sm"
+              onClick={() => setActiveCategory(null)}
+              className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm flex items-center gap-2 ${
+                activeCategory === null
+                  ? "bg-app-primary text-white shadow-app-primary/20 scale-105"
+                  : "bg-app-panel border border-app-border text-app-text-sub hover:text-app-primary"
+              }`}
             >
-              {section.title}
+              <LayoutGrid className="w-4 h-4" />
+              {t("common.all", "All")}
             </button>
-          ))}
+            {sections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => {
+                  setActiveCategory(section.id);
+                  document
+                    .getElementById(`section-${section.id}`)
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm ${
+                  activeCategory === section.id
+                    ? "bg-app-primary text-white shadow-app-primary/20 scale-105"
+                    : "bg-app-panel border border-app-border text-app-text-sub hover:text-app-primary hover:border-app-primary/50"
+                }`}
+              >
+                {section.title}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2 ml-4 pl-4 border-l border-app-border py-1">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-2.5 rounded-xl border transition-all ${
+                viewMode === "grid"
+                  ? "bg-app-primary/10 border-app-primary text-app-primary"
+                  : "bg-app-panel border-app-border text-app-text-sub"
+              }`}
+              title="Grid View"
+            >
+              <LayoutGrid className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`p-2.5 rounded-xl border transition-all ${
+                viewMode === "list"
+                  ? "bg-app-primary/10 border-app-primary text-app-primary"
+                  : "bg-app-panel border-app-border text-app-text-sub"
+              }`}
+              title="List View"
+            >
+              <List className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Favorites Section */}
-      {favorites.length > 0 && (
+      {filteredFavorites.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between px-2">
             <h2 className="text-xl font-semibold flex items-center gap-2">
               <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
               {t("recent_tools_favorites", "Favorites")}
+              {activeCategory && (
+                <span className="text-sm font-normal text-app-text-sub">
+                  in {sections.find((s) => s.id === activeCategory)?.title}
+                </span>
+              )}
             </h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
-            {sections
-              .flatMap((s) => s.tools)
-              .filter((tool) => favorites.includes(tool.id))
-              .map((tool) => (
-                <Link
-                  key={tool.id}
-                  to={tool.path}
-                  className="group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            {filteredFavorites.map((tool) => (
+              <Link
+                key={tool.id}
+                to={tool.path}
+                className="group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <div
+                  className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
                 >
-                  <div
-                    className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-3 md:mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
+                </div>
+                <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1 gradient-text-optimized">
+                  {tool.title}
+                </h3>
+                <div className="mt-auto pt-4 flex items-center justify-between">
+                  <span className="text-xs text-app-text-sub">
+                    Launch Tool →
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFavorite(tool.id);
+                    }}
+                    className="p-1.5 hover:bg-app-bg rounded-lg transition-colors"
                   >
-                    <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
-                  </div>
-                  <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 group-hover:text-app-primary transition-colors line-clamp-1 gradient-text-optimized">
-                    {tool.title}
-                  </h3>
-                  <div className="mt-auto pt-4 flex items-center justify-between">
-                    <span className="text-xs text-app-text-sub">
-                      Launch Tool →
-                    </span>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleFavorite(tool.id);
-                      }}
-                      className="p-1.5 hover:bg-app-bg rounded-lg transition-colors"
-                    >
-                      <Star
-                        className={`w-4 h-4 fill-yellow-400 text-yellow-400`}
-                      />
-                    </button>
-                  </div>
-                </Link>
-              ))}
+                    <Star
+                      className={`w-4 h-4 fill-yellow-400 text-yellow-400`}
+                    />
+                  </button>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       )}
 
       {/* Recent Tools Section */}
-      {recentTools.length > 0 && (
+      {filteredRecent.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between px-2">
             <h2 className="text-xl font-semibold flex items-center gap-2">
               <Clock className="w-5 h-5 text-app-primary" />
               {t("recent_tools")}
+              {activeCategory && (
+                <span className="text-sm font-normal text-app-text-sub">
+                  in {sections.find((s) => s.id === activeCategory)?.title}
+                </span>
+              )}
             </h2>
             <button
               onClick={clearRecent}
@@ -654,9 +236,7 @@ export default function Home() {
             </button>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
-            {sections
-              .flatMap((s) => s.tools)
-              .filter((tool) => recentTools.some((rt) => rt.path === tool.path))
+            {filteredRecent
               .slice(0, 10) // Limit to 10
               .map((tool) => (
                 <Link
@@ -788,59 +368,115 @@ export default function Home() {
 
       {/* Tools Grid */}
       <div className="space-y-10 md:space-y-16">
-        {sections.map((section) => (
-          <div
-            key={section.id}
-            id={`section-${section.id}`}
-            className="space-y-4 md:space-y-6 scroll-mt-24 md:scroll-mt-6"
-          >
-            <div className="flex items-center gap-3 px-2">
-              <div className="h-6 md:h-8 w-1 bg-app-primary rounded-full" />
-              <h2 className="text-xl md:text-2xl font-bold tracking-tight">
-                {section.title}
-              </h2>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-              {section.tools.map((tool) => (
-                <Link
-                  key={tool.id}
-                  to={tool.path}
-                  className="group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[140px] md:min-h-[160px]"
-                >
-                  <div className="flex items-start justify-between mb-3 md:mb-4">
+        {sections
+          .filter((section) => !activeCategory || section.id === activeCategory)
+          .map((section) => (
+            <div
+              key={section.id}
+              id={`section-${section.id}`}
+              className="space-y-4 md:space-y-6 scroll-mt-24 md:scroll-mt-6"
+            >
+              <div className="flex items-center gap-3 px-2">
+                <div className="h-6 md:h-8 w-1 bg-app-primary rounded-full" />
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight">
+                  {section.title}
+                </h2>
+              </div>
+              <div
+                className={
+                  viewMode === "grid"
+                    ? "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"
+                    : "flex flex-col gap-2"
+                }
+              >
+                {section.tools.map((tool) => (
+                  <Link
+                    key={tool.id}
+                    to={tool.path}
+                    className={
+                      viewMode === "grid"
+                        ? "group relative flex flex-col p-4 md:p-6 bg-app-panel border border-app-border rounded-xl hover:border-app-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[140px] md:min-h-[160px]"
+                        : "group relative flex items-center p-3 h-14 bg-app-panel border border-app-border rounded-xl hover:bg-app-primary/5 hover:border-app-primary/30 transition-all"
+                    }
+                  >
                     <div
-                      className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                      className={
+                        viewMode === "grid"
+                          ? "flex items-start justify-between mb-3 md:mb-4"
+                          : "flex items-center flex-1 min-w-0"
+                      }
                     >
-                      <tool.icon className="w-5 h-5 md:w-6 md:h-6" />
+                      <div
+                        className={
+                          viewMode === "grid"
+                            ? `w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`
+                            : `w-8 h-8 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mr-4 shadow-sm group-hover:scale-110 transition-transform`
+                        }
+                      >
+                        <tool.icon
+                          className={
+                            viewMode === "grid"
+                              ? "w-5 h-5 md:w-6 md:h-6"
+                              : "w-4 h-4"
+                          }
+                        />
+                      </div>
+                      {viewMode === "list" && (
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm md:text-base font-semibold group-hover:text-app-primary transition-colors truncate">
+                            {tool.title}
+                          </h3>
+                          <p className="text-[10px] text-app-text-mute uppercase tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                            Go to {section.title.slice(0, -1)} Tool
+                          </p>
+                        </div>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleFavorite(tool.id);
+                        }}
+                        className={
+                          viewMode === "grid"
+                            ? `p-2 hover:bg-app-bg rounded-lg transition-all ${
+                                isFavorite(tool.id)
+                                  ? "opacity-100"
+                                  : "opacity-0 group-hover:opacity-100"
+                              }`
+                            : `p-2 ml-4 hover:bg-app-bg rounded-lg transition-all ${
+                                isFavorite(tool.id)
+                                  ? "opacity-100"
+                                  : "opacity-0 group-hover:opacity-100"
+                              }`
+                        }
+                      >
+                        <Star
+                          className={
+                            viewMode === "grid"
+                              ? `w-5 h-5 ${
+                                  isFavorite(tool.id)
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-app-text-sub hover:text-yellow-400"
+                                }`
+                              : `w-4 h-4 ${
+                                  isFavorite(tool.id)
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-app-text-passive hover:text-yellow-400"
+                                }`
+                          }
+                        />
+                      </button>
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleFavorite(tool.id);
-                      }}
-                      className={`p-2 hover:bg-app-bg rounded-lg transition-all ${
-                        isFavorite(tool.id)
-                          ? "opacity-100"
-                          : "opacity-0 group-hover:opacity-100"
-                      }`}
-                    >
-                      <Star
-                        className={`w-5 h-5 ${
-                          isFavorite(tool.id)
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-app-text-sub hover:text-yellow-400"
-                        }`}
-                      />
-                    </button>
-                  </div>
-                  <h3 className="text-base md:text-lg font-semibold mt-auto group-hover:text-app-primary transition-colors line-clamp-1">
-                    {tool.title}
-                  </h3>
-                </Link>
-              ))}
+                    {viewMode === "grid" && (
+                      <h3 className="text-base md:text-lg font-semibold mt-auto group-hover:text-app-primary transition-colors line-clamp-1">
+                        {tool.title}
+                      </h3>
+                    )}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

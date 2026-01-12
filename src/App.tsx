@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import { ThemeProvider } from "./providers/ThemeProvider";
+import { FavoritesProvider } from "./providers/FavoritesProvider";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./features/home/Home"));
@@ -99,6 +100,18 @@ const EnvGenerator = lazy(() => import("./features/developer/EnvGenerator"));
 const MockDataGenerator = lazy(
   () => import("./features/developer/MockDataGenerator")
 );
+const ChmodCalculator = lazy(
+  () => import("./features/developer/ChmodCalculator")
+);
+const GitignoreGenerator = lazy(
+  () => import("./features/developer/GitignoreGenerator")
+);
+const SvgOptimizer = lazy(() => import("./features/media/SvgOptimizer"));
+const FaviconGenerator = lazy(
+  () => import("./features/media/FaviconGenerator")
+);
+const PdfTools = lazy(() => import("./features/media/PdfTools"));
+const ClipPathMaker = lazy(() => import("./features/visual/ClipPathMaker"));
 const PasswordStrengthChecker = lazy(
   () => import("./features/security/PasswordStrengthChecker")
 );
@@ -180,91 +193,102 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="system" storageKey="theme">
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="image-converter" element={<ImageConverter />} />
-            <Route path="json-csv" element={<JsonCsvConverter />} />
-            <Route path="json-ts" element={<JsonToTsConverter />} />
-            <Route path="config" element={<ConfigConverter />} />
-            <Route path="curl" element={<CurlConverter />} />
-            <Route path="svg" element={<SvgConverter />} />
-            <Route path="color" element={<ColorConverter />} />
-            <Route path="ocr" element={<OcrConverter />} />
-            <Route path="bg-remover" element={<BgRemover />} />
-            <Route path="xml-json" element={<XmlJsonConverter />} />
-            <Route path="excel-csv" element={<ExcelCsvConverter />} />
-            <Route path="compress" element={<ImageCompressor />} />
-            <Route path="crop" element={<ImageCropper />} />
-            <Route path="img-pdf" element={<ImageToPdf />} />
-            <Route path="pdf-img" element={<PdfToImage />} />
-            <Route path="exif-cleaner" element={<ExifCleaner />} />
-            <Route path="minifier" element={<CodeMinifier />} />
-            <Route path="json-validator" element={<JsonValidator />} />
-            <Route path="beautifier" element={<CodeBeautifier />} />
-            <Route path="text-case" element={<TextCaseConverter />} />
-            <Route path="http-status" element={<HttpStatusLookup />} />
-            <Route path="user-agent" element={<UserAgentParser />} />
-            <Route path="cron-generator" element={<CronGenerator />} />
-            <Route path="env-generator" element={<EnvGenerator />} />
-            <Route path="mock-data" element={<MockDataGenerator />} />
-            <Route
-              path="password-strength"
-              element={<PasswordStrengthChecker />}
-            />
-            <Route path="jwt-generator" element={<JwtGenerator />} />
-            <Route path="csrf-token" element={<CsrfTokenGenerator />} />
-            <Route path="secure-key" element={<SecureKeyGenerator />} />
-            <Route path="email-header" element={<EmailHeaderAnalyzer />} />
-            <Route path="img-format" element={<ImageFormatConverter />} />
-            <Route path="markdown" element={<MarkdownConverter />} />
-            <Route path="diff" element={<TextDiffViewer />} />
-            <Route path="log-analyzer" element={<LogAnalyzer />} />
-            <Route path="lorem" element={<LoremIpsumGenerator />} />
+      <FavoritesProvider>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="image-converter" element={<ImageConverter />} />
+              <Route path="json-csv" element={<JsonCsvConverter />} />
+              <Route path="json-ts" element={<JsonToTsConverter />} />
+              <Route path="config" element={<ConfigConverter />} />
+              <Route path="curl" element={<CurlConverter />} />
+              <Route path="svg" element={<SvgConverter />} />
+              <Route path="color" element={<ColorConverter />} />
+              <Route path="ocr" element={<OcrConverter />} />
+              <Route path="bg-remover" element={<BgRemover />} />
+              <Route path="xml-json" element={<XmlJsonConverter />} />
+              <Route path="excel-csv" element={<ExcelCsvConverter />} />
+              <Route path="compress" element={<ImageCompressor />} />
+              <Route path="crop" element={<ImageCropper />} />
+              <Route path="img-pdf" element={<ImageToPdf />} />
+              <Route path="pdf-img" element={<PdfToImage />} />
+              <Route path="exif-cleaner" element={<ExifCleaner />} />
+              <Route path="minifier" element={<CodeMinifier />} />
+              <Route path="json-validator" element={<JsonValidator />} />
+              <Route path="beautifier" element={<CodeBeautifier />} />
+              <Route path="text-case" element={<TextCaseConverter />} />
+              <Route path="http-status" element={<HttpStatusLookup />} />
+              <Route path="user-agent" element={<UserAgentParser />} />
+              <Route path="cron-generator" element={<CronGenerator />} />
+              <Route path="env-generator" element={<EnvGenerator />} />
+              <Route path="mock-data" element={<MockDataGenerator />} />
+              <Route path="chmod" element={<ChmodCalculator />} />
+              <Route path="gitignore" element={<GitignoreGenerator />} />
+              <Route path="favicon" element={<FaviconGenerator />} />
+              <Route path="pdf-tools" element={<PdfTools />} />
+              <Route path="svg-optimizer" element={<SvgOptimizer />} />
+              <Route path="clip-path" element={<ClipPathMaker />} />
+              <Route
+                path="password-strength"
+                element={<PasswordStrengthChecker />}
+              />
+              <Route path="jwt-generator" element={<JwtGenerator />} />
+              <Route path="csrf-token" element={<CsrfTokenGenerator />} />
+              <Route path="secure-key" element={<SecureKeyGenerator />} />
+              <Route path="email-header" element={<EmailHeaderAnalyzer />} />
+              <Route path="img-format" element={<ImageFormatConverter />} />
+              <Route path="markdown" element={<MarkdownConverter />} />
+              <Route path="diff" element={<TextDiffViewer />} />
+              <Route path="log-analyzer" element={<LogAnalyzer />} />
+              <Route path="lorem" element={<LoremIpsumGenerator />} />
 
-            {/* Developer Tools */}
-            <Route path="jwt" element={<JwtDecoder />} />
-            <Route path="base64" element={<Base64Converter />} />
-            <Route path="epoch" element={<EpochConverter />} />
-            <Route path="json-yaml" element={<JsonYamlConverter />} />
-            <Route path="sql" element={<SqlFormatter />} />
-            <Route path="seo" element={<SeoGenerator />} />
-            <Route path="metadata" element={<MetadataViewer />} />
-            <Route path="regex" element={<RegexTester />} />
+              {/* Developer Tools */}
+              <Route path="jwt" element={<JwtDecoder />} />
+              <Route path="base64" element={<Base64Converter />} />
+              <Route path="epoch" element={<EpochConverter />} />
+              <Route path="json-yaml" element={<JsonYamlConverter />} />
+              <Route path="sql" element={<SqlFormatter />} />
+              <Route path="seo" element={<SeoGenerator />} />
+              <Route path="metadata" element={<MetadataViewer />} />
+              <Route path="regex" element={<RegexTester />} />
 
-            {/* Network Tools */}
-            <Route path="ip" element={<IpInfo />} />
-            <Route path="speed-test" element={<SpeedTest />} />
+              {/* Network Tools */}
+              <Route path="ip" element={<IpInfo />} />
+              <Route path="speed-test" element={<SpeedTest />} />
 
-            {/* Security Tools */}
-            <Route path="hash" element={<HashGenerator />} />
-            <Route path="uuid" element={<UuidGenerator />} />
-            <Route path="url-encode" element={<UrlEncoder />} />
-            <Route path="fingerprint" element={<BrowserFingerprint />} />
-            <Route path="password" element={<PasswordGenerator />} />
+              {/* Security Tools */}
+              <Route path="hash" element={<HashGenerator />} />
+              <Route path="uuid" element={<UuidGenerator />} />
+              <Route path="url-encode" element={<UrlEncoder />} />
+              <Route path="fingerprint" element={<BrowserFingerprint />} />
+              <Route path="password" element={<PasswordGenerator />} />
 
-            {/* Visual & CSS Tools */}
-            <Route path="palette" element={<ColorPaletteGenerator />} />
-            <Route path="/qr" element={<QrCodeGenerator />} />
-            <Route path="/gradient" element={<GradientGenerator />} />
-            <Route path="/glassmorphism" element={<GlassmorphismGenerator />} />
-            <Route path="/neumorphism" element={<NeumorphismGenerator />} />
-            <Route path="/clamp" element={<CssClampGenerator />} />
-            <Route path="/font-pairing" element={<FontPairingTool />} />
-            <Route path="/box-shadow" element={<BoxShadowGenerator />} />
-            <Route path="/mind-map" element={<MindMap />} />
+              {/* Visual & CSS Tools */}
+              <Route path="palette" element={<ColorPaletteGenerator />} />
+              <Route path="/qr" element={<QrCodeGenerator />} />
+              <Route path="/gradient" element={<GradientGenerator />} />
+              <Route
+                path="/glassmorphism"
+                element={<GlassmorphismGenerator />}
+              />
+              <Route path="/neumorphism" element={<NeumorphismGenerator />} />
+              <Route path="/clamp" element={<CssClampGenerator />} />
+              <Route path="/font-pairing" element={<FontPairingTool />} />
+              <Route path="/box-shadow" element={<BoxShadowGenerator />} />
+              <Route path="/mind-map" element={<MindMap />} />
 
-            {/* SEO & Web */}
-            <Route path="/meta-tags" element={<MetaTagGenerator />} />
-            <Route path="/robots-txt" element={<RobotsTxtGenerator />} />
-            <Route path="/sitemap" element={<SitemapGenerator />} />
-            <Route path="/page-speed" element={<PageSpeedChecklist />} />
-            <Route path="/seo-preview" element={<SeoSnippetPreview />} />
-          </Route>
-        </Routes>
-      </Suspense>
+              {/* SEO & Web */}
+              <Route path="/meta-tags" element={<MetaTagGenerator />} />
+              <Route path="/robots-txt" element={<RobotsTxtGenerator />} />
+              <Route path="/sitemap" element={<SitemapGenerator />} />
+              <Route path="/page-speed" element={<PageSpeedChecklist />} />
+              <Route path="/seo-preview" element={<SeoSnippetPreview />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </FavoritesProvider>
     </ThemeProvider>
   );
 }

@@ -1,24 +1,12 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { FavoritesContext } from "../providers/FavoritesProvider";
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    const saved = localStorage.getItem("tool-favorites");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const context = useContext(FavoritesContext);
 
-  useEffect(() => {
-    localStorage.setItem("tool-favorites", JSON.stringify(favorites));
-  }, [favorites]);
+  if (context === undefined) {
+    throw new Error("useFavorites must be used within a FavoritesProvider");
+  }
 
-  const toggleFavorite = (toolId: string) => {
-    setFavorites((prev) =>
-      prev.includes(toolId)
-        ? prev.filter((id) => id !== toolId)
-        : [...prev, toolId]
-    );
-  };
-
-  const isFavorite = (toolId: string) => favorites.includes(toolId);
-
-  return { favorites, toggleFavorite, isFavorite };
+  return context;
 }
