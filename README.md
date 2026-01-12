@@ -36,16 +36,18 @@ It runs **100% locally** in your browser. No data is ever sent to a server. Whet
 
 ### 🏢 Smart Dashboard
 
-- **Favorites:** Pin your most-used tools to the top for instant access.
-- **Recent Tools:** Automatically tracks your last-used utilities.
-- **Category Navigation:** Intuitive grouping for rapid discovery.
+- **Synchronized Favorites:** Pin tools to the top; state is managed globally and synced instantly to the sidebar.
+- **Smart Category Filtering:** Select a group (e.g., Media, Security) to filter your Recent and Favorite tools alongside the main grid.
+- **Sticky Navigation:** A responsive, interactive category bar that stays with you on mobile for rapid switching.
+- **Recent Tools:** Automatically tracks and identifies your last-used utilities.
 
 ### 🛠️ Developer Essentials
 
 - **Code Tools:** Minifier & Beautifier for HTML, CSS, JS, and JSON.
 - **JWT Tools:** Professional Decoder & Generator with advanced signature handling.
 - **Converters:** JSON ↔ CSV/Excel, JSON ↔ YAML, XML ↔ JSON, Config & cURL.
-- **Generators:** UUIDs, Hashes (MD5/SHA), Cron Expressions, Mock Data Generator.
+- **Generators:** UUIDs, Hashes (MD5/SHA), Cron Expressions, Mock Data, .gitignore Generator.
+- **Utilities:** CHMOD Calculator, SVG Optimizer, Favicon Generator, Clip-Path Maker.
 
 ### 🖼️ Media & AI Studio
 
