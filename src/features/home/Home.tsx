@@ -13,6 +13,7 @@ import {
 
 import { useFavorites } from "../../hooks/useFavorites";
 import { useRecentTools } from "../../hooks/useRecentTools";
+import { useDraggableScroll } from "../../hooks/useDraggableScroll";
 import { useState, useEffect, useMemo } from "react";
 import { TOOLS_CONFIG } from "../../config/tools";
 
@@ -20,6 +21,15 @@ export default function Home() {
   const { t } = useTranslation();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { recentTools, clearRecent } = useRecentTools();
+  const {
+    ref: scrollerRef,
+    onMouseDown,
+    onMouseLeave,
+    onMouseUp,
+    onMouseMove,
+    onClickCapture,
+    isMouseDown,
+  } = useDraggableScroll();
 
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
     return (localStorage.getItem("viewMode") as "grid" | "list") || "grid";
@@ -105,7 +115,17 @@ export default function Home() {
 
       {/* Category Quick Scroller */}
       <div className="sticky top-0 z-30 w-full left-0 right-0 bg-app-bg/80 backdrop-blur-xl md:bg-transparent md:backdrop-blur-none border-b border-app-border/50 md:border-none md:relative">
-        <div className="flex overflow-x-auto no-scrollbar scroll-smooth px-4 md:px-0 w-full">
+        <div
+          ref={scrollerRef}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          onClickCapture={onClickCapture}
+          className={`flex overflow-x-auto no-scrollbar px-4 md:px-0 w-full select-none ${
+            isMouseDown ? "cursor-grabbing" : "cursor-grab"
+          }`}
+        >
           <div className="flex gap-2.5 py-4 md:py-0">
             <button
               onClick={() => setActiveCategory(null)}

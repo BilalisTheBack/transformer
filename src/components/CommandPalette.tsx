@@ -100,6 +100,19 @@ export default function CommandPalette({
           path: "/excel-csv",
           icon: FileSpreadsheet,
         },
+        {
+          id: "dat-converter",
+          label: t("commands.dat-converter"),
+          path: "/dat-converter",
+          icon: FileCode,
+          keywords: [
+            "dat",
+            "çevirici",
+            "dönüştürücü",
+            "converter",
+            "transformer",
+          ],
+        },
       ],
     },
     {

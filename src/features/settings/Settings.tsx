@@ -32,6 +32,11 @@ export default function Settings() {
     { code: "it", label: "Italiano", flag: "🇮🇹" },
     { code: "pt", label: "Português", flag: "🇵🇹" },
     { code: "ru", label: "Русский", flag: "🇷🇺" },
+    { code: "ja", label: "日本語", flag: "🇯🇵" },
+    { code: "zh", label: "简体中文", flag: "🇨🇳" },
+    { code: "ar", label: "العربية", flag: "🇸🇦" },
+    { code: "ko", label: "한국어", flag: "🇰🇷" },
+    { code: "hi", label: "हिन्दी", flag: "🇮🇳" },
   ];
 
   return (

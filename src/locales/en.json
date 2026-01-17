@@ -29,7 +29,8 @@
     "cancel": "Cancel",
     "edit": "Edit",
     "local_processing": "Processed Locally",
-    "local_processing_desc": "Your data never leaves this device. 100% Privacy."
+    "local_processing_desc": "Your data never leaves this device. 100% Privacy.",
+    "converting": "Converting..."
   },
   "layout": {
     "search": "Search (Ctrl+K)",
@@ -58,6 +59,7 @@
     "json-csv": "Convert JSON to CSV",
     "img-conv": "Image Converter (WebP)",
     "img-format": "Image Format (PNG <-> JPG)",
+    "dat-converter": "Secure .DAT File Converter & Transformer",
     "text-md": "Markdown Editor & Preview",
     "text-diff": "Text Diff Viewer",
     "log-analyzer": "Log File Analyzer",
@@ -127,7 +129,30 @@
     "palette": "Color Palette Generator",
     "qr": "QR Code Generator",
     "box-shadow": "Box Shadow Generator",
-    "settings": "Settings"
+    "settings": "Settings",
+    "api-tester": "Live API Tester",
+    "webhook": "Webhook Receiver",
+    "http-replay": "HTTP Replay Tool",
+    "dns-ssl": "DNS & SSL Checker",
+    "rate-limit": "Rate Limit Simulator",
+    "jwt-live": "Live JWT Validator",
+    "password-policy": "Password Policy Tester",
+    "csp": "CSP Generator & Test",
+    "security-headers": "Security Headers Analyzer",
+    "serp": "SERP Change Tracker",
+    "keyword-intent": "Keyword Intent Analyzer",
+    "ab-tester": "Title/Meta A-B Tester",
+    "meta-compare": "Competitor Meta Compare",
+    "backlink": "Backlink Type Analyzer",
+    "ai-error": "AI Error Solver",
+    "ai-log": "AI Log Analyzer",
+    "ai-regex": "AI Regex Explainer",
+    "ai-api": "AI API Explainer",
+    "flow": "Workflow Builder",
+    "history": "History & Replay",
+    "media-downloader": "Social Media Downloader",
+    "mp4-to-mp3": "Video → Audio Extractor",
+    "video-clipper": "Video Clipper"
   },
   "categories": {
     "converters": "Converters",
@@ -138,6 +163,11 @@
     "visual": "Visual & CSS Tools",
     "network": "Network Tools",
     "seo": "SEO & Web Tools",
+    "live": "Live Services",
+    "security-pro": "Pro Security",
+    "seo-growth": "SEO & Growth",
+    "ai-tools": "AI Insights",
+    "ecosystem": "Flow & History",
     "settings": "Settings"
   },
   "pwa": {
@@ -194,7 +224,25 @@
     "curl_desc": "Convert cURL commands to Fetch, Python, or Axios code.",
     "paste_curl": "Paste cURL Command",
     "generated_code": "Generated Code",
-    "curl_placeholder": "// Please paste a valid curl command starting with \"curl\""
+    "curl_placeholder": "// Please paste a valid curl command starting with \"curl\"",
+    "errors": {
+      "binaryDetected": "Binary file detected.",
+      "exeDetected": "This is an executable (EXE) file. It cannot be converted due to security and structural differences.",
+      "gameSaveDetected": "Game save file detected. Encrypted or binary data cannot be converted.",
+      "nullByteDetected": "System characters (null bytes) found in file. This is a binary file.",
+      "notReadable": "Content does not appear to be human-readable text.",
+      "noisyContent": "File content contains too much binary noise. Process rejected."
+    },
+    "philosophy": "Process Philosophy: Regardless of the file extension, if the content doesn't contain text, it won't bother you and will reject the process without harming your file.",
+    "modeAnalyze": "Analyze",
+    "modePackage": "Package",
+    "dropzone": "Awaiting File",
+    "validating": "Validating Content...",
+    "packagerActive": "DAT Packager Active",
+    "start": "START",
+    "binaryRejected": "Binary Rejected",
+    "autoEncoding": "Auto Encoding",
+    "processStopped": "Process stopped."
   },
   "jwt": {
     "title": "JWT Decoder",
@@ -642,10 +690,6 @@
     "noText": "Extracted text will appear here",
     "pasteNote": "You can also paste (Ctrl+V)"
   },
-  "bgRemover": {
-    "title": "AI Background Remover",
-    "description": "Remove image backgrounds instantly in your browser."
-  },
   "media": {
     "imageFormat": {
       "title": "PNG ↔ JPG Converter",
@@ -1084,5 +1128,302 @@
   "pdf": {
     "title": "PDF Tools",
     "subtitle": "Merge or split PDF files entirely in your browser"
+  },
+  "bgRemover": {
+    "title": "AI Background Remover",
+    "description": "Remove image backgrounds instantly in your browser.",
+    "uploadTitle": "Original Image",
+    "clickDrop": "Click or drag image here",
+    "supports": "Supports JPG, PNG, WEBP",
+    "removeBtn": "Remove Background",
+    "processing": "Processing image...",
+    "localNote": "This runs locally, might take a moment.",
+    "resultTitle": "Result",
+    "downloadBtn": "Download Result",
+    "error": "Failed to remove background. Ensure the image is valid."
+  },
+  "securityPro": {
+    "rateLimit": {
+      "title": "Rate Limit Simulator",
+      "description": "Visualize and test API rate limiting algorithms in real-time.",
+      "config": "Policy Configuration",
+      "algorithm": "Algorithm",
+      "tokenBucket": "Token Bucket (Burst Support)",
+      "fixedWindow": "Fixed Window",
+      "limit": "Capacity / Limit",
+      "window": "Window Size",
+      "burst": "Burst Capacity",
+      "liveState": "Live State",
+      "tokens": "Tokens",
+      "max": "Max",
+      "fixedActive": "Fixed Window tracking active.",
+      "nextReset": "Next reset every {{s}}s.",
+      "stats": {
+        "total": "TOTAL",
+        "allowed": "ALLOWED",
+        "blocked": "BLOCKED",
+        "success": "SUCCESS"
+      },
+      "fire": "Fire Request",
+      "fireDesc": "Click to simulate an API request",
+      "start": "Start simulation",
+      "stop": "Stop simulation",
+      "clear": "Clear Logs",
+      "logs": "Live Request Logs",
+      "waiting": "Waiting for requests..."
+    },
+    "jwtLive": {
+      "title": "Live JWT Validator",
+      "description": "Decode, inspect and validate JSON Web Tokens in real-time.",
+      "input": "JWT Data",
+      "paste": "Paste your JWT token here...",
+      "decode": "Decode Token",
+      "analyzing": "Analyzing Signature...",
+      "result": "Validation Analysis",
+      "localPrivacy": "* Simulated locally for privacy",
+      "header": "Header",
+      "payload": "Payload",
+      "security": "Security Checklist",
+      "status": "Token Status",
+      "active": "ACTIVE",
+      "invalid": "INVALID",
+      "ready": "Ready for Analysis",
+      "readyDesc": "Once you enter a JWT, our engine will analyze the encryption, expiry, and claims structure."
+    },
+    "passwordPolicy": {
+      "title": "Password Policy Tester",
+      "description": "Create and test enterprise-grade password complexity rules.",
+      "config": "Rule Configuration",
+      "minLength": "Min Length",
+      "requireUpper": "Require Uppercase",
+      "requireSpecial": "Require Symbol",
+      "requireNumbers": "Require Numbers",
+      "checker": "Policy Checker",
+      "input": "Password to Test",
+      "placeholder": "Try a complex password...",
+      "compliance": "Compliance Score",
+      "rules": "Rule Status",
+      "tips": "Security Tip",
+      "tipsDesc": "Always encourage using passphrases instead of complex short passwords.",
+      "ready": "Test the System",
+      "readyDesc": "Configure your password policy on the left and test how strict your rules are using the checker on the right."
+    }
+  },
+  "seoGrowth": {
+    "serp": {
+      "title": "SERP Change Tracker",
+      "description": "Simulate and track your ranking in search engine results pages.",
+      "config": "Ranking Parameters",
+      "domain": "Domain",
+      "keyword": "Keyword",
+      "device": "Device",
+      "analyze": "Analyze Ranking",
+      "result": "Visibility Report",
+      "rank": "Rank",
+      "vol": "Volume",
+      "difficulty": "Difficulty",
+      "diff": {
+        "low": "Low",
+        "med": "Medium",
+        "high": "High"
+      },
+      "competitors": "Top 5 Competitors",
+      "ready": "Awaiting Analysis",
+      "readyDesc": "See how your keywords perform on search engines for the selected domain."
+    },
+    "keywordIntent": {
+      "title": "Keyword Intent Analyzer",
+      "description": "Analyze the true motivation behind keywords using AI.",
+      "config": "Query Configuration",
+      "input": "Query Input",
+      "placeholder": "e.g., 'buy best coffee machine'",
+      "analyze": "Analyze Intent",
+      "result": "Psychographic Analysis",
+      "intent": {
+        "info": "Informational",
+        "nav": "Navigational",
+        "trans": "Transactional",
+        "comm": "Commercial"
+      },
+      "confidence": "Confidence Score",
+      "strategy": "Content Strategy",
+      "history": "Analysis History",
+      "tips": "SEO Strategy Tip",
+      "tipsDesc": "Always encourage using passphrases instead of complex short passwords.",
+      "ready": "Awaiting Data",
+      "readyDesc": "Our AI engine will determine if the search query is Informational, Transactional or Commercial."
+    },
+    "abTester": {
+      "title": "Title/Meta A-B Tester",
+      "description": "Compare two different SEO snippet variants and see predicted CTR values.",
+      "variants": "Snippet Variants",
+      "variant": "Variant",
+      "titleLabel": "Title",
+      "descLabel": "Description",
+      "compare": "Compare Variants",
+      "comparing": "Analyzing",
+      "runTest": "Run A/B Prediction",
+      "prediction": "AI Prediction Report",
+      "winner": "Predicted Winner",
+      "ctr": "Expected CTR",
+      "result": "Comparison Result",
+      "ready": "Start Comparison",
+      "readyDesc": "Discover which variant will get more clicks."
+    },
+    "metaCompare": {
+      "title": "Competitor Meta Compare",
+      "description": "Analyze meta tags and title structures side by side with competitors.",
+      "urls": "URLs to Compare",
+      "url1": "Your Site",
+      "url2": "Competitor Site",
+      "placeholder": "Enter URL to add...",
+      "add": "Add Competitor",
+      "analyze": "Analyze Competitors",
+      "details": "Detailed Metrics",
+      "result": "Page Title Info",
+      "ready": "Start Analysis",
+      "readyDesc": "Discover which keywords your competitors are focusing on."
+    },
+    "backlink": {
+      "title": "Backlink Type Analyzer",
+      "description": "Analyze incoming link profiles and their authorities.",
+      "input": "Domain / Page",
+      "analyze": "Scan Links",
+      "profile": "Backlink Profile",
+      "total": "TOTAL LINKS",
+      "authority": "DR SCORE",
+      "trust": "TRUST",
+      "distribution": "Link Distribution",
+      "ready": "Ready to Scan",
+      "readyDesc": "See DoFollow and NoFollow ratios in your site's link profile."
+    }
+  },
+  "aiTools": {
+    "error": {
+      "title": "AI Error Solver",
+      "description": "Analyze your error logs with AI and get instant solution suggestions.",
+      "input": "Error Details",
+      "placeholder": "Paste error message or stack trace here...",
+      "solve": "Solve Error",
+      "result": "Analysis Result",
+      "fix": "Suggested Fix",
+      "troubleshoot": "Troubleshooting Steps",
+      "ready": "Troubleshooter Ready",
+      "readyDesc": "Our AI engine will analyze error patterns to find the root cause."
+    },
+    "log": {
+      "title": "AI Log Analyzer",
+      "description": "Automatically detect anomalies and performance bottlenecks in server logs.",
+      "input": "Raw Log Data",
+      "analyze": "Analyze Logs",
+      "metrics": "System Metrics",
+      "summary": "AI Summary",
+      "tuning": "Performance Tuning",
+      "pattern": "Pattern Recognition",
+      "ready": "Awaiting Data",
+      "readyDesc": "Filter through your log data to find critical errors and performance drops."
+    },
+    "regex": {
+      "title": "AI Regex Explainer",
+      "description": "Translate complex regular expressions into human language and test them.",
+      "input": "Regular Expression",
+      "explain": "Explain",
+      "breakdown": "Step-by-Step Logic",
+      "summary": "AI Summary",
+      "test": "Test Cases",
+      "passing": "Passing",
+      "failing": "Failing",
+      "ready": "Start Analysis",
+      "readyDesc": "Enter any regex to discover its logical atoms."
+    },
+    "api": {
+      "title": "AI API Explainer",
+      "description": "Decipher API endpoints and request structures.",
+      "input": "API Endpoint / Request",
+      "explain": "Explain API",
+      "purpose": "Functional Purpose",
+      "security": "Security & Authentication",
+      "example": "cURL Example",
+      "bestPractices": "Best Practices",
+      "ready": "Awaiting Analysis",
+      "readyDesc": "Understand complex API structures in seconds."
+    }
+  },
+  "mediaDownloader": {
+    "title": "Social Media Downloader",
+    "description": "Download content from YouTube, Instagram, TikTok and more.",
+    "inputLabel": "Media URL",
+    "placeholder": "https://www.youtube.com/watch?v=...",
+    "download": "Start Download",
+    "format": "Download Format",
+    "quality": "Video Quality",
+    "auto": "Auto",
+    "video": "Video (MP4)",
+    "audio": "Audio (MP3)",
+    "thumbnail": "Thumbnail",
+    "fetching": "Fetching content...",
+    "success": "Download ready!",
+    "error": "Download failed. Please check the URL.",
+    "status": {
+      "analyzing": "Analyzing video...",
+      "processing": "Processing...",
+      "ready": "Ready to download"
+    }
+  },
+  "mp4tomp3": {
+    "title": "Video → Audio Extractor",
+    "description": "Extract audio from MP4, WebM, or MOV video files.",
+    "dropzone": "Upload Video File",
+    "outputFormat": "Output Format",
+    "convert": "Convert & Download",
+    "converting": "Extracting audio...",
+    "success": "Audio file created successfully!",
+    "successTitle": "Complete",
+    "error": "Conversion failed. Please check the video file.",
+    "wavNote": "Browser-based conversion produces WAV format. You can use an external converter for MP3.",
+    "info": "All processing happens on your device. Your files are never uploaded to any server.",
+    "outputType": "WAV Audio"
+  },
+  "videoClipper": {
+    "title": "Video Clipper",
+    "description": "Trim specific sections from your videos and download.",
+    "dropzone": "Upload Video File",
+    "start": "Start",
+    "end": "End",
+    "clipDuration": "Clip Duration",
+    "output": "Output Format",
+    "clip": "Clip & Download",
+    "reset": "Load New Video",
+    "success": "Video clip created successfully!",
+    "successTitle": "Complete",
+    "error": "Video clipping failed.",
+    "outputType": "WebM Video"
+  },
+  "ecosystem": {
+    "flow": {
+      "title": "Workflow Builder",
+      "description": "Connect multiple tools together to create automated pipelines.",
+      "canvas": "Workflow Canvas",
+      "addTransformer": "Add New Transformer",
+      "controls": "Flow Controls",
+      "init": "Start Runtime",
+      "save": "Save Draft",
+      "activeNodes": "Active Nodes",
+      "optimization": "Flow Optimization"
+    },
+    "history": {
+      "title": "History & Replay",
+      "description": "Review your recent activities in all tools and rerun them.",
+      "search": "Search activities...",
+      "filter": "Filter",
+      "clearAll": "Clear All",
+      "noHistory": "No activity history found yet.",
+      "replay": "Replay",
+      "stats": {
+        "total": "Total Activities",
+        "data": "Processed Data",
+        "saved": "Time Saved"
+      }
+    }
   }
 }

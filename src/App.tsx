@@ -18,6 +18,7 @@ const ConfigConverter = lazy(
   () => import("./features/converter/ConfigConverter")
 );
 const CurlConverter = lazy(() => import("./features/converter/CurlConverter"));
+const DatConverter = lazy(() => import("./features/converter/DatConverter"));
 const SvgConverter = lazy(() => import("./features/media/SvgConverter"));
 const ColorConverter = lazy(() => import("./features/media/ColorConverter"));
 const OcrConverter = lazy(() => import("./features/media/OcrConverter"));
@@ -62,6 +63,11 @@ const PasswordGenerator = lazy(
 const IpInfo = lazy(() => import("./features/network/IpInfo"));
 const SpeedTest = lazy(() => import("./features/network/SpeedTest"));
 const BgRemover = lazy(() => import("./features/media/BgRemover"));
+const MediaDownloader = lazy(() => import("./features/media/MediaDownloader"));
+const Mp4ToMp3Converter = lazy(
+  () => import("./features/media/Mp4ToMp3Converter")
+);
+const VideoClipper = lazy(() => import("./features/media/VideoClipper"));
 
 const ColorPaletteGenerator = lazy(
   () => import("./features/visual/ColorPaletteGenerator")
@@ -140,6 +146,41 @@ const CssClampGenerator = lazy(
 const FontPairingTool = lazy(() => import("./features/css/FontPairingTool"));
 const MindMap = lazy(() => import("./features/visual/MindMap"));
 
+// Live Tools
+const ApiTester = lazy(() => import("./features/live/ApiTester"));
+const DnsSslChecker = lazy(() => import("./features/live/DnsSslChecker"));
+const WebhookReceiver = lazy(() => import("./features/live/WebhookReceiver"));
+const HttpReplay = lazy(() => import("./features/live/HttpReplay"));
+
+// Security Pro Tools
+const SecurityHeaders = lazy(
+  () => import("./features/security-pro/SecurityHeaders")
+);
+const RateLimitSimulator = lazy(
+  () => import("./features/security-pro/RateLimitSimulator")
+);
+const LiveJwtValidator = lazy(
+  () => import("./features/security-pro/LiveJwtValidator")
+);
+const PasswordPolicyTester = lazy(
+  () => import("./features/security-pro/PasswordPolicyTester")
+);
+const CspGenerator = lazy(() => import("./features/security-pro/CspGenerator"));
+
+const SerpTracker = lazy(() => import("./features/seo/SerpTracker"));
+const KeywordIntent = lazy(() => import("./features/seo/KeywordIntent"));
+const AbTester = lazy(() => import("./features/seo/AbTester"));
+const MetaCompare = lazy(() => import("./features/seo/MetaCompare"));
+const BacklinkAnalyzer = lazy(() => import("./features/seo/BacklinkAnalyzer"));
+
+const AiErrorHandler = lazy(() => import("./features/ai/AiErrorHandler"));
+const AiLogAnalyzer = lazy(() => import("./features/ai/AiLogAnalyzer"));
+const AiRegexExplainer = lazy(() => import("./features/ai/AiRegexExplainer"));
+const AiApiExplainer = lazy(() => import("./features/ai/AiApiExplainer"));
+
+const FlowBuilder = lazy(() => import("./features/ecosystem/FlowBuilder"));
+const HistoryReplay = lazy(() => import("./features/ecosystem/HistoryReplay"));
+
 const MetaTagGenerator = lazy(() => import("./features/seo/MetaTagGenerator"));
 const RobotsTxtGenerator = lazy(
   () => import("./features/seo/RobotsTxtGenerator")
@@ -151,7 +192,6 @@ const PageSpeedChecklist = lazy(
 const SeoSnippetPreview = lazy(
   () => import("./features/seo/SeoSnippetPreview")
 );
-
 import { useRecentTools } from "./hooks/useRecentTools";
 
 // Premium loading fallback with "The Transformer" branding
@@ -188,6 +228,9 @@ const LoadingFallback = () => (
   </div>
 );
 
+// Fallback component
+const UnderConstruction = lazy(() => import("./components/UnderConstruction"));
+
 function App() {
   useRecentTools(); // Enable tracking
 
@@ -204,10 +247,14 @@ function App() {
               <Route path="json-ts" element={<JsonToTsConverter />} />
               <Route path="config" element={<ConfigConverter />} />
               <Route path="curl" element={<CurlConverter />} />
+              <Route path="dat-converter" element={<DatConverter />} />
               <Route path="svg" element={<SvgConverter />} />
               <Route path="color" element={<ColorConverter />} />
               <Route path="ocr" element={<OcrConverter />} />
               <Route path="bg-remover" element={<BgRemover />} />
+              <Route path="media-downloader" element={<MediaDownloader />} />
+              <Route path="mp4-to-mp3" element={<Mp4ToMp3Converter />} />
+              <Route path="video-clipper" element={<VideoClipper />} />
               <Route path="xml-json" element={<XmlJsonConverter />} />
               <Route path="excel-csv" element={<ExcelCsvConverter />} />
               <Route path="compress" element={<ImageCompressor />} />
@@ -267,25 +314,60 @@ function App() {
 
               {/* Visual & CSS Tools */}
               <Route path="palette" element={<ColorPaletteGenerator />} />
-              <Route path="/qr" element={<QrCodeGenerator />} />
-              <Route path="/gradient" element={<GradientGenerator />} />
+              <Route path="qr" element={<QrCodeGenerator />} />
+              <Route path="gradient" element={<GradientGenerator />} />
               <Route
-                path="/glassmorphism"
+                path="glassmorphism"
                 element={<GlassmorphismGenerator />}
               />
-              <Route path="/neumorphism" element={<NeumorphismGenerator />} />
-              <Route path="/clamp" element={<CssClampGenerator />} />
-              <Route path="/font-pairing" element={<FontPairingTool />} />
-              <Route path="/box-shadow" element={<BoxShadowGenerator />} />
-              <Route path="/mind-map" element={<MindMap />} />
+              <Route path="neumorphism" element={<NeumorphismGenerator />} />
+              <Route path="clamp" element={<CssClampGenerator />} />
+              <Route path="font-pairing" element={<FontPairingTool />} />
+              <Route path="box-shadow" element={<BoxShadowGenerator />} />
+              <Route path="mind-map" element={<MindMap />} />
 
               {/* SEO & Web */}
-              <Route path="/meta-tags" element={<MetaTagGenerator />} />
-              <Route path="/robots-txt" element={<RobotsTxtGenerator />} />
-              <Route path="/sitemap" element={<SitemapGenerator />} />
-              <Route path="/page-speed" element={<PageSpeedChecklist />} />
-              <Route path="/seo-preview" element={<SeoSnippetPreview />} />
+              <Route path="meta-tags" element={<MetaTagGenerator />} />
+              <Route path="robots-txt" element={<RobotsTxtGenerator />} />
+              <Route path="sitemap" element={<SitemapGenerator />} />
+              <Route path="page-speed" element={<PageSpeedChecklist />} />
+              <Route path="seo-preview" element={<SeoSnippetPreview />} />
+
+              {/* Live Tools */}
+              <Route path="api-tester" element={<ApiTester />} />
+              <Route path="dns-ssl" element={<DnsSslChecker />} />
+              <Route path="webhook" element={<WebhookReceiver />} />
+              <Route path="http-replay" element={<HttpReplay />} />
+
+              {/* Security Pro Tools */}
+              <Route path="security-headers" element={<SecurityHeaders />} />
+              <Route path="csp" element={<CspGenerator />} />
+              <Route path="rate-limit" element={<RateLimitSimulator />} />
+              <Route path="jwt-live" element={<LiveJwtValidator />} />
+              <Route
+                path="password-policy"
+                element={<PasswordPolicyTester />}
+              />
+
+              {/* SEO & Growth Tools */}
+              <Route path="serp" element={<SerpTracker />} />
+              <Route path="keyword-intent" element={<KeywordIntent />} />
+              <Route path="ab-tester" element={<AbTester />} />
+              <Route path="meta-compare" element={<MetaCompare />} />
+              <Route path="backlink" element={<BacklinkAnalyzer />} />
+
+              {/* AI Tools */}
+              <Route path="ai-error" element={<AiErrorHandler />} />
+              <Route path="ai-log" element={<AiLogAnalyzer />} />
+              <Route path="ai-regex" element={<AiRegexExplainer />} />
+              <Route path="ai-api" element={<AiApiExplainer />} />
+
+              {/* Ecosystem */}
+              <Route path="flow" element={<FlowBuilder />} />
+              <Route path="history" element={<HistoryReplay />} />
             </Route>
+            {/* Catch-all Not Found */}
+            <Route path="*" element={<UnderConstruction />} />
           </Routes>
         </Suspense>
       </FavoritesProvider>
