@@ -44,9 +44,11 @@ export default function MediaDownloader() {
         },
         body: JSON.stringify({
           url: url,
-          videoQuality: quality === "auto" ? "720" : quality, // Cobalt typical quality mapping
+          videoQuality: quality === "auto" ? "720" : quality,
           downloadMode: format === "mp3" ? "audio" : "video",
           filenameStyle: "pretty",
+          youtubeVideoCodec: "h264",
+          audioFormat: "mp3",
         }),
       });
 

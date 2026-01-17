@@ -4,7 +4,7 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const response = await fetch("https://api.cobalt.tools/api/json", {
+    const response = await fetch("https://api.cobalt.tools/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
