@@ -35,8 +35,8 @@ export default function MediaDownloader() {
     setSuccess(false);
 
     try {
-      // Cobalt API Integration Logic
-      const response = await fetch("https://api.cobalt.tools/api/json", {
+      // Use internal Vercel Proxy to bypass CORS
+      const response = await fetch("/api/cobalt", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +112,7 @@ export default function MediaDownloader() {
                   "p-4 rounded-2xl border transition-all flex items-center gap-3",
                   url.includes("youtube.com") || url.includes("youtu.be")
                     ? "bg-red-500/10 border-red-500/30 text-red-500"
-                    : "bg-white/5 border-white/10 text-app-text-sub opacity-50"
+                    : "bg-white/5 border-white/10 text-app-text-sub opacity-50",
                 )}
               >
                 <Youtube className="w-5 h-5" />
@@ -123,7 +123,7 @@ export default function MediaDownloader() {
                   "p-4 rounded-2xl border transition-all flex items-center gap-3",
                   url.includes("instagram.com")
                     ? "bg-pink-500/10 border-pink-500/30 text-pink-500"
-                    : "bg-white/5 border-white/10 text-app-text-sub opacity-50"
+                    : "bg-white/5 border-white/10 text-app-text-sub opacity-50",
                 )}
               >
                 <Instagram className="w-5 h-5" />
@@ -174,7 +174,7 @@ export default function MediaDownloader() {
                       "w-full flex items-center gap-4 px-6 py-4 rounded-2xl border transition-all text-left",
                       format === f.id
                         ? "bg-app-primary/10 border-app-primary/50 text-app-primary shadow-glow-sm"
-                        : "bg-app-bg/50 border-white/10 text-app-text-sub hover:border-white/20"
+                        : "bg-app-bg/50 border-white/10 text-app-text-sub hover:border-white/20",
                     )}
                   >
                     <f.icon className="w-5 h-5" />
@@ -206,7 +206,7 @@ export default function MediaDownloader() {
                         "px-4 py-3 rounded-xl border text-xs font-bold transition-all",
                         quality === q.id
                           ? "bg-app-primary text-white border-app-primary"
-                          : "bg-app-bg/50 border-white/10 text-app-text-sub hover:border-white/20"
+                          : "bg-app-bg/50 border-white/10 text-app-text-sub hover:border-white/20",
                       )}
                     >
                       {q.label}
